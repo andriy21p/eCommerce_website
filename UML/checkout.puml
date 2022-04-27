@@ -1,0 +1,20 @@
+﻿
+@startuml
+
+left to right direction
+
+actor "Buyer" as A1
+actor "Seller" as A2
+
+rectangle Checkout {
+    usecase "Fill in Shipping Details" as UC1
+    usecase "Credit Card information" as UC2
+    usecase "Complete Transaction" as UC3
+}
+
+A1 --> UC1
+UC1 -l-> UC2
+UC2 -l-> UC3
+UC3 --> A2 
+
+@enduml

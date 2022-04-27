@@ -1,0 +1,21 @@
+﻿
+@startuml
+
+left to right direction
+
+actor "Buyer" as A1
+actor "System" as A2
+
+rectangle "Rating form" as RF {
+    usecase "Rating" as UC1
+    usecase "Review" as UC2
+}
+
+
+A1 --> UC1
+A1 --> UC2
+RF -l-> A2
+
+
+
+@enduml

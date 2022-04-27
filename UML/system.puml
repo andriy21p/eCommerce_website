@@ -1,0 +1,47 @@
+﻿@startuml
+
+left to right direction
+
+
+rectangle Users {
+actor "Buyer" as A1
+actor "Seller" as A2
+
+}
+
+    usecase "Search for item" as UC1
+    usecase "Buy item" as  UC2
+    usecase "Review item" as UC3
+
+A1 --> UC1
+A1 --> UC2
+A1 --> UC3
+
+
+    
+
+    usecase "Sell item" as UC4
+    usecase "Remove item" as UC5
+    usecase "Add item" as UC6
+
+A2 --> UC4
+A2 --> UC5
+A2 --> UC6
+
+actor "Admin" as A3
+actor "System" as A4
+
+
+    usecase "Manage content" as UC7
+
+
+A3 -> Users
+A3 --> UC7
+
+    usecase "Transaction" as UC8
+UC2 --> UC8
+UC4 --> UC8
+UC8 -right-> A4 
+UC7 --> A4 
+
+@enduml

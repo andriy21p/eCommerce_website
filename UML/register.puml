@@ -1,0 +1,22 @@
+﻿
+@startuml
+
+actor "Buyer" as A1
+actor "Seller" as A2
+actor "System" as A3
+
+
+rectangle Register {
+    usecase "Login Credentials" as UC1
+    usecase "Add profile" as UC2
+    usecase "Create account" as UC3
+
+}
+
+A1 -right-> UC1
+A2 -right-> UC1
+UC1 -down-> UC2
+UC2 -down-> UC3
+UC3 .right-> A3 
+
+@enduml

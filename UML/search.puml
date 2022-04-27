@@ -1,0 +1,19 @@
+﻿
+@startuml
+
+left to right direction
+
+actor "Buyer" as A1
+
+rectangle "Item" as C {
+    usecase "Buy Now" as UC1
+    usecase "Place bid" as UC2
+}
+
+
+A1 --> UC1
+A1 --> UC2
+
+
+
+@enduml

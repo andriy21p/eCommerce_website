@@ -1,0 +1,20 @@
+﻿@startuml
+
+left to right direction
+
+actor "Seller" as A1
+actor "Buyer" as A2
+
+rectangle Item {
+    usecase "Remove Item" as UC1
+}
+
+usecase "Catalog" as UC2
+usecase "Offers Rejected" as UC3
+
+A1 --> UC1
+UC1 .-> UC2
+UC1 .l-> UC3
+UC3 --> A2
+
+@enduml

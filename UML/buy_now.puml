@@ -1,0 +1,22 @@
+﻿
+
+@startuml
+
+left to right direction
+
+actor "Buyer" as A1
+actor "System" as A2
+
+    usecase "Authenticate" as UC1
+    usecase "Buy Item Now" as UC2
+    usecase "Checkout" as UC3
+
+A1 --> UC2
+UC2 .right-> UC1 : <<include>>
+UC2 --> UC3
+UC3 .left-> A2 : <<include>>
+
+
+
+
+@enduml

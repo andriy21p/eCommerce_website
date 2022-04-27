@@ -1,0 +1,27 @@
+﻿@startuml
+
+
+
+rectangle "Users" as A {
+actor "Seller" as A1
+actor "Buyer" as A2
+actor "Admin" as A3
+}
+
+rectangle "Profile" as NI {
+    usecase "Name" as UC1
+    usecase "Image" as UC2
+    usecase "Email" as UC3
+    usecase "Bio" as UC4
+    usecase "Password" as UC5
+}
+usecase "Profile Updated" as UC6
+A --> UC1
+A --> UC2
+A --> UC3
+A --> UC4
+A --> UC5
+
+NI -d-> UC6
+
+@enduml

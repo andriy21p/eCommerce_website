@@ -1,0 +1,24 @@
+﻿
+@startuml
+
+left to right direction
+
+actor "Seller" as A1
+
+rectangle "New Item" as NI {
+    usecase "Add images" as UC1
+    usecase "Add details" as UC2
+    usecase "Select catalog" as UC3
+    usecase "Select price" as UC4
+    usecase "Select date" as UC5
+}
+usecase "Catalog" as UC6
+A1 --> UC1
+A1 --> UC2
+A1 --> UC3
+A1 --> UC4
+A1 --> UC5
+
+NI .down-> UC6
+
+@enduml

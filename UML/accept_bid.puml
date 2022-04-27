@@ -1,0 +1,22 @@
+﻿@startuml
+
+left to right direction
+
+actor "Seller" as A1
+actor "Buyer" as A2
+
+    usecase "Item" as UC1
+    usecase "Place Bid" as UC2
+    usecase "Offers" as UC3
+    usecase "Offer Accepted" as UC4
+
+
+A1 --> UC1
+A2 .r-> UC1 : <<extends>>
+UC2 .l-> UC1 : <<extends>>
+UC1 --> UC3
+UC3 --> UC4
+UC4 -u-> A2
+
+
+@enduml

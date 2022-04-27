@@ -1,0 +1,11 @@
+﻿
+
+@startuml
+
+rectangle Actors {
+  actor "Buyer" as A1
+  actor "Seller" as A2
+  actor "Admin" as A3
+  actor "System" as A4
+}
+@enduml
