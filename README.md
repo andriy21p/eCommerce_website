@@ -1,5 +1,7 @@
 # VLN2_h20
-Fire Sale webpage
+Fire Sale
+
+eCommerce website that allows users to sell and buy items on the web quickly and safely
 
 
 # Höfundar
