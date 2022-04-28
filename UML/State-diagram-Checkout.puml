@@ -5,7 +5,7 @@ hide empty description
 state Item1 as "Item is sold" 
 state Item2 as "Buyer enters delivery information"
 state Item3 as "Buyer enters payment information"
-state Item4 as "Checkout complete"
+state Item4 as "Checkout complete,\nseller told to ship item" 
 state ItemU as "Buyer quits without paying"
 
 
