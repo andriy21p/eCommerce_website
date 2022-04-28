@@ -1,0 +1,95 @@
+﻿@startuml data_classes
+
+class "Users" as users
+users : First_name : string
+users : Last_name : string
+users : Email : string
+users : Created : datetime
+users : Last_logon : datetime
+users : Bio : string
+users : Image_link : string
+users : Active : boolean
+
+
+class "Items" as items
+items : Sale_type : integer
+items : Price_mimimum : float
+items : Price_fixed : float
+items : Seller : Users
+items : Condition : string
+items : Name : string
+items : Description : string
+items : Show_in_catalog : boolean
+items : Date_Ends : datetime
+items : Created : datetime
+items : Edited : datetime
+
+class "Item tags" as itemtags
+itemtags : Item : Items
+itemtags : Tag : Tags
+
+class "Tags" as tags
+tags : Name : string
+tags : Created : datetime
+
+class "Item images" as itemimages
+itemimages : Item : Items
+itemimages : url : string
+
+class "Offers" as offers
+offers : Offer_by : Users
+offers : Item : Items
+offers : amount : float
+offers : active : boolean
+
+class "Payments" as payments
+payments : Payee : Users
+payments : Seller : Users
+payments : Item : Items
+payments : Amount : float
+payments : Delivery_address : string
+payments : Delivery_address : string
+payments : Delivery_city : string
+payments : Delivery_postalcode : string
+payments : Delivery_country : Contries
+
+class "Countries" as countrie
+countrie : Code : string
+countrie : Name Icelandic : string
+countrie : Name ISO3166 : string
+
+class "Ratings" as ratings
+ratings : From : Users
+ratings : To : Users
+ratings : Item : Items
+ratings : Rating : integer
+ratings : Details : string
+
+class "Messages" as messages
+messages : From : Users
+messages : To : Users
+messages : Sent : datetime
+messages : Recived : datetime
+messages : Subject : string
+messages : Text : string
+
+
+items --> "1" users : Seller
+itemimages --> items : Item has images
+items --> "*" itemtags : Item has tags
+itemtags --> tags
+items --> "*" offers : Item has offers
+offers --> users : Bid by
+payments --> users : Payee
+payments --> users : Seller
+payments --> items : Item sold
+payments --> countrie : Ship to country
+ratings --> users : Rater
+ratings --> users : Rated
+ratings --> items : Rating for
+messages --> users : From
+messages --> users : To
+messages --> items : About
+
+
+@enduml
