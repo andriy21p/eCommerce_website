@@ -1,0 +1,100 @@
+@startuml data_classes
+
+left to right direction
+hide empty fields
+hide empty methods
+skinparam linetype ortho
+
+entity "Users" as users
+users : +First_name : string
+users : +Last_name : string
+users : +Email : string
+users : +Created : datetime
+users : +Last_logon : datetime
+users : +Bio : string
+users : +Image_link : string
+users : +Active : boolean
+
+
+entity "Items" as items
+items : +Sale_type : integer
+items : +Price_mimimum : float
+items : +Price_fixed : float
+items : +Seller : Users
+items : +Condition : string
+items : +Name : string
+items : +Description : string
+items : +Show_in_catalog : boolean
+items : +Date_Ends : datetime
+items : +Created : datetime
+items : +Edited : datetime
+
+entity "Offers" as offers
+offers : +Offer_by : Users
+offers : +Item : Items
+offers : +Amount : float
+offers : +Active : boolean
+
+entity "Payments" as payments
+payments : +Payee : Users
+payments : +Seller : Users
+payments : +Item : Items
+payments : +Amount : float
+payments : +Delivery_address : string
+payments : +Delivery_address : string
+payments : +Delivery_city : string
+payments : +Delivery_postalcode : string
+payments : +Delivery_country : Contries
+
+entity "Item tags" as itemtags
+itemtags : +Item : Items
+itemtags : +Tag : Tags
+
+entity "Item images" as itemimages
+itemimages : +Item : Items
+itemimages : +Url : string
+
+entity "Tags" as tags
+tags : +Name : string
+tags : +Created : datetime
+
+entity "Countries" as country
+country : +Code : string
+country : +Name Icelandic : string
+country : +Name ISO3166 : string
+
+entity "Ratings" as ratings
+ratings : +From : Users
+ratings : +To : Users
+ratings : +Item : Items
+ratings : +Rating : integer
+ratings : +Details : string
+
+entity "Messages" as messages
+messages : +From : Users
+messages : +To : Users
+messages : +Sent : datetime
+messages : +Recived : datetime
+messages : +Subject : string
+messages : +Text : string
+
+
+users ||--o{ items
+items }o--|| payments
+itemimages }o--|| items
+items }o--o{ itemtags
+itemtags }|--|| tags
+items --> offers
+offers --> users
+payments --> users : From
+payments --> users : To
+payments --> country
+ratings --> users : From
+ratings --> users : To
+ratings --> items
+messages --> users : From
+messages --> users : To
+messages --> items
+
+
+@enduml
