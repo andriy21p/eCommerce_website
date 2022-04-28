@@ -1,0 +1,26 @@
+@startuml
+
+hide empty description
+
+state Item1 as "Unsold item for sale" 
+state Item2 as "Item has a bid"
+state Item3 as "Item is sold"
+state Item4 as "Item has been payed for"
+state Item5 as "Item shipped to buyer"
+state ItemU as "Item is removed from sale"
+
+
+[*] --> Item1
+Item1 --> Item2 : Buyer bids on item
+Item2 --> Item3 : Seller accepts bid
+Item2 --> Item1 : Seller rejects bid
+Item3 --> Item4 : Buyer pays with checkout
+Item4 --> Item5 : Seller ships item to buyer
+Item5 --> [*]
+
+Item1 --> ItemU
+Item2 --> ItemU
+ItemU --> [*]
+
+
+@enduml

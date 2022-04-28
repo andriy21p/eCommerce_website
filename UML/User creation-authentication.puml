@@ -1,0 +1,23 @@
+@startuml
+
+hide empty description
+
+state Guest as "Unauthenticated user" 
+
+state Auth as "Authenticated user"
+
+state New as "New user"
+
+
+[*] --> Guest
+Guest --> [*]
+'Guest : this is a string
+'Guest : this is another string
+Guest --> New : Create account
+New --> Auth
+
+Guest --> Auth : Logs in
+Guest -down-> Guest : Authentication falure
+Auth --> [*]
+
+@enduml
