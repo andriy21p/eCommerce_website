@@ -1,0 +1,24 @@
+@startuml
+
+hide empty description
+
+state Item1 as "Item is sold" 
+state Item2 as "Buyer enters delivery information"
+state Item3 as "Buyer enters payment information"
+state Item4 as "Checkout complete"
+state ItemU as "Buyer quits without paying"
+
+
+[*] --> Item1
+Item1 --> Item2 : Buyer reviews item
+Item2 --> Item3
+Item3 --> Item1 : Payment rejected
+Item3 --> Item4 : Payment accepted
+Item4 --> [*]
+
+Item1 --> ItemU
+Item2 --> ItemU
+ItemU --> [*]
+
+
+@enduml
