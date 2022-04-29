@@ -1,12 +1,14 @@
 ﻿@startuml data_classes
 
-left to right direction
+'left to right direction
 hide empty fields
 hide empty methods
 
-models <-up- services
+'models <-up- services
 
 package "Models" as models <<Rectangle>>  {
+
+scale 4096 width
 
 class "Users" as users
 users : +First_name : string
@@ -99,50 +101,98 @@ messages : +Text : string
 'messages --> users : To
 'messages --> items : About
 
-services <-up- views
+'services <-up- views
 
-package "Services" as services <<Cloud>>  {
+package "Services" as services <<Rectangle>>  {
 
+
+class "Users service" as getUser
+getUser : +authenticate_user()
+getUser : +create_user()
+getUser : +heartbeat()
 
 class "Items service" as getItems
 getItems : +get_items()
+getItems : +get_items_filtered()
+getItems : +get_items_by_id()
+getItems : +create_item()
 
 class "Offers service" as getOffers
 getOffers : +get_offers()
+getOffers : +get_offers_by_id()
+getOffers : +create_offer()
 
 class "Ratings service" as getRatings
 getRatings : +get_ratings()
+getRatings : +get_ratings_by_user()
+getRatings : +get_ratings_by_id()
+getRatings : +set_rating()
 
 class "Messages service" as getMessage
 getMessage : +get_messages()
+getMessage : +get_message_by_user()
+getMessage : +create_message()
 
 class "Profile service" as getProfile
 getProfile : +get_profile()
+getProfile : +create_profile()
+getProfile : +update_profile()
 
 class "Payment service" as getPayments
 getPayments : +get_payments()
+getPayments : +get_payments_by_id()
+getPayments : +create_payment())
 
 class "Tags service" as getTags
 getTags : +get_tags()
+getTags : +get_tags_by_category()
+getTags : +get_tags_by_id()
+getTags : +create_tag()
+getTags : +update_tag()
 
 }
 
 
-package "Views" as views <<Database>>  {
+package "Views" as views <<Rectangle>>  {
+
+class "Users View" as viewUsers
+viewUsers : +authenticate()
+viewUsers : +create_user()
 
 class "Items View" as viewItems
+viewItems : +get_items_filtered()
+viewItems : +get_item()
+viewItems : +set_item()
 
 class "Offers View" as viewOffers
+viewOffers : +get_offers()
+viewOffers : +get_offer_by_id()
+viewOffers : +set_offer()
 
 class "Ratings View" as viewRatings
+viewRatings : +get_ratings()
+viewRatings : +get_rating_by_id()
+viewRatings : +set_rating()
 
 class "Messages View" as viewMessages
+viewMessages : +get_messages()
+viewMessages : +get_message_by_id()
+viewMessages : +set_message()
 
 class "Profile View" as viewProfile
+viewProfile : +get_profile_by_id()
+viewProfile : +set_profile()
 
 class "Payment View" as viewPayment
+viewPayment : +get_payments()
+viewPayment : +get_payment_by_id()
+viewPayment : +set_payment()
 
 class "Tags View" as viewTags
+viewTags : +get_tags()
+viewTags : +get_tags_by_category()
+viewTags : +get_tags_by_id()
+viewTags : +set_tag()
 
 }
 
