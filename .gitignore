@@ -7,3 +7,4 @@ ENV/
 env.bak/
 venv.bak/
 db.sqlite3
+fire_sale/db.sqlite3
