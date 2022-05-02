@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <H1>Items!!!</H1>
-    <p class="funfun">subitems!</p>
+    <H1>Items</H1>
+    {% for item in items %}
+        {% include 'items/single_item.html' with item=item %}
+    {% endfor %}
 {% endblock %}

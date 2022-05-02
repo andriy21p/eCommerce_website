@@ -19,6 +19,13 @@ class ItemCondition(models.Model):
         return self.name
 
 
+class ItemCategory(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
 class Items(models.Model):
     sale_type = models.ForeignKey(ItemsSalesType, on_delete=models.CASCADE)
     price_minimum = models.FloatField(default=0)
@@ -30,6 +37,7 @@ class Items(models.Model):
     date_ends = models.DateTimeField(null=True, blank=True)
     created = models.DateTimeField(default=timezone.now())
     edited = models.DateTimeField(default=timezone.now())
+    category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

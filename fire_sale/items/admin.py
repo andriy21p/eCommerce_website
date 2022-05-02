@@ -6,3 +6,4 @@ from items.models import *
 admin.site.register(Items)
 admin.site.register(ItemCondition)
 admin.site.register(ItemsSalesType)
+admin.site.register(ItemCategory)
