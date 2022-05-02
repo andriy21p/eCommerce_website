@@ -35,8 +35,8 @@ class Items(models.Model):
     Description = models.CharField(max_length=10000)
     show_in_catalog = models.BooleanField(default=False)
     date_ends = models.DateTimeField(null=True, blank=True)
-    created = models.DateTimeField(default=timezone.now())
-    edited = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(default=timezone.now)
+    edited = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
 
     def __str__(self):
