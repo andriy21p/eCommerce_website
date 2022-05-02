@@ -1,0 +1,6 @@
+<h2>{{ user.get_full_name }}</h2>
+<ul>
+    <li>Username: {{ user.username }}</li>
+    <li>Image: <img src="{{ user.profile.image }}" alt="Profile Image"></li>
+    <li>Bio: {{ user.profile.bio }}</li>
+</ul>

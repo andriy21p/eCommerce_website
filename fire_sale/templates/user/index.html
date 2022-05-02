@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <H1>Users</H1>
+    <H1>User</H1>
+    {% for user in users %}
+        {% include 'user/edit_profile.html' with user=user %}
+    {% endfor %}
 {% endblock %}
