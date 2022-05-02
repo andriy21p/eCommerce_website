@@ -11,6 +11,7 @@ def index(request):
 
 # Create your views here.
 
+
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(data=request.POST)
