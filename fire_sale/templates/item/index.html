@@ -2,6 +2,6 @@
 {% block content %}
     <H1>Items</H1>
     {% for item in items %}
-        {% include 'item/single_item.html' with item=item %}
+        {% include 'item/single_item.html' with=item %}
     {% endfor %}
 {% endblock %}
