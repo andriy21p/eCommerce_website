@@ -2,14 +2,18 @@
 {% block content %}
     <div class="container-full">
         <div class="row">
-            <div class="col-6 col-md-4">
+            <div class="d-none d-sm-block col-sm-6 col-md-4 col-xl-3 col-xxl-2">
                     {% include 'item/categories.html' with categories=categories %}
             </div>
-            <div class="col-md-8">
-                 <H1>Items</H1>
-                    {% for item in items %}
-                        {% include 'item/single_item.html' with item=item %}
-                    {% endfor %}
+            <div class="col-sm-12 col-sm-6 col-md-8 col-xl-9 col-xxl-10">
+                <div class="container-full">
+                    <div class="row">
+                     <H1>Items</H1>
+                        {% for item in items %}
+                            {% include 'item/single_item.html' with item=item %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
