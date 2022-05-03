@@ -21,6 +21,7 @@ def index(request):
             'edited': x.edited,
             'category_id': x.category_id,
             'category': x.category.name,
+            'category_icon': x.category.icon,
             'image': x.itemimage_set.first().url,
             'image_description': x.itemimage_set.first().description,
         } for x in Item.objects.filter(show_in_catalog=True,

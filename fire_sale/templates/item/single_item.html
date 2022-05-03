@@ -1,5 +1,5 @@
 <div class="col-sm-12 col-md-6 col-lg-3 col-xxl-2 text-center bg-white border rounded p-2">
-    <div class="border border-info rounded bg-light" onclick="categoryFilter('{{ item.category.name }}');"><small>{{ item.category.name }}</small></div><br/>
+    <div class="border border-info rounded bg-light" onclick="categoryFilter('{{ item.category.name }}');"><i class="{{ item.category.icon }}"></i> <small>{{ item.category.name }}</small></div><br/>
     <img class="productImage rounded" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
     <p style="text-overflow: ellipsis;overflow:hidden;white-space:nowrap;">{{ item.name }}</p>
 </div>
