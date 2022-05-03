@@ -1,9 +1,11 @@
 categoryFilter = function(category) {
+    let workingHeader = '<H1>Items refreshing ...</H1>';
+    $('#items-header').html($.parseHTML(workingHeader));
     $.ajax({
         url: '/item/?category=' + category,
         type: 'GET',
         success: function(response) {
-            let newHeader = '<H1>ITEMS</H1>';
+            let newHeader = '<H1>Items</H1>';
             if (category != '') {
                 newHeader += ' in category ' + category + ' - <a href="#" onclick="categoryFilter(\'\')">clear category filter</a>';
             }
