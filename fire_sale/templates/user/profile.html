@@ -1,9 +1,10 @@
-{% extends "base.html"%}
+{% extends 'base.html' %}
 {% block content %}
-    <h1>Sing Up Now, it's quick and easy !</h1>
+    <h1>Profile</h1>
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" class="btn btn-primary" value="sign up">
+        <input type="submit" class="btn btn-primary" value="Update" />
     </form>
+
 {% endblock %}

@@ -6,12 +6,12 @@ from django.dispatch import receiver
 
 # Create your models here.
 class Profile(models.Model):
-    name = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.CharField(max_length=1000, blank=True)
     bio = models.CharField(max_length=10000, blank=True)
 
     def __str__(self):
-        return self.name.first_name
+        return self.user.first_name
 
 
 @receiver(post_save, sender=User)
