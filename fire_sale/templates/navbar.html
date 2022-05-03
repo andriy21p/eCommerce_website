@@ -34,7 +34,7 @@
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
           {% if user.is_authenticated %}
               <li><a class="dropdown-item" href="{% url 'profile' %}">My profile</a></li>
-              <li><a class="dropdown-item" href="#">Messages</a></li>
+              <li><a class="dropdown-item" href="{% url 'message' %}">Messages</a></li>
               <li><hr class="dropdown-divider"></li>
           {% endif %}
           {% if user.is_authenticated %}
