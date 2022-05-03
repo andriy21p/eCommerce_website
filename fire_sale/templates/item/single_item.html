@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-md-6 col-lg-3">
-    <img class="productImage" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
-    <p>{{ item.name }}</p>
+<div class="col-sm-12 col-md-6 col-lg-3 col-xxl-2 text-center bg-white border rounded p-2">
+    <img class="productImage rounded " src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
+    <p style="text-overflow: ellipsis;overflow:hidden;white-space:nowrap;">{{ item.name }}</p>
 </div>
