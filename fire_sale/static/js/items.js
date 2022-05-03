@@ -11,6 +11,9 @@ categoryFilter = function(category) {
             }
             let newHtml = response.items.map(d => {
                 return '<div class="col-sm-12 col-md-6 col-lg-3 col-xxl-2 text-center bg-white border rounded p-2">\n' +
+                       '<div class="border border-info rounded bg-light" ' +
+                       '     onclick="categoryFilter(\'' + d.category + '\');">' +
+                       '       <small>' + d.category + '</small></div><br/>\n'+
                        '    <img class="productImage rounded" src="'+d.image+'" alt="'+d.image_description+'" />\n' +
                        '    <p style="text-overflow: ellipsis;overflow:hidden;white-space:nowrap;">'+d.name+'</p>\n' +
                        '</div>'
