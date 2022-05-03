@@ -16,16 +16,8 @@
         {% include "navbar.html" %}
     </div>
     <div class="container-full">
-        <div class="row">
-            <div class="col-6 col-md-4">
-                {% include "item/categories.html" %}
-            </div>
-            <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
-
+        {% block content %}
+        {% endblock %}
     </div>
 </body>
 </html>
