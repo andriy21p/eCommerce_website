@@ -7,8 +7,8 @@
             </div>
             <div class="col-sm-12 col-sm-6 col-md-8 col-xl-9 col-xxl-10">
                 <div class="container">
-                    <div class="row align-items-center">
-                     <H1>Items</H1>
+                    <span id="items-header"><H1>Items</H1></span>
+                    <div class="row align-items-center" id="items-container">
                         {% for item in items %}
                             {% include 'item/single_item.html' with item=item %}
                         {% endfor %}
@@ -17,4 +17,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

@@ -32,9 +32,9 @@ class Item(models.Model):
     sale_type = models.ForeignKey(ItemSalesType, on_delete=models.CASCADE)
     price_minimum = models.FloatField(default=0)
     price_fixed = models.FloatField(null=True, blank=True)
-    Condition = models.ForeignKey(ItemCondition, on_delete=models.CASCADE)
+    condition = models.ForeignKey(ItemCondition, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    Description = models.CharField(max_length=10000)
+    description = models.CharField(max_length=10000)
     show_in_catalog = models.BooleanField(default=False)
     date_ends = models.DateTimeField(null=True, blank=True)
     created = models.DateTimeField(default=timezone.now)
@@ -42,7 +42,10 @@ class Item(models.Model):
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        res = self.name
+        if not self.show_in_catalog:
+            res += ' (unlisted)'
+        return res
 
 
 class ItemImage(models.Model):
