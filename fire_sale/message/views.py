@@ -1,6 +1,10 @@
 from django.shortcuts import render
 # from message.models import Message
 
+from django.http import HttpResponseRedirect
+
+from message.forms import  MsgReplyForm
+
 
 # Create your views here.
 def index(request):
@@ -8,6 +12,9 @@ def index(request):
         # 'message': Message.objects.all(),
     })
 
+
+def create_new_msg(request):
+    pass
 
 
 # @login_required
