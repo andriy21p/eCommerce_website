@@ -41,3 +41,9 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ItemImage(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    url = models.CharField(max_length=10000)
+    description = models.CharField(max_length=10000, blank=True)
