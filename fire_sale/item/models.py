@@ -21,6 +21,8 @@ class ItemCondition(models.Model):
 
 class ItemCategory(models.Model):
     name = models.CharField(max_length=200)
+    icon = models.CharField(max_length=200, blank=True)
+    order = models.IntegerField(default=100)
 
     def __str__(self):
         return self.name
