@@ -3,7 +3,6 @@
     <div class="container-full">
         <div class="row">
             <div class="col-6 col-md-4">
-
                     {% include 'item/categories.html' with categories=categories %}
             </div>
             <div class="col-md-8">
@@ -11,7 +10,6 @@
                     {% for item in items %}
                         {% include 'item/single_item.html' with item=item %}
                     {% endfor %}
-
             </div>
         </div>
     </div>
