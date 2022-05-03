@@ -6,7 +6,9 @@ from item.models import Item
 def index(request):
     return render(request, 'item/index.html', {
         'items': Item.objects.all(), 'images': Item.itemimage_set,
+        #'categories': ItemCategory.name
     })
+
 
 
 # @login_required
