@@ -7,3 +7,6 @@ def index(request):
     return render(request, 'item/index.html', {
         'items': Item.objects.all(),
     })
+
+
+# @login_required
