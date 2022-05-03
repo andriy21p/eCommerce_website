@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'item.apps.ItemsConfig',
     'user.apps.UserConfig',
+    'django_bootstrap_icons',
 ]
 
 MIDDLEWARE = [
