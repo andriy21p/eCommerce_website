@@ -27,10 +27,10 @@ def index(request):
             'image_description': x.itemimage_set.first().description,
             'hitcount': x.hitcount,
         } for x in Item.objects.filter(show_in_catalog=True,
-                                       category__name__icontains=category).order_by('name')]
+                                       category__name__icontains=category).order_by('-hitcount','name')]
         return JsonResponse({'items': items})
     return render(request, 'item/index.html', {
-        'items': Item.objects.filter(show_in_catalog=True).order_by('name'),
+        'items': Item.objects.filter(show_in_catalog=True).order_by('-hitcount','name'),
         'categories': ItemCategory.objects.all().order_by('order'),
     })
 

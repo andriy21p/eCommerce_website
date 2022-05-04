@@ -14,11 +14,13 @@ categoryFilter = function(category) {
                        '<div class="border border-info rounded bg-light"' +
                        '     onclick="categoryFilter(\'' + d.category + '\');">' +
                        '       <i class="' + d.category_icon + '"></i>'+
-                       '       <small>' + d.category + '</small></div><br/>\n'+
-                       '    <div class="img-hover-zoom">'+
-                       '    <img class="itemImage rounded shadow" src="'+d.image+'" alt="'+d.image_description+'" />' +
-                       '    </div>\n' +
-                       '    <p class="singleItemName">'+d.name+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
+                       '       <small>' + d.category + '</small></div><br/>\n' +
+                       '    <span onclick="getItemDetails(' + d.id + ');" data-bs-toggle="modal" data-bs-target="#itemDetailModal">' +
+                       '     <div class="img-hover-zoom">'+
+                       '      <img class="itemImage rounded shadow" src="'+d.image+'" alt="'+d.image_description+'" />' +
+                       '     </div>\n' +
+                       '     <p class="singleItemName">'+d.name+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
+                       '    </span>' +
                        '</div>'
             });
             $('#items-container').html(newHtml.join(''));

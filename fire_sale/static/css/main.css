@@ -7,6 +7,9 @@
     max-width: 600px;
 }
 
+.singleItemWidth {
+    min-height: 245px;
+}
 .singleItemName {
     text-overflow: ellipsis;
     overflow:hidden;

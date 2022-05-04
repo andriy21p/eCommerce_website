@@ -4,3 +4,13 @@
     <li>Image: <img src="{{ user.profile.image }}" alt="Profile Image"></li>
     <li>Bio: {{ user.profile.bio }}</li>
 </ul>
+<br/>
+<h4>My items for sale</h4>
+    <div class="container">
+        <span id="items-header"><H1>Items</H1></span>
+        <div class="d-flex justify-content-around flex-wrap" id="items-container">
+            {% for item in myItems %}
+                {% include 'item/single_item.html' with item=item %}
+            {% endfor %}
+        </div>
+    </div>

@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.contenttypes.fields import GenericRelation
 from django.utils import timezone
+from user.models import User
 
 
 # Create your models here.
@@ -30,6 +30,7 @@ class ItemCategory(models.Model):
 
 
 class Item(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     sale_type = models.ForeignKey(ItemSalesType, on_delete=models.CASCADE)
     price_minimum = models.FloatField(default=0)
     price_fixed = models.FloatField(null=True, blank=True)
