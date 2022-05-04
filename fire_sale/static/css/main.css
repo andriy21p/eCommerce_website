@@ -37,6 +37,25 @@
 .img-hover-zoom:hover img {
     transform: scale(1) rotateY(0deg);
 }
+/*Login page */
+/*brake down login and password in different lines*/
+.login {
+    background: #f3f3f3;
+    text-align: center;
+    margin: auto;
+    margin-block: 40px;
+    width: 350px;
+    padding: 49px;
+    position: relative;
+}
+.complete_btn{
+    background: #f3f36d;
+    width: 140px;
+    margin-top: 20px;
+}
+.pre_form_login{
+ width: 90px;
+}
 
 @media only screen and (max-width: 576px) {
     .singleItemWidth {
