@@ -15,7 +15,7 @@ categoryFilter = function(category) {
                        '     onclick="categoryFilter(\'' + d.category + '\');">' +
                        '       <i class="' + d.category_icon + '"></i>'+
                        '       <small>' + d.category + '</small></div><br/>\n'+
-                       '    <div class="item-image-height">'+
+                       '    <div class="img-hover-zoom">'+
                        '    <img class="productImage rounded" src="'+d.image+'" alt="'+d.image_description+'" />' +
                        '    </div>\n' +
                        '    <p style="text-overflow: ellipsis;overflow:hidden;white-space:nowrap;">'+d.name+'</p>\n' +

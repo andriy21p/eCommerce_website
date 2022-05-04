@@ -1,14 +1,41 @@
-.blue-yellow-text {
-    color: blue;
-    background-color: yellow;
-}
 .productImage {
     max-width: 125px;
     max-height: 125px;
 }
 
-.item-image-height {
-    height: 62%;
+.singleItemName {
+    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    margin-bottom: 0px;
+}
+.singleItemPrice {
+    font-size:1em;
+    font-weight: bold;
+    color: darkslateblue;
+    float:right;
+    margin-bottom: 0px;
+}
+
+
+/* Hover over image - zoom and rotate */
+/* [1] The container */
+.img-hover-zoom {
+    height: 60%;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+/* [2] Transition property for smooth transformation of images */
+.img-hover-zoom img {
+    transition: transform 0.7s ease-in;
+    transform-style: preserve-3d;
+    transform: scale(0.90) rotateY(20deg) ;
+}
+
+/* [3] Finally, transforming the image when container gets hovered */
+.img-hover-zoom:hover img {
+    transform: scale(1) rotateY(0deg);
 }
 
 @media only screen and (max-width: 576px) {
