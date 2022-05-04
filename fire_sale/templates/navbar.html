@@ -1,7 +1,11 @@
+ {% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3 border-bottom">
   <div class="container-fluid">
-    <a class="navbar-brand text-decoration-none" href="/item/"><img src="static/images/fire_sale.png" width="30" alt="logo"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand text-decoration-none" href="/item/"><img src="{% static "images/fire_sale.png" %}" width="30"
+            alt="logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
@@ -20,7 +24,8 @@
           <p> </p>
       </form>
       <div class="dropdown text-end">
-        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle ms-5" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle ms-5" id="dropdownUser1"
+           data-bs-toggle="dropdown" aria-expanded="false">
           {% if user.is_authenticated %}
               {% if user.profile.image %}
                 <img src="{{ user.profile.image }}" alt="{{ user.first_name }}" width="44"  class="rounded-circle" />
