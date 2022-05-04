@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponseRedirect
 
-from message.forms import  MsgReplyForm
+from message.forms import MsgReplyForm
 
 
 # Create your views here.
