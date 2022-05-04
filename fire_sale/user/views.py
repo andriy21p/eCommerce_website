@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 def index(request):
     return render(request, 'user/index.html', {
         'users': User.objects.filter(pk=request.user.id),
-        'myItems': Item.objects.filter(user=request.user).order_by('created')
+        'myItems': Item.objects.filter(user=request.user).order_by('-hitcount','created')
     })
 
 
