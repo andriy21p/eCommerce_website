@@ -19,7 +19,7 @@ def register(request):
         form = UserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('logingiot')
     return render(request, 'user/register.html', {
         'form': UserCreationForm()
     })
