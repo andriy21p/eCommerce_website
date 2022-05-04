@@ -1,8 +1,15 @@
+.blue-yellow-text {
+    color: blue;
+    background-color: yellow;
+}
 .productImage {
     max-width: 125px;
     max-height: 125px;
 }
 
+.item-image-height {
+    height: 62%;
+}
 
 @media only screen and (max-width: 576px) {
     .singleItemWidth {
