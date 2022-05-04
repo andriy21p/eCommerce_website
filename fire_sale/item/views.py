@@ -25,7 +25,7 @@ def index(request):
             'category_icon': x.category.icon,
             'image': x.itemimage_set.first().url,
             'image_description': x.itemimage_set.first().description,
-            'popularity': x.popularity,
+            'hitcount': x.hitcount,
         } for x in Item.objects.filter(show_in_catalog=True,
                                        category__name__icontains=category).order_by('name')]
         return JsonResponse({'items': items})
@@ -37,7 +37,7 @@ def index(request):
 
 # @login_required
 def get_item_by_id(request, item_key):
-    Item.objects.filter(id=item_key).update(popularity=F('popularity') + 1)
+    Item.objects.filter(id=item_key).update(hitcount=F('hitcount') + 1)
     items = [{
         'id': x.id,
         'sale_type_id': x.sale_type_id,
@@ -53,7 +53,7 @@ def get_item_by_id(request, item_key):
         'category_id': x.category_id,
         'category': x.category.name,
         'category_icon': x.category.icon,
-        'popularity': x.popularity,
+        'hitcount': x.hitcount,
         'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
