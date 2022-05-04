@@ -50,13 +50,52 @@
 }
 .complete_btn{
     background: #f3f36d;
-    width: 140px;
+    width: 180px;
     margin-top: 20px;
+    font-size: 20px;
 }
 .pre_form_login{
  width: 90px;
 }
-
+/*Registration page*******************************/
+/*align text on page******************************/
+.registration{
+     background: #f3f3f3;
+    text-align: center;
+    margin: auto;
+    margin-block: 40px;
+    width: 450px;
+    padding: 49px;
+    position: relative;
+}
+.register_h1{
+    text-align: center;
+    color: #047012;
+}
+.login_btn{
+    background: #f3f36d;
+    width: 180px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+.helptext{
+    font-size: 10px;
+}
+label{
+    font-size: 25px;
+}
+.registration li:nth-child(1) {
+  display: none;
+}
+.registration li:nth-child(2) {
+    display: none;
+}
+.registration li:nth-child(3) {
+  display: none;
+}
+.registration li:nth-child(4) {
+  display: none;
+}
 @media only screen and (max-width: 576px) {
     .singleItemWidth {
         width:100%;

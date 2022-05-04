@@ -1,9 +1,9 @@
 {% extends "base.html"%}
 {% block content %}
-    <h1>Sing Up Now, it's quick and easy !</h1>
-    <form class="form form-horizontal" method="post">
+    <h1 class="register_h1">Sing Up Now, <br>it's quick and easy !</h1>
+    <form class="registration" method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" class="btn btn-primary" value="sign up">
+        <p>{{ form }}</p>
+        <input type="submit" class="login_btn" value="Sign up">
     </form>
 {% endblock %}
