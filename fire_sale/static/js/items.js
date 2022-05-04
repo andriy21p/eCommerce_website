@@ -10,12 +10,14 @@ categoryFilter = function(category) {
                 newHeader += ' in category ' + category + ' - <a href="#" onclick="categoryFilter(\'\')">clear category filter</a>';
             }
             let newHtml = response.items.map(d => {
-                return '<div class="col-sm-12 col-md-6 col-lg-3 col-xxl-2 text-center bg-white border rounded p-2">\n' +
-                       '<div class="border border-info rounded bg-light" ' +
+                return '<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
+                       '<div class="border border-info rounded bg-light"' +
                        '     onclick="categoryFilter(\'' + d.category + '\');">' +
                        '       <i class="' + d.category_icon + '"></i>'+
                        '       <small>' + d.category + '</small></div><br/>\n'+
-                       '    <img class="productImage rounded" src="'+d.image+'" alt="'+d.image_description+'" />\n' +
+                       '    <div class="item-image-height">'+
+                       '    <img class="productImage rounded" src="'+d.image+'" alt="'+d.image_description+'" />' +
+                       '    </div>\n' +
                        '    <p style="text-overflow: ellipsis;overflow:hidden;white-space:nowrap;">'+d.name+'</p>\n' +
                        '</div>'
             });
