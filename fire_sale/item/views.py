@@ -1,7 +1,9 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from item.models import Item, ItemCategory
+from item.forms.item_form import ItemForm
 from django.db.models import F
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -35,7 +37,6 @@ def index(request):
     })
 
 
-# @login_required
 def get_item_by_id(request, item_key):
     Item.objects.filter(id=item_key).update(hitcount=F('hitcount') + 1)
     items = [{
@@ -57,3 +58,17 @@ def get_item_by_id(request, item_key):
         'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
+
+
+@login_required
+def create(request):
+    if request.method == 'POST':
+        form = ItemForm(data=request.POST)
+        if form.is_valid():
+            newItem = form.save(commit=False)
+            newItem.user = request.user
+            newItem.save()
+            return redirect('my-profile')
+    return render(request, 'item/item_create.html', {
+        'form': ItemForm()
+    })

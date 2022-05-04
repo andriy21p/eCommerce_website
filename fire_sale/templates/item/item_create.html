@@ -1,0 +1,14 @@
+{% extends "base.html"%}
+{% block content %}
+    <div class="container">
+        <h1>Sell something</h1><h2>it's quick and easy !</h2>
+        <br/><br/>
+        <form class="form form-horizontal" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <br/>
+            <input type="submit" class="btn btn-success" value="Lets get some offers for this stuff">
+            <a class="btn btn-danger" href="/user/">Cancel selling for now</a>
+        </form>
+    </div>
+{% endblock %}

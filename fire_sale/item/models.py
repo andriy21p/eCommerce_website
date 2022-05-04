@@ -37,7 +37,7 @@ class Item(models.Model):
     condition = models.ForeignKey(ItemCondition, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=10000)
-    show_in_catalog = models.BooleanField(default=False)
+    show_in_catalog = models.BooleanField(default=True)
     date_ends = models.DateTimeField(null=True, blank=True)
     created = models.DateTimeField(default=timezone.now)
     edited = models.DateTimeField(default=timezone.now)
