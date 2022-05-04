@@ -8,7 +8,7 @@
             <div class="col-sm-12 col-sm-6 col-md-8 col-xl-9 col-xxl-10">
                 <div class="container">
                     <span id="items-header"><H1>Items</H1></span>
-                    <div class="d-flex justify-content-between flex-wrap" id="items-container">
+                    <div class="d-flex justify-content-around flex-wrap" id="items-container">
                         {% for item in items %}
                             {% include 'item/single_item.html' with item=item %}
                         {% endfor %}

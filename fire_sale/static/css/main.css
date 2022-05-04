@@ -12,18 +12,18 @@
 
 @media only screen and (min-width: 576px) {
     .singleItemWidth {
-        width:33%;
+        width:32%;
     }
 }
 
 @media only screen and (min-width: 992px) {
     .singleItemWidth {
-        width:25%;
+        width:24%;
     }
 }
 
 @media only screen and (min-width: 1400px) {
     .singleItemWidth {
-        width:16.5%;
+        width:16%;
     }
 }
