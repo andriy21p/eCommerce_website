@@ -1,7 +1,7 @@
 from django.http import JsonResponse
-from item.forms.item_form import ItemForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from item.models import Item, ItemCategory
+from django.db.models import F
 
 
 # Create your views here.
@@ -23,9 +23,9 @@ def index(request):
             'category_id': x.category_id,
             'category': x.category.name,
             'category_icon': x.category.icon,
-            'hitcount': x.hitcount,
             'image': x.itemimage_set.first().url,
             'image_description': x.itemimage_set.first().description,
+            'popularity': x.popularity,
         } for x in Item.objects.filter(show_in_catalog=True,
                                        category__name__icontains=category).order_by('name')]
         return JsonResponse({'items': items})
@@ -37,12 +37,7 @@ def index(request):
 
 # @login_required
 def get_item_by_id(request, item_key):
-    item = Item.objects.filter(pk=item_key).first()
-    item.hitcount += 1
-    item_form = ItemForm(instance=item)
-    if item_form.is_valid():
-        item_form.save()
-
+    Item.objects.filter(id=item_key).update(popularity=F('popularity') + 1)
     items = [{
         'id': x.id,
         'sale_type_id': x.sale_type_id,
@@ -58,7 +53,7 @@ def get_item_by_id(request, item_key):
         'category_id': x.category_id,
         'category': x.category.name,
         'category_icon': x.category.icon,
-        'hitcount': x.hitcount,
+        'popularity': x.popularity,
         'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
