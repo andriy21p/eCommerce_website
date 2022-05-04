@@ -3,13 +3,14 @@ from django.shortcuts import render, redirect
 from user.forms.profile_form import ProfileForm
 from user.models import User, Profile
 from item.models import Item
+from message.models import Message
 from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
     return render(request, 'user/index.html', {
         'users': User.objects.filter(pk=request.user.id),
-        'myItems': Item.objects.filter(user=request.user).order_by('-hitcount','created')
+        'myItems': Item.objects.filter(user=request.user).order_by('-hitcount','created'),
     })
 
 
