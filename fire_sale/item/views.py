@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.shortcuts import render, get_object_or_404
 from item.models import Item, ItemCategory
 
 
@@ -29,8 +30,27 @@ def index(request):
         return JsonResponse({'items': items})
     return render(request, 'item/index.html', {
         'items': Item.objects.filter(show_in_catalog=True).order_by('name'),
-        'images': Item.itemimage_set,
         'categories': ItemCategory.objects.all().order_by('order'),
     })
 
+
 # @login_required
+def get_item_by_id(request, item_key):
+    items = [{
+        'id': x.id,
+        'sale_type_id': x.sale_type_id,
+        'sale_type': x.sale_type.name,
+        'price_minimum': x.price_minimum,
+        'price_fixed': x.price_fixed,
+        'condition': x.condition.name,
+        'name': x.name,
+        'description': x.description,
+        'ends': x.date_ends,
+        'created': x.created,
+        'edited': x.edited,
+        'category_id': x.category_id,
+        'category': x.category.name,
+        'category_icon': x.category.icon,
+        'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
+    } for x in Item.objects.filter(pk=item_key)]
+    return JsonResponse({'items': items})

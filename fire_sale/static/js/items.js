@@ -16,13 +16,48 @@ categoryFilter = function(category) {
                        '       <i class="' + d.category_icon + '"></i>'+
                        '       <small>' + d.category + '</small></div><br/>\n'+
                        '    <div class="img-hover-zoom">'+
-                       '    <img class="productImage rounded shadow" src="'+d.image+'" alt="'+d.image_description+'" />' +
+                       '    <img class="itemImage rounded shadow" src="'+d.image+'" alt="'+d.image_description+'" />' +
                        '    </div>\n' +
-                       '    <p class="singleItemName">'+d.name+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString()+'</p>\n' +
+                       '    <p class="singleItemName">'+d.name+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
                        '</div>'
             });
             $('#items-container').html(newHtml.join(''));
             $('#items-header').html($.parseHTML(newHeader));
+        },
+        error: function(xhr, status, error) {
+            // add toaster with error
+            console.error(error);
+        }
+    })
+}
+
+getItemDetails = function(id) {
+    $('#itemDetailModalLabel').text('') ;
+    $('#itemDetailModalBody').text('fetching, just a moment ...') ;
+    $('.carousel-inner').html('') ;
+    $("#itemDetailCategoryTag").removeClass();
+    $.ajax({
+        url: '/item/' + id,
+        type: 'GET',
+        success: function(response) {
+            if (response.items.length > 0) {
+                let item = response.items[0] ;
+                $('#itemDetailModalLabel').text(item.name) ;
+                $('#itemDetailModalBody').text(item.description) ;
+                $('#itemDetailCategoryTag').addClass(item.category_icon) ;
+                $('#itemDetailCategoryName').text(item.category) ;
+                $('#itemDetailModalCondition').text('Condition: '+item.condition) ;
+                for (let i = 0 ; i < item.images.length ; i++) {
+                    let newHtml = '<div class="carousel-item" id="carousel-item">\n' +
+                                  '  <img class="d-block w-auto itemDetailImage" src="' + item.images[i].url + '" alt="' + item.images[i].description + '">\n' +
+                                  '</div>\n'
+                    console.log($.parseHTML(newHtml));
+                    $('.carousel-inner').append($.parseHTML(newHtml));
+                }
+                $('.carousel-item').first().addClass('active');
+            } else {
+                // found nothing
+            }
         },
         error: function(xhr, status, error) {
             // add toaster with error
