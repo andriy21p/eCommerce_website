@@ -40,6 +40,7 @@ class Item(models.Model):
     created = models.DateTimeField(default=timezone.now)
     edited = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
+    hitcount = models.IntegerField(default=0)
 
     def __str__(self):
         res = self.name
