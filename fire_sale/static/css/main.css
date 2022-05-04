@@ -28,9 +28,9 @@
 
 /* [2] Transition property for smooth transformation of images */
 .img-hover-zoom img {
-    transition: transform 0.7s ease-in;
+    transition: transform 0.2s ease-in;
     transform-style: preserve-3d;
-    transform: scale(0.90) rotateY(20deg) ;
+    transform: scale(0.95) rotateY(20deg) ;
 }
 
 /* [3] Finally, transforming the image when container gets hovered */

@@ -1,7 +1,7 @@
-<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">  <!--    col-sm-12 col-md-6 col-lg-3 col-xxl-2  -->
+<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">
     <div class="border border-info rounded bg-light" onclick="categoryFilter('{{ item.category.name }}');"><i class="{{ item.category.icon }}"></i> <small>{{ item.category.name }}</small></div><br/>
     <div class="img-hover-zoom">
-        <img class="productImage rounded" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
+        <img class="productImage rounded shadow" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
     </div>
     <p class="singleItemName">{{ item.name }}</p><p class="singleItemPrice">{{ item.price_minimum|floatformat:"-2g" }}</p>
 </div>

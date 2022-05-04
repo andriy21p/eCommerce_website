@@ -16,9 +16,9 @@ categoryFilter = function(category) {
                        '       <i class="' + d.category_icon + '"></i>'+
                        '       <small>' + d.category + '</small></div><br/>\n'+
                        '    <div class="img-hover-zoom">'+
-                       '    <img class="productImage rounded" src="'+d.image+'" alt="'+d.image_description+'" />' +
+                       '    <img class="productImage rounded shadow" src="'+d.image+'" alt="'+d.image_description+'" />' +
                        '    </div>\n' +
-                       '    <p style="text-overflow: ellipsis;overflow:hidden;white-space:nowrap;">'+d.name+'</p>\n' +
+                       '    <p class="singleItemName">'+d.name+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString()+'</p>\n' +
                        '</div>'
             });
             $('#items-container').html(newHtml.join(''));
