@@ -18,6 +18,8 @@ categoryFilter = function(category) {
                 newHeader += ' in category ' + category + ' - <a href="#" onclick="categoryFilter(\'\')">clear category filter</a>';
             }
             let newHtml = response.items.map(d => {
+                // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
+                if (d.image.length == 0) { let image = {url: '', description: ''} ; d.image.push(image);}
                 return '<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
                        '<div class="border border-info rounded bg-light"' +
                        '     onclick="categoryFilter(\'' + d.category + '\');">' +
@@ -25,7 +27,7 @@ categoryFilter = function(category) {
                        '       <small>' + d.category + '</small></div><br/>\n' +
                        '    <span onclick="getItemDetails(' + d.id + ');" data-bs-toggle="modal" data-bs-target="#itemDetailModal">' +
                        '     <div class="img-hover-zoom">'+
-                       '      <img class="itemImage rounded shadow" src="'+d.image+'" alt="'+safe(d.image_description)+'" />' +
+                       '      <img class="itemImage rounded shadow" src="'+d.image[0].url+'" alt="'+safe(d.image[0].description)+'" />' +
                        '     </div>\n' +
                        '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
                        '    </span>' +
