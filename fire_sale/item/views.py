@@ -1,9 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from item.models import Item, ItemCategory
 from item.forms.item_form import ItemForm
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 
 # Create your views here.
@@ -70,4 +71,19 @@ def create(request):
             return redirect('my-profile')
     return render(request, 'item/item_create.html', {
         'form': ItemForm()
+    })
+
+
+@login_required
+def edit(request, item_key):
+    item = get_object_or_404(Item, pk=item_key)
+    if request.method == 'POST':
+        form = ItemForm(instance=item, data=request.POST)
+        if form.is_valid():
+            newItem = form.save(commit=False)
+            newItem.edited = timezone.now()
+            newItem.save()
+            return redirect('my-profile')
+    return render(request, 'item/item_edit.html', {
+        'form': ItemForm(instance=item)
     })
