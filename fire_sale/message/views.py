@@ -1,9 +1,10 @@
-from django.shortcuts import render
-# from message.models import Message
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from message.models import Message
+from message.forms.msg_form import MsgReplyForm
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-
-from message.forms.forms import MsgReplyForm
 
 
 # Create your views here.
@@ -13,8 +14,19 @@ def index(request):
     })
 
 
+@login_required
 def create_new_msg(request):
-    pass
+    if request.method == 'POST':
+        form = MsgReplyForm(data=request.POST)
+        if form.is_valid():
+            new_message = form.save(commit=False)
+            new_message.user = request.user
+            new_message.save()
+            return redirect('my-profile')
+    return render(request, 'message/msg_create.html', {
+        'form': MsgReplyForm()
+    })
+
 
 
 # @login_required
