@@ -77,7 +77,7 @@ def create(request):
 @login_required
 def edit(request, item_key):
     item = get_object_or_404(Item, pk=item_key)
-    if request.method == 'POST':
+    if request.POST:
         form = ItemForm(instance=item, data=request.POST)
         if form.is_valid():
             newItem = form.save(commit=False)
