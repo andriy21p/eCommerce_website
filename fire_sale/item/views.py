@@ -62,15 +62,15 @@ def get_item_by_id(request, item_key):
 
 @login_required
 def create(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ItemForm(data=request.POST)
         if form.is_valid():
-            newItem = form.save(commit=False)
-            newItem.user = request.user
-            newItem.save()
-            return redirect('my-profile')
-    return render(request, 'item/item_create.html', {
-        'form': ItemForm()
+            new_item = form.save(commit=False)
+            new_item.user = request.user
+            new_item.save()
+            return redirect("my-profile")
+    return render(request, "item/item_create.html", {
+        "form": ItemForm()
     })
 
 
