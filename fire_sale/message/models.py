@@ -11,8 +11,8 @@ class Message(models.Model):
     receiver = models.ForeignKey(User, related_name="msg_receiver", on_delete=models.CASCADE)
     msg_subject = models.CharField(max_length=200, blank=True)
     msg_sent = models.DateTimeField(default=timezone.now)
-    msg_received = models.DateTimeField(default=None)
-    msg_replied = models.DateTimeField(default=None)
+    msg_received = models.DateTimeField(auto_now=False, null=True)
+    msg_replied = models.DateTimeField(auto_now=False, null=True)
 
 
 class MessageHistory(models.Model):

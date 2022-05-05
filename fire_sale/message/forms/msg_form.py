@@ -11,7 +11,7 @@ class MsgReplyForm(ModelForm):
         exclude = ['receiver', 'msg_replied', 'msg_received', 'msg_sent', 'sender']
         widgets = {
             'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
-            'msg_subject': widgets.Textarea(attrs={'class': 'form-control'})
+            'message_body': widgets.Textarea(attrs={'class': 'form-control'})
         }
         # msg_subject = forms.CharField(label="Message Subject", max_length=200)
         # msg_body = forms.CharField(label="Text",help_text="Write your message...", max_length=500, widget=forms.Textarea)
