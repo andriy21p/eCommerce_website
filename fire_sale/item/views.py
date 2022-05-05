@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from item.models import Item, ItemCategory, ItemImage
-from item.forms.item_form import ItemForm, ItemFormWithUrl
+from item.forms.item_form import ItemForm, ItemFormWithUrl, ItemBidForm
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -103,4 +103,19 @@ def edit(request, item_key):
             return redirect('my-profile')
     return render(request, 'item/item_edit.html', {
         'form': ItemForm(instance=item)
+    })
+
+
+@login_required
+def bid(request, item_key):
+
+    item = get_object_or_404(Item, pk=item_key)
+    if request.POST and ('amount' in request.POST):
+        form = ItemBidForm(data=request.POST)
+        if form.is_valid():
+            newItem = form.save(commit=False)
+            newItem.offer_by = request.user
+            newItem.save()
+            return redirect('my-profile')
+    return render(request, 'item/', {
     })

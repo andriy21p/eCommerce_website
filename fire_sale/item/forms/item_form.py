@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets, CharField
-from item.models import Item
+from item.models import Item, Offer
 
 
 class ItemForm(ModelForm):
@@ -34,3 +34,10 @@ class ItemFormWithUrl(ModelForm):
             'description': widgets.TextInput(attrs={'class': 'form-control'}),
             'image': widgets.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class ItemBidForm(ModelForm):
+
+    class Meta:
+        model = Offer
+        fields = ['item', 'amount', 'accepted']

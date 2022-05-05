@@ -6,6 +6,22 @@ safe = function(texti) {
     }
 }
 
+getCookie = function(c_name)
+{
+    if (document.cookie.length > 0)
+    {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1)
+        {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            return unescape(document.cookie.substring(c_start,c_end));
+        }
+    }
+    return "";
+}
+
 categoryFilter = function(category) {
     let workingHeader = '<H1>Items refreshing ...</H1>';
     $('#items-header').html($.parseHTML(workingHeader));
@@ -69,9 +85,16 @@ getItemDetails = function(id) {
                 }
                 $('.carousel-item').first().addClass('active');
                 $('#itemPlaceAnOffer').prop('disabled', false);
-                $('#palceBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price+5));
+                $('#palceBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price+Math.round(item.current_price/10)));
                 $('#palceBid').val('');
                 $('#itemId').val(id);
+                if (item.number_of_bids > 2) {
+                    console.log(item.number_of_bids);
+                    $('#palceBidHelp').text('Make sure you are at least 1 higher than the current price - this item has ' + item.number_of_bids + ' bids !');
+                } else {
+                    $('#palceBidHelp').text('Make sure you are at least 1 higher than the current price');
+                }
+                $('#palceBid').focus();
             } else {
                 // found nothing
             }
@@ -87,6 +110,21 @@ makeAnOffer = function() {
     let id = $('#itemId').val();
     let bid = $('#palceBid').val();
     $('#itemPlaceAnOffer').prop('disabled', true);
-
-    getItemDetails(id);
+    // send the bid to the server
+    let formData = {amount: bid, item: id};
+    $.ajax({
+        url: '/item/' + id + '/bid',
+        type: 'POST',
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+        data: formData,
+        success: function (response) {
+            // refresh the current view
+            getItemDetails(id);
+        },
+        error: function (xhr, status, error) {
+            // add toaster with error
+            console.error(error);
+            getItemDetails(id);
+        }
+    });
 }

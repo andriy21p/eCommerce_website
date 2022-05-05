@@ -25,9 +25,11 @@
           <p id="itemDetailModalBody">loading ...</p>
           <p id="itemDetailModalCondition">Condition: </p>
           <p id="itemDetailModalCurrentPrice"></p>
+          <br/><hr/>
           <div class="itemDetailBidding form">
+              {% csrf_token %}
               <div class="form-group">
-                <label for="exampleInputEmail1">Make an offer</label>
+                <label for="exampleInputEmail1">I want this - Make an offer</label>
                 <input type="number" class="form-control" id="palceBid" aria-describedby="palceBidHelp" >
                 <small id="palceBidHelp" class="form-text text-muted">Make sure you are at least 1 higher than the current price</small>
                 <input type="hidden" class="form-control" id="itemId" >

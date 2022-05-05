@@ -72,6 +72,7 @@ class Offer(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     amount = models.FloatField(default=0)
     accepted = models.BooleanField(default=False)
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.offer_by.first_name + ' wants ' + self.item.name + ' for ' + f'{self.amount:.0f}'
