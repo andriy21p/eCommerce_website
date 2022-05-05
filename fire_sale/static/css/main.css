@@ -6,6 +6,10 @@
     max-height: 350px;
     max-width: 600px;
 }
+.profileImage {
+    max-height: 300px;
+    max-width: 300px;
+}
 
 .singleItemWidth {
     min-height: 245px;
