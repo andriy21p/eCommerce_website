@@ -23,6 +23,12 @@
     float:right;
     margin-bottom: 0px;
 }
+.singleItemHitcount {
+    font-size:0.9em;
+    color: darkgreen;
+    float:left;
+    margin-bottom: 0px;
+}
 .base_div{
     background: #F8FDFF;
 }
