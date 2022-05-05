@@ -1,0 +1,30 @@
+<!-- Item details modal -->
+<div class="modal fade" id="editPictureModal" tabindex="-1" aria-labelledby="editPictureModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPictureModalLabel">{{ user.first_name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="">
+          <p>Current profile picture:</p>
+          <img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded">
+          <form action="/user/image" class="form update_image" method="post" >
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="image">Profile image url</label>
+              <input type="text" class="form-control" id="image" name="image" aria-describedby="imageHelp" placeholder="https:// url goes here" value="{{ user.profile.image }}">
+              <small id="imageHelp" class="form-text text-muted">This image will be viewable by users of FIRE SALE</small>
+            </div>
+
+            <br/>
+            <input type="submit" class="btn_create" value="Update profile image">
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
