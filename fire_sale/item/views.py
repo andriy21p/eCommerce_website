@@ -31,6 +31,14 @@ def index(request):
         } for x in Item.objects.filter(show_in_catalog=True,
                                        category__name__icontains=category).order_by('-hitcount', 'name')]
         return JsonResponse({'items': items})
+
+    if 'search' in request.GET:
+        search = request.GET['search']
+        return render(request, 'item/index.html', {
+            'items': Item.objects.filter(show_in_catalog=True, name__icontains=search).order_by('-hitcount', 'name'),
+            'categories': ItemCategory.objects.all().order_by('order'),
+        })
+
     return render(request, 'item/index.html', {
         'items': Item.objects.filter(show_in_catalog=True).order_by('-hitcount','name'),
         'categories': ItemCategory.objects.all().order_by('order'),
