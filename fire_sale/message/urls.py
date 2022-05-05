@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='message'),
+    path('<int:msg_key>', views.get_msg_by_id),
     path('create', views.create_new_msg, name='create-new-message'),
 ]

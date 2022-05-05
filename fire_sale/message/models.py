@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 
@@ -15,11 +16,15 @@ class Message(models.Model):
     msg_replied = models.DateTimeField(auto_now=False, null=True)
 
     def __str__(self):
-        return "Msg ID: {} |  Sender: {} |  Receiver: {} | Subject: {} | Date Created: {}".format(self.id,
-                                                                                                  self.sender,
-                                                                                                  self.receiver,
-                                                                                                  self.msg_subject,
-                                                                                                  self.msg_sent)
+        return "Msg ID: {} |  " \
+               "Sender: {} |  " \
+               "Receiver: {} | " \
+               "Subject: {} | " \
+               "Date Created: {}".format(self.id,
+                                         self.sender,
+                                         self.receiver,
+                                         self.msg_subject,
+                                         self.msg_sent)
 
 
 class MessageHistory(models.Model):

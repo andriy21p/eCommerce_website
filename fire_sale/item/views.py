@@ -28,7 +28,7 @@ def index(request):
             'image': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
             'hitcount': x.hitcount,
         } for x in Item.objects.filter(show_in_catalog=True,
-                                       category__name__icontains=category).order_by('-hitcount','name')]
+                                       category__name__icontains=category).order_by('-hitcount', 'name')]
         return JsonResponse({'items': items})
     return render(request, 'item/index.html', {
         'items': Item.objects.filter(show_in_catalog=True).order_by('-hitcount','name'),

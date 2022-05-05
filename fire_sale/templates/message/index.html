@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container-full">
+    <div class="container">
         <p>Message app!</p>
+        {% for message in messages %}
+            {% include "message/msg_inbox.html" %}
+        {% endfor %}
     </div>
 {% endblock %}
