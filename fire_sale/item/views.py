@@ -25,8 +25,7 @@ def index(request):
             'category_id': x.category_id,
             'category': x.category.name,
             'category_icon': x.category.icon,
-            'image': x.itemimage_set.first().url,
-            'image_description': x.itemimage_set.first().description,
+            'image': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
             'hitcount': x.hitcount,
         } for x in Item.objects.filter(show_in_catalog=True,
                                        category__name__icontains=category).order_by('-hitcount','name')]
