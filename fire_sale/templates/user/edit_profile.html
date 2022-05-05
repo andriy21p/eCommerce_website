@@ -13,7 +13,7 @@
         <span id="items-header"><H1>Items</H1></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for item in myItems %}
-                {% include 'item/single_item.html' with item=item %}
+                {% include 'item/single_item.html' with item=item profile=1 %}
             {% endfor %}
         </div>
     </div>

@@ -1,0 +1,18 @@
+{% extends "base.html"%}
+{% block content %}
+    <div class="container">
+    <div class="item_create_container">
+    <div class="heading_create_item">
+        <h1>Sell something</h1><h2>It's quick and easy !</h2>
+        </div>
+        <br/><br/>
+        <form class="create_item" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <br/>
+            <input type="submit" class="btn_create" value="Save and update the item">
+            <a class="btn btn-danger" href="/user/">Cancel changes</a>
+        </form>
+        </div>
+    </div>
+{% endblock %}
