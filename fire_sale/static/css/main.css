@@ -23,8 +23,13 @@
     float:right;
     margin-bottom: 0px;
 }
-
-
+.base_div{
+    background: #F8FDFF;
+}
+.container-full{
+    background: #F8FDFF;
+    border-bottom: 0.2px solid #000000;
+}
 /* Hover over image - zoom and rotate */
 /* [1] The container */
 .img-hover-zoom {
@@ -108,6 +113,57 @@ label{
 .ms-5{
     /*margin-left: 19rem!important;*/
 }
+
+
+/**Edit profile page  ********************************/
+h1{
+    display:none !important;
+}
+.container-full-2{
+    margin-left: 3%;
+    margin-top: 20px;
+}
+.container{
+    text-align: start;
+    margin-left: 10px;
+}
+.image{
+
+}
+.profile{
+     list-style-type: none;
+}
+
+.Item_For_Sale{
+    box-sizing: border-box;
+    margin-left: 10%;
+    width: max-content;
+    border: 0.2px solid #000000;
+    border-radius: 10px;
+    padding: 9px;
+    background: #6ef583;
+}
+.p_edit_profile{
+    margin-bottom: 0px;
+}
+
+/**Edit Categories  ********************************/
+.categories{
+    background: #F8FDFF;
+    border: 1px solid;
+    margin-left: 2px;
+}
+.bio{
+    box-sizing: border-box;
+    width: 400px;
+    height: 120px;
+    background: #F8FDFF;
+    border: 0.2px solid #000000;
+    padding: 9px;
+}
+
+
+/********************************************************/
 @media only screen and (max-width: 576px) {
     .singleItemWidth {
         width:100%;

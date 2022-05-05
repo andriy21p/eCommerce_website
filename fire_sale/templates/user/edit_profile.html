@@ -1,11 +1,14 @@
 <h2>{{ user.get_full_name }}</h2>
-<ul>
-    <li>Username: {{ user.username }}</li>
-    <li>Image: <img src="{{ user.profile.image }}" alt="Profile Image"></li>
-    <li>Bio: {{ user.profile.bio }}</li>
+<br>
+<ul class="profile">
+{#    <li class="Username" >Username: {{ user.username }}</li>#}
+    <li class="image" ><img src="{{ user.profile.image }}" alt="Profile Image" width="300"></li>
+    <br><br>
+    <p class="p_edit_profile">Bio:</p>
+    <li class="bio" >{{ user.profile.bio }}</li>
 </ul>
 <br/>
-<h4>My items for sale</h4>
+<h4 class="Item_For_Sale">My items for sale</h4>
     <div class="container">
         <span id="items-header"><H1>Items</H1></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
