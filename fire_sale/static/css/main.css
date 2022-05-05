@@ -31,7 +31,7 @@
     border-bottom: 0.2px solid #000000;
 }
 .container{
-    margin-left: -30px;
+    margin-left: -10px;
 ;
 }
 
@@ -121,9 +121,7 @@ label{
 
 
 /**Edit profile page  ********************************/
-h1{
-    display:none !important;
-}
+
 .container-full-2{
     margin-left: 3%;
     margin-top: 20px;
@@ -154,6 +152,7 @@ h1{
     background: #F8FDFF;
     border: 1px solid;
     margin-left: 2px;
+    border-radius: 0.25rem!important;
 }
 .bio{
     box-sizing: border-box;
@@ -163,6 +162,38 @@ h1{
     border: 0.2px solid #000000;
     padding: 9px;
 }
+    /*cursor: pointer;*/
+/** Items Create  ********************************/
+.item_create_container{
+    margin: 0 auto;
+    width: 800px;
+    height: 100%;
+}
+.heading_create_item{
+   margin: 0 auto ;
+   width: 80%;
+    height: 100%;
+}
+.create_item{
+    position: relative;
+    margin-left: 30px;
+}
+.form-control{
+   width: 400px;
+}
+#id_description{
+    width: 400px;
+    height: 100px;
+}
+.btn_create{
+    background: #f3f36d;
+    width: max-content;
+    font-size: 20px;
+    padding: 10px;
+    margin: 10px 30px 40px 0;
+}
+
+
 
 
 /********************************************************/
