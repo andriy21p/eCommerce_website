@@ -14,6 +14,13 @@ class Message(models.Model):
     msg_received = models.DateTimeField(auto_now=False, null=True)
     msg_replied = models.DateTimeField(auto_now=False, null=True)
 
+    def __str__(self):
+        return "Msg ID: {} |  Sender: {} |  Receiver: {} | Subject: {} | Date Created: {}".format(self.id,
+                                                                                                  self.sender,
+                                                                                                  self.receiver,
+                                                                                                  self.msg_subject,
+                                                                                                  self.msg_sent)
+
 
 class MessageHistory(models.Model):
     msg_history = models.ForeignKey(Message, on_delete=models.CASCADE)
