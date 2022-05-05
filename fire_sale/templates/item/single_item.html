@@ -11,7 +11,7 @@
         <p class="singleItemName">{{ item.name }}</p>
         <p class="singleItemPrice">{{ item.price_minimum|floatformat:"-2g" }}</p>
         {% if item.user == user %}
-            <p class="singleItemHitcount">{{ item.hitcount|floatformat:"-2g" }}</p>
+            <p class="singleItemHitcount">Visited {{ item.hitcount|floatformat:"-2g" }} time{{ item.hitcount|pluralize:"s" }}</p>
         {% endif %}
     </span>
 </div>
