@@ -1,3 +1,11 @@
+safe = function(texti) {
+    if (texti == undefined) {
+        return '';
+    } else {
+        return texti.replace('<','&lt;').replace('>','&gt;');
+    }
+}
+
 categoryFilter = function(category) {
     let workingHeader = '<H1>Items refreshing ...</H1>';
     $('#items-header').html($.parseHTML(workingHeader));
@@ -17,9 +25,9 @@ categoryFilter = function(category) {
                        '       <small>' + d.category + '</small></div><br/>\n' +
                        '    <span onclick="getItemDetails(' + d.id + ');" data-bs-toggle="modal" data-bs-target="#itemDetailModal">' +
                        '     <div class="img-hover-zoom">'+
-                       '      <img class="itemImage rounded shadow" src="'+d.image+'" alt="'+d.image_description+'" />' +
+                       '      <img class="itemImage rounded shadow" src="'+d.image+'" alt="'+safe(d.image_description)+'" />' +
                        '     </div>\n' +
-                       '     <p class="singleItemName">'+d.name+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
+                       '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
                        '    </span>' +
                        '</div>'
             });
@@ -44,8 +52,8 @@ getItemDetails = function(id) {
         success: function(response) {
             if (response.items.length > 0) {
                 let item = response.items[0] ;
-                $('#itemDetailModalLabel').text(item.name) ;
-                $('#itemDetailModalBody').text(item.description) ;
+                $('#itemDetailModalLabel').text(safe(item.name)) ;
+                $('#itemDetailModalBody').text(safe(item.description)) ;
                 $('#itemDetailCategoryTag').addClass(item.category_icon) ;
                 $('#itemDetailCategoryName').text(item.category) ;
                 $('#itemDetailModalCondition').text('Condition: '+item.condition) ;
