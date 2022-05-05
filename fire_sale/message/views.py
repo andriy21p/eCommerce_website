@@ -13,7 +13,7 @@ def index(request):
     """ When a message is requested, when a user is logged, all messages related to him will be displayed."""
     current_user = request.user
     return render(request, "message/index.html", {
-        "message": Message.objects.filter(receiver=current_user.id).order_by("msg_sent"),
+        "messages": Message.objects.filter(receiver=current_user.id).order_by("msg_sent"),
     })
 
 
