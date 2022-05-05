@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from item.models import Item, ItemCategory
-from item.forms.item_form import ItemForm
+from item.models import Item, ItemCategory, ItemImage
+from item.forms.item_form import ItemForm, ItemFormWithUrl
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -63,14 +63,19 @@ def get_item_by_id(request, item_key):
 @login_required
 def create(request):
     if request.method == "POST":
-        form = ItemForm(data=request.POST)
+        form = ItemFormWithUrl(data=request.POST)
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.user = request.user
             new_item.save()
+            if 'image_url' in request.POST:
+                new_image = ItemImage()
+                new_image.url = request.POST['image_url']
+                new_image.item = new_item
+                new_image.save()
             return redirect("my-profile")
     return render(request, "item/item_create.html", {
-        "form": ItemForm()
+        "form": ItemFormWithUrl()
     })
 
 
