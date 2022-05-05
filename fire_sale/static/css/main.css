@@ -26,10 +26,15 @@
 .base_div{
     background: #F8FDFF;
 }
-.container-full{
+.container-full {
     background: #F8FDFF;
     border-bottom: 0.2px solid #000000;
 }
+.container{
+    margin-left: -30px;
+;
+}
+
 /* Hover over image - zoom and rotate */
 /* [1] The container */
 .img-hover-zoom {
@@ -123,10 +128,7 @@ h1{
     margin-left: 3%;
     margin-top: 20px;
 }
-.container{
-    text-align: start;
-    margin-left: 10px;
-}
+
 .image{
 
 }
