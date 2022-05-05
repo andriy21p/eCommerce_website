@@ -5,6 +5,7 @@ from user.models import User, Profile
 from item.models import Item
 from message.models import Message
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -36,4 +37,17 @@ def profile(request):
             return redirect('profile')
     return render(request, 'user/profile.html', {
         'form': ProfileForm(instance=input_profile)
+    })
+
+
+@login_required
+def image(request):
+    input_profile = Profile.objects.filter(user=request.user).first()
+    if request.POST:
+        form = ProfileForm(instance=input_profile, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my-profile')
+    return render(request, 'user/image.html', {
+        'form': input_profile
     })
