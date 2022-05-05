@@ -8,13 +8,13 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
+@login_required
 def index(request):
     return render(request, 'message/index.html', {
         # 'message': Message.objects.all(),
     })
 
 
-@login_required
 def create_new_msg(request):
     if request.method == 'POST':
         form = MsgReplyForm(data=request.POST)
