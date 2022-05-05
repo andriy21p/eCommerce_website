@@ -44,6 +44,7 @@ categoryFilter = function(category) {
 }
 
 getItemDetails = function(id) {
+    $('#itemPlaceAnOffer').prop('disabled', true);
     $('#itemDetailModalLabel').text('') ;
     $('#itemDetailModalBody').text('fetching, just a moment ...') ;
     $('.carousel-inner').html('') ;
@@ -59,14 +60,18 @@ getItemDetails = function(id) {
                 $('#itemDetailCategoryTag').addClass(item.category_icon) ;
                 $('#itemDetailCategoryName').text(item.category) ;
                 $('#itemDetailModalCondition').text('Condition: '+item.condition) ;
+                $('#itemDetailModalCurrentPrice').text('Current price: '+item.current_price) ;
                 for (let i = 0 ; i < item.images.length ; i++) {
                     let newHtml = '<div class="carousel-item" id="carousel-item">\n' +
                                   '  <img class="d-block w-auto itemDetailImage" src="' + item.images[i].url + '" alt="' + item.images[i].description + '">\n' +
                                   '</div>\n'
-                    console.log($.parseHTML(newHtml));
                     $('.carousel-inner').append($.parseHTML(newHtml));
                 }
                 $('.carousel-item').first().addClass('active');
+                $('#itemPlaceAnOffer').prop('disabled', false);
+                $('#palceBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price+5));
+                $('#palceBid').val('');
+                $('#itemId').val(id);
             } else {
                 // found nothing
             }
@@ -76,4 +81,12 @@ getItemDetails = function(id) {
             console.error(error);
         }
     })
+}
+
+makeAnOffer = function() {
+    let id = $('#itemId').val();
+    let bid = $('#palceBid').val();
+    $('#itemPlaceAnOffer').prop('disabled', true);
+
+    getItemDetails(id);
 }

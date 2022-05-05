@@ -24,6 +24,16 @@
 
           <p id="itemDetailModalBody">loading ...</p>
           <p id="itemDetailModalCondition">Condition: </p>
+          <p id="itemDetailModalCurrentPrice"></p>
+          <div class="itemDetailBidding form">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Make an offer</label>
+                <input type="number" class="form-control" id="palceBid" aria-describedby="palceBidHelp" >
+                <small id="palceBidHelp" class="form-text text-muted">Make sure you are at least 1 higher than the current price</small>
+                <input type="hidden" class="form-control" id="itemId" >
+              </div>
+              <button id="itemPlaceAnOffer" class="btn btn-primary" onclick="makeAnOffer();">Make an offer</button>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

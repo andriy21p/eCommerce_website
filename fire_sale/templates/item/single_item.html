@@ -9,7 +9,7 @@
             <img class="itemImage rounded shadow" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
         </div>
         <p class="singleItemName">{{ item.name }}</p>
-        <p class="singleItemPrice">{{ item.price_minimum|floatformat:"-2g" }}</p>
+        <p class="singleItemPrice">{{ item.current_price|floatformat:"-2g" }}</p>
         {% if item.user == user %}
             <p class="singleItemHitcount">Visited {{ item.hitcount|floatformat:"-2g" }} time{{ item.hitcount|pluralize:"s" }}</p>
         {% endif %}
