@@ -19,6 +19,9 @@
         </div>
         <p class="singleItemName">{{ item.name }}</p>
         <p class="singleItemPrice">{{ item.price_minimum|floatformat:"-2g" }}</p>
+        {% if item.user == user %}
+            <p class="singleItemHitcount">{{ item.hitcount|floatformat:"-2g" }}</p>
+        {% endif %}
     {% if profile == 1 %}
         </a>
     {% else %}
