@@ -1,17 +1,16 @@
 <div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">
-    <div class="border border-info rounded bg-light" onclick="categoryFilter('{{ item.category.name }}');">
+
+    <div class="border border-info rounded bg-light">
         <i class="{{ item.category.icon }}"></i>
         <small>{{ item.category.name }}</small>
     </div>
     <br/>
-    <span onclick="getItemDetails({{ item.id }});" data-bs-toggle="modal" data-bs-target="#itemDetailModal">
+    <a href="/item/{{ item.id }}/edit" class="itemEditor">
         <div class="img-hover-zoom">
             <img class="itemImage rounded shadow" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
         </div>
         <p class="singleItemName">{{ item.name }}</p>
         <p class="singleItemPrice">{{ item.price_minimum|floatformat:"-2g" }}</p>
-        {% if item.user == user %}
-            <p class="singleItemHitcount">{{ item.hitcount|floatformat:"-2g" }}</p>
-        {% endif %}
-    </span>
+        <p class="singleItemHitcount">{{ item.hitcount|floatformat:"-2g" }}</p>
+    </a>
 </div>
