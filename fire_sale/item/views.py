@@ -40,15 +40,15 @@ def index(request):
             'items': Item.objects.filter(show_in_catalog=True, name__icontains=search).order_by('-hitcount', 'name'),
             'categories': ItemCategory.objects.all().order_by('order'),
         })
-
+    # print(Item.objects.filter(show_in_catalog=True).order_by('-hitcount', 'name').query);
     return render(request, 'item/index.html', {
-        'items': Item.objects.filter(show_in_catalog=True).order_by('-hitcount','name'),
+        'items': Item.objects.filter(show_in_catalog=True).order_by('-hitcount', 'name'),
         'categories': ItemCategory.objects.all().order_by('order'),
     })
 
 
 def get_item_by_id(request, item_key):
-    Item.objects.filter(id=item_key).update(hitcount=F('hitcount') + 1)
+    Item.objects.filter(id=item_key).exclude(user=request.user).update(hitcount=F('hitcount') + 1)
     items = [{
         'id': x.id,
         'sale_type_id': x.sale_type_id,
@@ -108,8 +108,6 @@ def edit(request, item_key):
 
 @login_required
 def bid(request, item_key):
-
-    item = get_object_or_404(Item, pk=item_key)
     if request.POST and ('amount' in request.POST):
         form = ItemBidForm(data=request.POST)
         if form.is_valid():

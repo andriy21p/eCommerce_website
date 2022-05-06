@@ -44,6 +44,11 @@ class Item(models.Model):
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     hitcount = models.IntegerField(default=0)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['show_in_catalog', '-hitcount', 'name'], name="item_main_view_index"),
+        ]
+
     def __str__(self):
         res = self.name
         if not self.show_in_catalog:
