@@ -8,13 +8,14 @@
             {% if forloop.first %}
               <div class="accordion-item">
                 <h2 class="accordion-header" id="{{ message.id }}">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseTwo">
                       # {{ forloop.counter }}  - Sent: {{ message.msg_sent }} | {{ message.msg_subject }}
                   </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="{{ message.id }}" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
                       {{ message.msg_body }}
+                      {{ message.item.name }}
                   </div>
                 </div>
               </div>
@@ -25,9 +26,10 @@
                       # {{ forloop.counter }}  - Sent: {{ message.msg_sent }} | {{ message.msg_subject }}
                   </button>
                 </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="{{ message.id }}" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
                       {{ message.msg_body }}
+                      {{ message.item.name }}
                   </div>
                 </div>
               </div>

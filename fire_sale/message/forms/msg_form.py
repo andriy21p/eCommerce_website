@@ -9,7 +9,7 @@ class MsgReplyForm(ModelForm):
     class Meta:
         model = Message
         # exclude = ['receiver', 'msg_replied', 'msg_received', 'msg_sent', 'sender']
-        exclude = ['msg_received']
+        exclude = []
         widgets = {
             'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
             'msg_body': widgets.Textarea(attrs={'class': 'form-control'})

@@ -1,6 +1,6 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
+from item.models import Item
 
 
 # Create your models here.
@@ -11,9 +11,10 @@ class Message(models.Model):
     sender = models.ForeignKey(User, related_name="msg_sender", on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name="msg_receiver", on_delete=models.CASCADE)
     msg_subject = models.CharField(max_length=200, blank=True)
-    msg_sent = models.DateTimeField(default=timezone.now)
+    msg_sent = models.DateTimeField(auto_now=True)
     msg_received = models.DateTimeField(auto_now=False, null=True, blank=True)
     msg_replied = models.DateTimeField(auto_now=False, null=True, blank=True)
+    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Msg ID: {} |  " \
@@ -28,4 +29,5 @@ class Message(models.Model):
 
 
 class MessageHistory(models.Model):
-    msg_history = models.ForeignKey(Message, on_delete=models.CASCADE)
+    org_message = models.ForeignKey(Message, related_name="org_message", on_delete=models.CASCADE)
+    msg_next = models.ForeignKey(Message, related_name="msg_next", on_delete=models.CASCADE)

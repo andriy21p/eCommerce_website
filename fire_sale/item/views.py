@@ -112,14 +112,16 @@ def bid(request, item_key):
     if request.POST and ('amount' in request.POST):
         form = ItemBidForm(data=request.POST)
         if form.is_valid():
-            new_item = form.save(commit=False)
-            new_item.offer_by = request.user
-            new_item.save()
+            new_item_bid = form.save(commit=False)
+            new_item_bid.offer_by = request.user
+            new_item_bid.save()
+            new_item = Item.objects.filter(pk=item_key).first()
             new_reciver = Item.objects.filter(pk=item_key).first().user
             new_sender = request.user
 
             formMsg = MsgReplyForm(data={'sender': new_sender,
                                          'receiver': new_reciver,
+                                         'item': new_item,
                                          'msg_subject': 'New bid has arrived',
                                          'msg_body': 'Do something!'})
             if formMsg.is_valid():
