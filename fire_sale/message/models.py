@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 
 class Message(models.Model):
-    message_body = models.CharField(max_length=10000)
+    msg_body = models.CharField(max_length=10000)
     sender = models.ForeignKey(User, related_name="msg_sender", on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name="msg_receiver", on_delete=models.CASCADE)
     msg_subject = models.CharField(max_length=200, blank=True)

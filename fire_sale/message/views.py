@@ -34,7 +34,7 @@ def get_msg_by_id(request, msg_key):
     Message.objects.filter(id=msg_key)
     messages = [{
         "id": msg.id,
-        "msg_body": msg.message_body,
+        "msg_body": msg.msg_body,
         "msg_sender": msg.sender.username,
         "msg_receiver": msg.receiver.username,
         "msg_subject": msg.msg_subject,
