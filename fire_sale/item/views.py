@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from item.models import Item, ItemCategory, ItemImage
 from item.forms.item_form import ItemForm, ItemFormWithUrl, ItemBidForm
+from message.forms.msg_form import MsgReplyForm
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -111,9 +112,18 @@ def bid(request, item_key):
     if request.POST and ('amount' in request.POST):
         form = ItemBidForm(data=request.POST)
         if form.is_valid():
-            newItem = form.save(commit=False)
-            newItem.offer_by = request.user
-            newItem.save()
+            new_item = form.save(commit=False)
+            new_item.offer_by = request.user
+            new_item.save()
+            new_reciver = Item.objects.filter(pk=item_key).first().user
+            new_sender = request.user
+
+            formMsg = MsgReplyForm(data={'sender': new_sender,
+                                         'receiver': new_reciver,
+                                         'msg_subject': 'New bid has arrived',
+                                         'msg_body': 'Do something!'})
+            if formMsg.is_valid():
+                formMsg.save()
             return redirect('my-profile')
     return render(request, 'item/', {
     })
