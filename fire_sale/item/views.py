@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from item.models import Item, ItemCategory, ItemImage
+from item.models import Item, ItemCategory, ItemImage, Offer
 from item.forms.item_form import ItemForm, ItemFormWithUrl, ItemBidForm
 from message.forms.msg_form import MsgReplyForm
 from django.db.models import F
@@ -116,12 +116,14 @@ def bid(request, item_key):
             new_item_bid.offer_by = request.user
             new_item_bid.save()
             new_item = Item.objects.filter(pk=item_key).first()
+            new_offer = Offer.objects.latest('created')
             new_reciver = Item.objects.filter(pk=item_key).first().user
             new_sender = request.user
 
             formMsg = MsgReplyForm(data={'sender': new_sender,
                                          'receiver': new_reciver,
                                          'item': new_item,
+                                         'offer': new_offer,
                                          'msg_subject': 'New bid has arrived',
                                          'msg_body': 'Do something!'})
             if formMsg.is_valid():

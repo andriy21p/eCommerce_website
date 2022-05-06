@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from item.models import Item
+from item.models import Item, Offer
 
 
 # Create your models here.
@@ -15,6 +15,7 @@ class Message(models.Model):
     msg_received = models.DateTimeField(auto_now=False, null=True, blank=True)
     msg_replied = models.DateTimeField(auto_now=False, null=True, blank=True)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Msg ID: {} |  " \

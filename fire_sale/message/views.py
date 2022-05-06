@@ -13,7 +13,7 @@ def index(request):
     """ When a message is requested, when a user is logged, all messages related to him will be displayed."""
     current_user = request.user
     return render(request, "message/index.html", {
-        "messages": Message.objects.filter(receiver=current_user.id).order_by("msg_sent"),
+        "messages": Message.objects.filter(receiver=current_user.id).order_by("-msg_sent"),
     })
 
 
@@ -40,7 +40,8 @@ def get_msg_by_id(request, msg_key):
         "msg_subject": msg.msg_subject,
         "msg_sent": msg.msg_sent,
         "msg_received": msg.msg_received,
-        "msg_replied": msg.msg_replied
+        "msg_replied": msg.msg_replied,
+        "item_asc": msg.item
 
     } for msg in Message.objects.filter(pk=msg_key)]
     return JsonResponse({"messages": messages})
