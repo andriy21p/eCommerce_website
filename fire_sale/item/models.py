@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from user.models import User
+from django.db import connection
+import json
 
 
 # Create your models here.
@@ -71,6 +73,10 @@ class ItemImage(models.Model):
     url = models.CharField(max_length=10000)
     description = models.CharField(max_length=10000, blank=True)
 
+    def __str__(self):
+        res = f'Image {self.id} for {self.item.name}'
+        return res
+
 
 class Offer(models.Model):
     offer_by = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -84,3 +90,22 @@ class Offer(models.Model):
 
     def __int__(self):
         return round(self.amount)
+
+    def get_highest(self):
+        def dictfetchall(cursor):
+            "Return all rows from a cursor as a dict"
+            columns = [col[0] for col in cursor.description]
+            return [
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
+
+        with connection.cursor() as cursor:
+            cursor.execute('select max(o.amount), i.id, i.name, count(*) as "bids", ' +
+                '(select o2.offer_by_id from item_offer o2 where o2.item_id = o.item_id order by o2.amount desc fetch first 1 row only) as "high_bidder" ' +
+                'from item_offer o ' +
+                'join item_item i on i.id = o.item_id ' +
+                'where o.offer_by_id = 8 and o.amount >= i.price_minimum ' +
+                'group by i.id, o.item_id')
+            return dictfetchall(cursor)
+        return None

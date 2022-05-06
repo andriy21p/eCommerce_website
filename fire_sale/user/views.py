@@ -2,16 +2,22 @@ from django.shortcuts import render, redirect
 
 from user.forms.profile_form import ProfileForm
 from user.models import User, Profile
-from item.models import Item
+from item.models import Item, Offer
 from message.models import Message
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def index(request):
+    items = [{
+        'bids': x.get_highest(),
+        'highest': x.item.current_price(),
+    } for x in Offer.objects.filter(offer_by=request.user).distinct('item')]
     return render(request, 'user/index.html', {
         'users': User.objects.filter(pk=request.user.id),
         'myItems': Item.objects.filter(user=request.user).order_by('-hitcount','created'),
+        'myOffers': items,
     })
 
 
