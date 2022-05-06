@@ -16,6 +16,14 @@
                   <div class="accordion-body">
                       {{ message.msg_body }}
                       {{ message.item.name }}
+                      <div class="offerAcceptBid form">
+                          {% csrf_token %}
+                          <div class="form-group">
+
+                                <input type="hidden" class="form-control" id="offerId" value="{{ message.offer_id }}" >
+                          </div>
+                          <button id="offerAccept" class="btn btn-primary" onclick="acceptAnOffer();">Accept offer</button>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -37,4 +45,5 @@
         {% endfor %}
         </div>
     </div>
+
 {% endblock %}

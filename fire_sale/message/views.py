@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from message.models import Message
-from message.forms.msg_form import MsgReplyForm
+from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -45,3 +45,10 @@ def get_msg_by_id(request, msg_key):
 
     } for msg in Message.objects.filter(pk=msg_key)]
     return JsonResponse({"messages": messages})
+
+
+def accept_bid(request, msg_key):
+    if request.method == "POST":
+        form = MsgItemOfferAccept(data=request.POST)
+
+        pass

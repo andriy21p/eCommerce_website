@@ -1,6 +1,7 @@
 from django.forms import ModelForm, widgets
 
 from message.models import Message
+from item.models import Offer
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -26,3 +27,8 @@ class MsgReplyForm(ModelForm):
             return msg
 
 
+class MsgItemOfferAccept(ModelForm):
+
+    class Meta:
+        offer_model = Message
+        fields = ['offer', 'item_id', 'receiver_id', 'seller_id']

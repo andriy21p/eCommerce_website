@@ -85,16 +85,16 @@ getItemDetails = function(id) {
                 }
                 $('.carousel-item').first().addClass('active');
                 $('#itemPlaceAnOffer').prop('disabled', false);
-                $('#palceBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price+Math.round(item.current_price/10)));
-                $('#palceBid').val('');
+                $('#placeBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price+Math.round(item.current_price/10)));
+                $('#placeBid').val('');
                 $('#itemId').val(id);
                 if (item.number_of_bids > 2) {
                     console.log(item.number_of_bids);
-                    $('#palceBidHelp').text('Make sure you are at least 1 higher than the current price - this item has ' + item.number_of_bids + ' bids !');
+                    $('#placeBidHelp').text('Make sure you are at least 1 higher than the current price - this item has ' + item.number_of_bids + ' bids !');
                 } else {
-                    $('#palceBidHelp').text('Make sure you are at least 1 higher than the current price');
+                    $('#placeBidHelp').text('Make sure you are at least 1 higher than the current price');
                 }
-                $('#palceBid').focus();
+                $('#placeBid').focus();
             } else {
                 // found nothing
             }
@@ -108,7 +108,7 @@ getItemDetails = function(id) {
 
 makeAnOffer = function() {
     let id = $('#itemId').val();
-    let bid = $('#palceBid').val();
+    let bid = $('#placeBid').val();
     $('#itemPlaceAnOffer').prop('disabled', true);
     // send the bid to the server
     let formData = {amount: bid, item: id};
