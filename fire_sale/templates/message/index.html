@@ -3,16 +3,16 @@
     <div class="container">
         <p>Message app!</p>
         <!-- Messages generated in message/views.py. Filter by logged in receiver. -->
-        <div class="accordion" id="accordionExample">
+        <div class="accordion" id="accordionMessage">
         {% for message in messages %}
             {% if forloop.first %}
               <div class="accordion-item">
-                <h2 class="accordion-header" id="{{ message.id }}">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseTwo">
+                <h2 class="accordion-header" id="msg{{ forloop.counter }}">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse2">
                       # {{ forloop.counter }}  - Sent: {{ message.msg_sent }} | {{ message.msg_subject }}
                   </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="{{ message.id }}" data-bs-parent="#accordionExample">
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse show" aria-labelledby="msg{{ forloop.counter }}" data-bs-parent="#accordionMessage">
                   <div class="accordion-body">
                       {{ message.msg_body }}
                       {{ message.item.name }}
@@ -21,12 +21,12 @@
               </div>
             {% else %}
               <div class="accordion-item">
-                <h2 class="accordion-header" id="{{ message.id }}">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <h2 class="accordion-header" id="msg{{ forloop.counter}}">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
                       # {{ forloop.counter }}  - Sent: {{ message.msg_sent }} | {{ message.msg_subject }}
                   </button>
                 </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="{{ message.id }}" data-bs-parent="#accordionExample">
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="msg{{ forloop.counter }}" data-bs-parent="#accordionMessage">
                   <div class="accordion-body">
                       {{ message.msg_body }}
                       {{ message.item.name }}
@@ -34,9 +34,7 @@
                 </div>
               </div>
             {% endif %}
-
-           <!-- {% include "message/msg_inbox.html" with message=message %} -->
         {% endfor %}
-        <div>
+        </div>
     </div>
 {% endblock %}
