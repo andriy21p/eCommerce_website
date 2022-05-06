@@ -16,6 +16,8 @@
                   <div class="accordion-body">
                       {{ message.msg_body }}
                       {{ message.item.name }}
+                      {% if message.offer.accepted == False and message.offer.item == message.item %}
+
                       <div class="offerAcceptBid form">
                           {% csrf_token %}
                           <div class="form-group">
@@ -24,6 +26,7 @@
                           </div>
                           <button id="offerAccept" class="btn btn-primary" onclick="acceptAnOffer();">Accept offer</button>
                       </div>
+                      {% endif %}
                   </div>
                 </div>
               </div>
@@ -38,6 +41,18 @@
                   <div class="accordion-body">
                       {{ message.msg_body }}
                       {{ message.item.name }}
+                      {% if message.offer.accepted == False and message.offer.item == message.item %}
+
+                      <div class="offerAcceptBid form">
+                          {% csrf_token %}
+                          <div class="form-group">
+
+                                <input type="hidden" class="form-control" id="offerId" value="{{ message.offer_id }}" >
+                          </div>
+                          <button id="offerAccept" class="btn btn-primary" onclick="acceptAnOffer();">Accept offer</button>
+                      </div>
+                      {% endif %}
+                  </div>
                   </div>
                 </div>
               </div>
