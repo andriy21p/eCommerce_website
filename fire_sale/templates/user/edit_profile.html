@@ -10,6 +10,20 @@
 </ul>
 <br/>
 
+<h4 class="Item_Offers">My current offers</h4>
+    <div class="container">
+        <span id="items-header"><H1>Offers</H1></span>
+        <div class="d-flex justify-content-around flex-wrap" id="items-container">
+            {% for items in myOffers %}
+                {% for item in items.bids %}
+                    {{ item.id }}. {{ item.name }} kr.{{ item.max }} - current price: {{ items.highest }} ({{ item.bids }} bids) - winner: {{ item.high_bidder }}
+                    <br/>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+
 <h4 class="Item_For_Sale">My items for sale</h4>
     <div class="container">
         <span id="items-header"><H1>Items</H1></span>
