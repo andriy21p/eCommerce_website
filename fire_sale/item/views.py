@@ -124,7 +124,7 @@ def bid(request, item_key):
                                          'receiver': new_reciver,
                                          'item': new_item,
                                          'offer': new_offer,
-                                         'msg_subject': 'New bid has arrived',
+                                         'msg_subject': str(new_offer),
                                          'msg_body': 'Do something!'})
             if formMsg.is_valid():
                 formMsg.save()
