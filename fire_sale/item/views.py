@@ -116,18 +116,18 @@ def bid(request, item_key):
             new_item_bid.offer_by = request.user
             new_item_bid.save()
             new_item = Item.objects.filter(pk=item_key).first()
-            new_offer = Offer.objects.latest('created')
-            new_reciver = Item.objects.filter(pk=item_key).first().user
             new_sender = request.user
+            new_offer = Offer.objects.filter(offer_by=new_sender).latest('created')
+            new_receiver = Item.objects.filter(pk=item_key).first().user
 
-            formMsg = MsgReplyForm(data={'sender': new_sender,
-                                         'receiver': new_reciver,
-                                         'item': new_item,
-                                         'offer': new_offer,
-                                         'msg_subject': str(new_offer),
-                                         'msg_body': 'Do something!'})
-            if formMsg.is_valid():
-                formMsg.save()
+            form_msg = MsgReplyForm(data={'sender': new_sender,
+                                          'receiver': new_receiver,
+                                          'item': new_item,
+                                          'offer': new_offer,
+                                          'msg_subject': str(new_offer),
+                                          'msg_body': 'Do something!'})
+            if form_msg.is_valid():
+                form_msg.save()
             return redirect('my-profile')
     return render(request, 'item/', {
     })
