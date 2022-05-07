@@ -20,10 +20,6 @@
 
                       <div class="offerAcceptBid form">
                           {% csrf_token %}
-                          <!--div-- class="form-group">
-
-                                <input type="hidden" class="form-control" id="msgId" value="{{ message.pk }}" >
-                          </div-->
                           <button type="button" class="btn btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
                       </div>
                       {% endif %}
@@ -38,21 +34,17 @@
                   </button>
                 </h2>
                 <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="msg{{ forloop.counter }}" data-bs-parent="#accordionMessage">
-                  <div class="accordion-body">
-                      {{ message.msg_body }}
-                      {{ message.item.name }}
-                      {% if message.offer.accepted == False and message.offer.item == message.item %}
+                      <div class="accordion-body">
+                          {{ message.msg_body }}
+                          {{ message.item.name }}
+                          {% if message.offer.accepted == False and message.offer.item == message.item %}
 
-                      <div class="offerAcceptBid form">
-                          {% csrf_token %}
-                          <!--div-- class="form-group">
-
-                                <input type="hidden" class="form-control" id="msgId" value="{{ message.pk }}" >
-                          </div-->
-                          <button type="button" class="btn btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
+                          <div class="offerAcceptBid form">
+                              {% csrf_token %}
+                              <button type="button" class="btn btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
+                          </div>
+                          {% endif %}
                       </div>
-                      {% endif %}
-                  </div>
                   </div>
                 </div>
             {% endif %}

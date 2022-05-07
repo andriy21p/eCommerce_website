@@ -49,7 +49,6 @@ def get_msg_by_id(request, msg_key):
 
 
 def accept_bid(request, msg_key):
-    # Message.objects.filter(id=msg_key)
     msg = get_object_or_404(Message, pk=msg_key)
     if request.POST:
         form = MsgItemOfferAccept(instance=msg, data=request.POST)
@@ -58,6 +57,18 @@ def accept_bid(request, msg_key):
             msg_accepted.offer.accepted = True
             msg_accepted.offer.save()
             return redirect('message')
+
     return render(request, 'message', {
         'form': MsgItemOfferAccept(instance=msg)
     })
+
+
+def reject_bid(request, msg_key):
+    msg = get_object_or_404(Message, pk=msg_key)
+    if request.POST:
+        form = MsgItemOfferAccept(instance=msg, data=request.POST)
+        if form.is_valid():
+            msg_accepted = form.save(commit=False)
+            msg_accepted.offer.valid = False
+            msg_accepted.offer.save()
+            return redirect('message')
