@@ -25,7 +25,3 @@ function acceptAnOffer(msgId) {
         }
     });
 }
-
-proceedToCheckout = function() {
-
-}

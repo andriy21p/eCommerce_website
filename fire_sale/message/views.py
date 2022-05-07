@@ -73,3 +73,4 @@ def reject_bid(request, msg_key):
             msg_accepted.offer.valid = False
             msg_accepted.offer.save()
             return redirect('message')
+
