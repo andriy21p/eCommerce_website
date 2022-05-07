@@ -175,7 +175,6 @@ def accept_item_bid(request, offer_id):
             offer.save()
 
         # 3. merkjum item sem selt svo það birtist ekki lengur í catalog
-
         item = offer.item
         item.has_accepted_offer = True
         item.save()
