@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from message.models import Message
 from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept
 
@@ -41,14 +41,22 @@ def get_msg_by_id(request, msg_key):
         "msg_sent": msg.msg_sent,
         "msg_received": msg.msg_received,
         "msg_replied": msg.msg_replied,
-        "item_asc": msg.item
+        "item_id": msg.item_id,
+        "offer_id": msg.offer_id
 
     } for msg in Message.objects.filter(pk=msg_key)]
     return JsonResponse({"messages": messages})
 
 
-def accept_bid(request, msg_key):
-    if request.method == "POST":
-        form = MsgItemOfferAccept(data=request.POST)
-
-        pass
+def accept_bid(request, msg_id):
+    msg = get_object_or_404(Message, pk=msg_id)
+    if request.POST:
+        form = MsgItemOfferAccept(instance=msg, data=request.POST)
+        if form.is_valid():
+            msg_accepted = form.save(commit=False)
+            msg_accepted.offer.accepted = True
+            msg_accepted.save()
+            return redirect('my-profile')
+    # return render(request, 'item/item_edit.html', {
+    #    'form': MsgItemOfferAccept(instance=msg)
+    # })

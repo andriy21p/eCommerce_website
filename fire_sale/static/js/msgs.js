@@ -1,14 +1,15 @@
 
 acceptAnOffer = function() {
-    let offerId = $("#offerId").val();
+    let msgId = $("#msgId").val();
+    let accepted = true;
     //let offerAmount = $("#offerAmount").val();
     //let bidder = $("#bidder").val();
     //let seller = $("#seller").val();
-    console.log("OfferId is: ", offerId)
+    console.log("msgId is: ", msgId)
     // $("#itemPlaceAnOffer").prop("disabled", true);
     // send the bid to the server
-    //let formData = {offer: offerId, amount: offerAmount, bidder: bidder, seller: seller};
-    //$.ajax({
+    let formData = {offer: msgId, accepted: accepted};
+    $.ajax({
     //    url: '/checkout/' + offerId,
     //    type: 'POST',
     //    headers: { "X-CSRFToken": getCookie("csrftoken") },
@@ -21,7 +22,7 @@ acceptAnOffer = function() {
             // add toaster with error
     //        console.error(error);
     //    }
-    //});
+    });
 }
 
 proceedToCheckout = function() {

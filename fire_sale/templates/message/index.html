@@ -22,7 +22,7 @@
                           {% csrf_token %}
                           <div class="form-group">
 
-                                <input type="hidden" class="form-control" id="offerId" value="{{ message.offer_id }}" >
+                                <input type="hidden" class="form-control" id="msgId" value="{{ message.pk }}" >
                           </div>
                           <button id="offerAccept" class="btn btn-primary" onclick="acceptAnOffer();">Accept offer</button>
                       </div>
@@ -47,7 +47,7 @@
                           {% csrf_token %}
                           <div class="form-group">
 
-                                <input type="hidden" class="form-control" id="offerId" value="{{ message.offer_id }}" >
+                                <input type="hidden" class="form-control" id="msgId" value="{{ message.offer_id }}" >
                           </div>
                           <button id="offerAccept" class="btn btn-primary" onclick="acceptAnOffer();">Accept offer</button>
                       </div>
@@ -55,7 +55,6 @@
                   </div>
                   </div>
                 </div>
-              </div>
             {% endif %}
         {% endfor %}
         </div>
