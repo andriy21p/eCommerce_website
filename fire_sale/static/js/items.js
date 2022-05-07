@@ -85,7 +85,7 @@ getItemDetails = function(id) {
                 }
                 $('.carousel-item').first().addClass('active');
                 $('#itemPlaceAnOffer').prop('disabled', false);
-                $('#placeBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price+Math.round(item.current_price/10)));
+                $('#placeBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price + Math.round(item.current_price / 10)));
                 $('#placeBid').val('');
                 $('#itemId').val(id);
                 if (item.number_of_bids > 2) {

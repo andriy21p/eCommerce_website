@@ -67,6 +67,13 @@ class Item(models.Model):
     def number_of_offers(self):
         return self.offer_set.count()
 
+    def current_winning_user(self):
+        if self.offer_set.count() > 0:
+            highest = self.offer_set.order_by('-amount').first()
+            if highest.amount > self.price_minimum:
+                return highest.offer_by
+        return None
+
 
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -83,6 +90,7 @@ class Offer(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     amount = models.FloatField(default=0)
     accepted = models.BooleanField(default=False)
+    valid = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -104,15 +112,15 @@ class Offer(models.Model):
                 item ID
                 number of my bids on item
                 my highest bid
-                the current highest bid
-                highest bid user ID                
+                # the current highest bid
+                # highest bid user ID                
         """
         with connection.cursor() as cursor:
-            cursor.execute('select max(o.amount), i.id, i.name, count(*) as "bids", ' +
-                '(select o2.offer_by_id from item_offer o2 where o2.item_id = o.item_id order by o2.amount desc fetch first 1 row only) as "high_bidder" ' +
+            cursor.execute('select max(o.amount) as "myMax", i.id, i.name, count(*) as "bids"' +
+                # ', (select o2.offer_by_id from item_offer o2 where o2.item_id = o.item_id order by o2.amount desc fetch first 1 row only) as "high_bidder" ' +
                 'from item_offer o ' +
                 'join item_item i on i.id = o.item_id ' +
-                'where o.offer_by_id = ' + str(user.id) + ' and o.amount >= i.price_minimum ' +
+                'where o.offer_by_id = ' + str(user.id) + 'and o.item_id = ' + str(self.item.id) + ' and o.amount >= i.price_minimum ' +
                 'group by i.id, o.item_id')
             return dictfetchall(cursor)
         return None

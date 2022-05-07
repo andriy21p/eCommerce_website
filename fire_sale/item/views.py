@@ -6,6 +6,12 @@ from message.forms.msg_form import MsgReplyForm
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib.auth.decorators import user_passes_test
+
+
+# check if user is owner of item
+def user_owns_item(user):
+    return True
 
 
 # Create your views here.
@@ -95,6 +101,8 @@ def create(request):
 @login_required
 def edit(request, item_key):
     item = get_object_or_404(Item, pk=item_key)
+    if item.user != request.user:
+        return redirect("my-profile")
     if request.POST:
         form = ItemForm(instance=item, data=request.POST)
         if form.is_valid():
