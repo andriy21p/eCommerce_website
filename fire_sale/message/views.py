@@ -57,7 +57,7 @@ def accept_bid(request, msg_key):
             msg_accepted = form.save(commit=False)
             msg_accepted.offer.accepted = True
             msg_accepted.offer.save()
-            accept_item_bid(msg_accepted.offer)   # Sendir öll notifications
+            accept_item_bid(request, msg.offer_id)   # Sendir öll notifications
             return redirect('message')
     return render(request, 'message', {
         'form': MsgItemOfferAccept(instance=msg)

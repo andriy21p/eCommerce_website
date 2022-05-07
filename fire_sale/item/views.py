@@ -141,18 +141,17 @@ def bid(request, item_key):
     })
 
 
-@login_required
 def accept_item_bid(request, offer_id):
     offer = get_object_or_404(Offer, pk=offer_id)
-    if request.user == offer.offer_by:
-        # 1. accept offer and congradulate the winner
+    if request.user == offer.item.user:
+        # 1. accept offer and congratulate the winner
         offer.accepted = True
         form_msg = MsgReplyForm(data={'sender': request.user,
                                       'receiver': offer.offer_by,
                                       'item': offer.item,
                                       'offer': offer,
-                                      'msg_subject': 'You just had the highest bid for ' + offer.name + ' !',
-                                      'msg_body': 'Congradulations ! Now it''s time to pay up!' })
+                                      'msg_subject': 'You just had the highest bid for ' + offer.item.name + ' !',
+                                      'msg_body': 'Congratulations ! Now it''s time to pay up!'})
         if form_msg.is_valid():
             form_msg.save()
 
@@ -166,10 +165,9 @@ def accept_item_bid(request, offer_id):
                                           'receiver': offer.offer_by,
                                           'item': offer.item,
                                           'offer': offer,
-                                          'msg_subject': 'So sorry, your offer for ' + offer.name +' was rejected',
-                                          'msg_body': 'Try searching again for ' + offer.name})
+                                          'msg_subject': 'So sorry, your offer for ' + offer.item.name + ' was rejected',
+                                          'msg_body': 'Try searching again for ' + offer.item.name})
             if form_msg.is_valid():
                 form_msg.save()
             offer.save()
-
     return None
