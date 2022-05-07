@@ -1,8 +1,12 @@
 
 function acceptAnOffer(msgId) {
+    let is_true = false;
+    if (document.getElementsByClassName("offerAccept") === true){
+        let is_true = true;
+    }
     //let msgId = $("#msgId").val();
     let accept = true;
-    console.log("msgId is: ", msgId)
+    console.log("msgId is: ", msgId, "Class: ", is_true)
     // $("#itemPlaceAnOffer").prop("disabled", true);
     // send the bid to the server
      let formData = {id: msgId};
