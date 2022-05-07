@@ -37,19 +37,22 @@ def index(request):
             'image': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
             'current_price': x.current_price(),
             'number_of_bids': x.number_of_offers(),
-        } for x in Item.objects.filter(show_in_catalog=True,
+        } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
                                        category__name__icontains=category).order_by('-hitcount', 'name')]
         return JsonResponse({'items': items})
 
     if 'search' in request.GET:
         search = request.GET['search']
         return render(request, 'item/index.html', {
-            'items': Item.objects.filter(show_in_catalog=True, name__icontains=search).order_by('-hitcount', 'name'),
+            'items': Item.objects.filter(show_in_catalog=True,
+                                         has_accepted_offer=False,
+                                         name__icontains=search).order_by('-hitcount', 'name'),
             'categories': ItemCategory.objects.all().order_by('order'),
         })
     # print(Item.objects.filter(show_in_catalog=True).order_by('-hitcount', 'name').query);
     return render(request, 'item/index.html', {
-        'items': Item.objects.filter(show_in_catalog=True).order_by('-hitcount', 'name'),
+        'items': Item.objects.filter(show_in_catalog=True,
+                                     has_accepted_offer=False).order_by('-hitcount', 'name'),
         'categories': ItemCategory.objects.all().order_by('order'),
     })
 
@@ -170,4 +173,10 @@ def accept_item_bid(request, offer_id):
             if form_msg.is_valid():
                 form_msg.save()
             offer.save()
+
+        # 3. merkjum item sem selt svo það birtist ekki lengur í catalog
+
+        item = offer.item
+        item.has_accepted_offer = True
+        item.save()
     return None

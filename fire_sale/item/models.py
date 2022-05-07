@@ -45,6 +45,7 @@ class Item(models.Model):
     edited = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     hitcount = models.IntegerField(default=0)
+    has_accepted_offer = models.BooleanField(default=True)
 
     class Meta:
         indexes = [
