@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from message.models import Message
 from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept
-
+from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
@@ -57,6 +57,7 @@ def accept_bid(request, msg_key):
             msg_accepted = form.save(commit=False)
             msg_accepted.offer.accepted = True
             msg_accepted.offer.save()
+            accept_item_bid(msg_accepted.offer)   # Sendir öll notifications
             return redirect('message')
     return render(request, 'message', {
         'form': MsgItemOfferAccept(instance=msg)

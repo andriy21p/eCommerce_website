@@ -139,3 +139,37 @@ def bid(request, item_key):
             return redirect('my-profile')
     return render(request, 'item/', {
     })
+
+
+@login_required
+def accept_item_bid(request, offer_id):
+    offer = get_object_or_404(Offer, pk=offer_id)
+    if request.user == offer.offer_by:
+        # 1. accept offer and congradulate the winner
+        offer.accepted = True
+        form_msg = MsgReplyForm(data={'sender': request.user,
+                                      'receiver': offer.offer_by,
+                                      'item': offer.item,
+                                      'offer': offer,
+                                      'msg_subject': 'You just had the highest bid for ' + offer.name + ' !',
+                                      'msg_body': 'Congradulations ! Now it''s time to pay up!' })
+        if form_msg.is_valid():
+            form_msg.save()
+
+        # 2. reject all other offers
+        rejected_offers = Offer.objects.filter(item=offer.item).exclude(pk=offer_id).order_by('-created')
+        for offer in rejected_offers:
+            # mark offer as rejected
+            offer.valid = False
+            # send notification to bidder that offer was rejected
+            form_msg = MsgReplyForm(data={'sender': request.user,
+                                          'receiver': offer.offer_by,
+                                          'item': offer.item,
+                                          'offer': offer,
+                                          'msg_subject': 'So sorry, your offer for ' + offer.name +' was rejected',
+                                          'msg_body': 'Try searching again for ' + offer.name})
+            if form_msg.is_valid():
+                form_msg.save()
+            offer.save()
+
+    return None
