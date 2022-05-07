@@ -11,12 +11,13 @@ from django.http import JsonResponse
 
 def index(request):
     items = [{
-        'bids': x.get_highest(),
+        'myOfferDetails': x.get_highest_by_user(request.user),
+        'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
     } for x in Offer.objects.filter(offer_by=request.user).distinct('item')]
     return render(request, 'user/index.html', {
         'users': User.objects.filter(pk=request.user.id),
-        'myItems': Item.objects.filter(user=request.user).order_by('-hitcount','created'),
+        'myItems': Item.objects.filter(user=request.user).order_by('-hitcount', 'created'),
         'myOffers': items,
     })
 

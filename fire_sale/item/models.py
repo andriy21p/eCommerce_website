@@ -91,21 +91,28 @@ class Offer(models.Model):
     def __int__(self):
         return round(self.amount)
 
-    def get_highest(self):
+    def get_highest_by_user(self, user):
         def dictfetchall(cursor):
-            "Return all rows from a cursor as a dict"
+            """ Return all rows from a cursor as a dict """
             columns = [col[0] for col in cursor.description]
             return [
                 dict(zip(columns, row))
                 for row in cursor.fetchall()
             ]
-
+        """ 
+            A short explination of what this SQL command does. We are trying to get information on my current bid status on an item 
+                item ID
+                number of my bids on item
+                my highest bid
+                the current highest bid
+                highest bid user ID                
+        """
         with connection.cursor() as cursor:
             cursor.execute('select max(o.amount), i.id, i.name, count(*) as "bids", ' +
                 '(select o2.offer_by_id from item_offer o2 where o2.item_id = o.item_id order by o2.amount desc fetch first 1 row only) as "high_bidder" ' +
                 'from item_offer o ' +
                 'join item_item i on i.id = o.item_id ' +
-                'where o.offer_by_id = 8 and o.amount >= i.price_minimum ' +
+                'where o.offer_by_id = ' + str(user.id) + ' and o.amount >= i.price_minimum ' +
                 'group by i.id, o.item_id')
             return dictfetchall(cursor)
         return None
