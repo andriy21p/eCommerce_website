@@ -41,9 +41,6 @@
               <li><a class="dropdown-item" href="{% url 'my-profile' %}">My profile</a></li>
               <li><a class="dropdown-item" href="{% url 'message' %}">Messages</a></li>
               <li><hr class="dropdown-divider"></li>
-          {% endif %}
-          {% if user.is_authenticated %}
-
               <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
           {% else %}
             <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
