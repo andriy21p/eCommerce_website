@@ -75,6 +75,12 @@ class Item(models.Model):
                 return highest.offer_by
         return None
 
+    def current_winning_user_id(self):
+        winner = self.current_winning_user()
+        if winner is not None:
+            return winner.id
+        return None
+
 
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

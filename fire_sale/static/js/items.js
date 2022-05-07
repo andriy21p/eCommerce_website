@@ -62,9 +62,11 @@ categoryFilter = function(category) {
 getItemDetails = function(id) {
     $('#itemPlaceAnOffer').prop('disabled', true);
     $('#itemDetailModalLabel').text('') ;
+    $('#itemDetailModalCurrentResult').text('') ;
     $('#itemDetailModalBody').text('fetching, just a moment ...') ;
     $('.carousel-inner').html('') ;
-    $("#itemDetailCategoryTag").removeClass();
+    $('#itemDetailCategoryTag').removeClass();
+    $('.itemDetailBidding').hide();
     $.ajax({
         url: '/item/' + id,
         type: 'GET',
@@ -84,17 +86,34 @@ getItemDetails = function(id) {
                     $('.carousel-inner').append($.parseHTML(newHtml));
                 }
                 $('.carousel-item').first().addClass('active');
-                $('#itemPlaceAnOffer').prop('disabled', false);
-                $('#placeBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price + Math.round(item.current_price / 10)));
-                $('#placeBid').val('');
-                $('#itemId').val(id);
-                if (item.number_of_bids > 2) {
-                    console.log(item.number_of_bids);
-                    $('#placeBidHelp').text('Make sure you are at least 1 higher than the current price - this item has ' + item.number_of_bids + ' bids !');
+
+                console.log(item.seller);
+                console.log(item.current_highest_bidder);
+                console.log(item.current_user);
+                if (item.seller != item.current_user && item.current_highest_bidder != item.current_user) {
+                    // allow user to make an offer
+                    $('.itemDetailBidding').show();
+                    $('#itemPlaceAnOffer').prop('disabled', false);
+                    $('#placeBid').attr('placeholder', 'Type an amount, for example ' + (item.current_price + Math.round(item.current_price / 10)));
+                    $('#placeBid').val('');
+                    $('#itemId').val(id);
+                    if (item.number_of_bids > 2) {
+                        console.log(item.number_of_bids);
+                        $('#placeBidHelp').text('Make sure you are at least 1 higher than the current price - this item has ' + item.number_of_bids + ' bids !');
+                    } else {
+                        $('#placeBidHelp').text('Make sure you are at least 1 higher than the current price');
+                    }
+                    $('#placeBid').focus();
                 } else {
-                    $('#placeBidHelp').text('Make sure you are at least 1 higher than the current price');
+                    // current user is eather the item seller, or the highest bidder
+                    if (item.seller == item.current_user) {
+                        $('#itemDetailModalCurrentResult').text('You are the item seller, no need to bid') ;
+                    }
+                    if (item.current_highest_bidder == item.current_user) {
+                        $('#itemDetailModalCurrentResult').text('You are the current highest bidder, no need to bid again');
+                    }
                 }
-                $('#placeBid').focus();
+
             } else {
                 // found nothing
             }

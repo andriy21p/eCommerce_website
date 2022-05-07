@@ -37,6 +37,9 @@ def index(request):
             'image': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
             'current_price': x.current_price(),
             'number_of_bids': x.number_of_offers(),
+            'seller': x.user.id,
+            'current_user': request.user.id,
+            'current_highest_bidder': x.current_winning_user(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
                                        category__name__icontains=category).order_by('-hitcount', 'name')]
         return JsonResponse({'items': items})
@@ -78,6 +81,9 @@ def get_item_by_id(request, item_key):
         'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
         'current_price': x.current_price(),
         'number_of_bids': x.number_of_offers(),
+        'seller': x.user.id,
+        'current_user': request.user.id,
+        'current_highest_bidder': x.current_winning_user_id(),
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
 
