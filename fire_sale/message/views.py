@@ -48,15 +48,16 @@ def get_msg_by_id(request, msg_key):
     return JsonResponse({"messages": messages})
 
 
-def accept_bid(request, msg_id):
-    msg = get_object_or_404(Message, pk=msg_id)
+def accept_bid(request, msg_key):
+    # Message.objects.filter(id=msg_key)
+    msg = get_object_or_404(Message, pk=msg_key)
     if request.POST:
         form = MsgItemOfferAccept(instance=msg, data=request.POST)
         if form.is_valid():
             msg_accepted = form.save(commit=False)
             msg_accepted.offer.accepted = True
-            msg_accepted.save()
-            return redirect('my-profile')
-    # return render(request, 'item/item_edit.html', {
-    #    'form': MsgItemOfferAccept(instance=msg)
-    # })
+            msg_accepted.offer.save()
+            return redirect('message')
+    return render(request, 'message', {
+        'form': MsgItemOfferAccept(instance=msg)
+    })

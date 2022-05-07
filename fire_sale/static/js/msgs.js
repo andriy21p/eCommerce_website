@@ -1,27 +1,24 @@
 
 function acceptAnOffer(msgId) {
     //let msgId = $("#msgId").val();
-    let accepted = true;
-    //let offerAmount = $("#offerAmount").val();
-    //let bidder = $("#bidder").val();
-    //let seller = $("#seller").val();
+    let accept = true;
     console.log("msgId is: ", msgId)
     // $("#itemPlaceAnOffer").prop("disabled", true);
     // send the bid to the server
-    let formData = {offer: msgId, accepted: accepted};
+     let formData = {id: msgId};
     $.ajax({
-    //    url: '/checkout/' + offerId,
-    //    type: 'POST',
-    //    headers: { "X-CSRFToken": getCookie("csrftoken") },
-    //    data: formData,
-    //    success: function (response) {
+        url: "/message/" + msgId + "/accept",
+        type: 'POST',
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+        data: formData,
+        success: function (response) {
             // Needs to refresh messages
 
-    //    },
-    //    error: function (xhr, status, error) {
+        },
+        error: function (xhr, status, error) {
             // add toaster with error
     //        console.error(error);
-    //    }
+        }
     });
 }
 

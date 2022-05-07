@@ -30,5 +30,5 @@ class MsgReplyForm(ModelForm):
 class MsgItemOfferAccept(ModelForm):
 
     class Meta:
-        offer_model = Offer
-        fields = ['offer', 'item_id', 'receiver_id', 'seller_id']
+        model = Message
+        fields = ['id']
