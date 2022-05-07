@@ -90,6 +90,7 @@ class Offer(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     amount = models.FloatField(default=0)
     accepted = models.BooleanField(default=False)
+    valid = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

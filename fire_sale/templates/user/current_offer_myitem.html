@@ -1,0 +1,19 @@
+<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">
+
+    <div class="border border-info rounded bg-light">
+        <i class="{{ offer.item.category.icon }}"></i>
+        <small>{{ offer.item.category.name }}</small>
+    </div>
+    <br/>
+    <a href="/item/{{ offer.item.id }}/edit" class="itemEditor">
+        <div class="img-hover-zoom">
+            <img class="itemImage rounded shadow" src="{{ offer.item.itemimage_set.first.url}}" alt="{{ offer.item.itemimage_set.first.description }}" />
+        </div>
+        <p class="singleItemName">{{ offer.item.name }}</p>
+        <p class="singleItemPrice">{{ offer.highest|floatformat:"-2g" }}</p>  <!-- Smella á þetta til að sjá bids? -->
+        {% for offerDetails in offer.myOfferDetails %}
+            <p class="singleItemHitcount">My offer {{ offerDetails.myMax|floatformat:"-2g" }}</p>
+        {% endfor %}
+    </a>
+<script>console.log('{{ offer }}')</script>
+</div>

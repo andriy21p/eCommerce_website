@@ -6,11 +6,21 @@ from item.models import Item, Offer
 from message.models import Message
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 
 
 def index(request):
-    items = [{
+    offersForMyItems = [{
+        'numberOfBids': x.item.number_of_offers(),
+        'highest': x.item.current_price(),
+        'highestUser': x.item.current_winning_user(),
+        'item': x.item,
+        'bids': [{
+            'user': y.offer_by,
+            'amount': y.amount,
+            'offer_time': y.created,
+        } for y in Offer.objects.filter(item=x.item, valid=True).order_by('-amount', 'created')[0:10]],
+    } for x in Offer.objects.filter(item__user=request.user, valid=True).distinct('item')]
+    myOffers = [{
         'myOfferDetails': x.get_highest_by_user(request.user),
         'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
@@ -20,7 +30,8 @@ def index(request):
     return render(request, 'user/index.html', {
         'users': User.objects.filter(pk=request.user.id),
         'myItems': Item.objects.filter(user=request.user).order_by('-hitcount', 'created'),
-        'myOffers': items,
+        'myOffers': myOffers,
+        'offersForMyItems': offersForMyItems,
     })
 
 

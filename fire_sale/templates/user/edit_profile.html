@@ -10,17 +10,31 @@
 </ul>
 <br/>
 
-<h4 class="Item_Offers">My current offers</h4>
+{% if offersForMyItems|length > 0 %}
+<h4 class="Item_Offers">Offers for my items</h4>
     <div class="container">
-        <span id="items-header"><H1>Offers</H1></span>
+        <span id="items-header"><H2>Offers</H2></span>
+        <div class="d-flex justify-content-around flex-wrap" id="items-container">
+            {% for offer in offersForMyItems %}
+                {% include 'user/current_offer_myitem.html' with offer=offer %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% if myOffers|length > 0 %}
+<h4 class="Item_My_Offers">My current offers</h4>
+    <div class="container">
+        <span id="items-header"><H2>My Offers</H2></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in myOffers %}
                 {% include 'user/current_offer_item.html' with offer=offer %}
             {% endfor %}
         </div>
     </div>
+{% endif %}
 
-
+{% if myItems|length > 0 %}
 <h4 class="Item_For_Sale">My items for sale</h4>
     <div class="container">
         <span id="items-header"><H1>Items</H1></span>
@@ -30,6 +44,8 @@
             {% endfor %}
         </div>
     </div>
+{% endif %}
+
 
     {% include 'user/profile_edit_picture.html' %}
 
