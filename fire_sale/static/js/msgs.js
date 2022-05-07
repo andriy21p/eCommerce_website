@@ -1,7 +1,7 @@
 
 function acceptAnOffer(msgId) {
     let is_true = false;
-    if (document.getElementsByClassName("offerAccept") === true){
+    if (document.getElementsByClassName(".offerAccept") === true){
         let is_true = true;
     }
     //let msgId = $("#msgId").val();

@@ -37,7 +37,7 @@
                       <div class="accordion-body">
                           {{ message.msg_body }}
                           {{ message.item.name }}
-                          {% if message.offer.accepted == False and message.offer.item == message.item %}
+                          {% if message.offer.accepted == False and message.offer.item == message.item and message.item.has_accepted_offer == False %}
 
                           <div class="offerAcceptBid form">
                               {% csrf_token %}
