@@ -1,6 +1,6 @@
 
-acceptAnOffer = function() {
-    let msgId = $("#msgId").val();
+function acceptAnOffer(msgId) {
+    //let msgId = $("#msgId").val();
     let accepted = true;
     //let offerAmount = $("#offerAmount").val();
     //let bidder = $("#bidder").val();
