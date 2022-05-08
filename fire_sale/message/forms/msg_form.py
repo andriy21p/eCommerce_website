@@ -15,8 +15,6 @@ class MsgReplyForm(ModelForm):
             'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
             'msg_body': widgets.Textarea(attrs={'class': 'form-control'})
         }
-        # msg_subject = forms.CharField(label="Message Subject", max_length=200)
-        # msg_body = forms.CharField(label="Text",help_text="Write your message...", max_length=500, widget=forms.Textarea)
 
         def clean_msg_body(self):
             """ Cleans and validates the data before it's sent."""
@@ -32,3 +30,15 @@ class MsgItemOfferAccept(ModelForm):
     class Meta:
         model = Message
         fields = ['id']
+
+
+class MsgReplyModal(ModelForm):
+
+    class Meta:
+        model = Message
+        exclude = ['receiver', 'msg_replied', 'msg_received', 'msg_sent', 'sender', 'item', 'offer']
+        fields =['msg_subject', 'msg_body']
+        widgets = {
+            'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
+            'msg_body': widgets.Textarea(attrs={'class': 'form-control'})
+        }

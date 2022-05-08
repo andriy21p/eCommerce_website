@@ -1,0 +1,19 @@
+<div class="accordion-body">
+    {{ message.msg_body }}
+    {{ message.item.name }}
+    <br/>
+    <div class="offerButtons form">
+        {% csrf_token %}
+
+        <button type="button" class="btn btn-sm btn-secondary msgReply" hx-get="{% url 'reply-message' %}" hx-target="#dialog">
+            Reply
+        </button>
+
+        {% if message.offer.accepted == False and message.offer.item == message.item and message.item.has_accepted_offer == False %}
+            <button type="button" class="btn btn-sm btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
+        {% endif %}
+        {% if message.item.has_accepted_offer == True and message.item == message.offer.item and message.offer.valid == True and message.offer.offer_by_id == user.pk %}
+            <button type="button" class="btn btn-sm btn-primary proceed" onclick="">Proceed to checkout</button>
+        {% endif %}
+    </div>
+</div>
