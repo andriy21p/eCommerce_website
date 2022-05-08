@@ -10,7 +10,9 @@
         </div>
         <p class="singleItemName">{{ item.name }}</p>
         <p class="singleItemPrice">{{ item.current_price|floatformat:"-2g" }}</p>
-        {% if item.user == user %}
+        {% if item.number_of_offers > 0 %}
+            <p class="singleItemHitcount">Has {{ item.number_of_offers }} offer{{ item.number_of_offers|pluralize:"s" }}</p>
+        {% elif item.user == user %}
             <p class="singleItemHitcount">Visited {{ item.hitcount|floatformat:"-2g" }} time{{ item.hitcount|pluralize:"s" }}</p>
         {% endif %}
     </span>

@@ -1,4 +1,4 @@
-<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">
+<div class="singleItemWidth myProfile text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">
 
     <div class="border border-info rounded bg-light">
         <i class="{{ offer.item.category.icon }}"></i>
@@ -14,5 +14,6 @@
         {% for offerDetails in offer.myOfferDetails %}
             <p class="singleItemHitcount">My offer {{ offerDetails.myMax|floatformat:"-2g" }}</p>
         {% endfor %}
+        <p class="singleItemHighestBy {% if offer.highestUser == user %}winningBid{% endif %}">Highest by {{ offer.highestUser }}</p>
     </a>
 </div>

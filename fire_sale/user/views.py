@@ -3,12 +3,19 @@ from django.shortcuts import render, redirect
 from user.forms.profile_form import ProfileForm
 from user.models import User, Profile
 from item.models import Item, Offer
-from message.models import Message
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 
 def index(request):
+    page_number = request.GET.get('page')
+    items_per_page = 12
+    if 'items' in request.GET:
+        try:
+            items_per_page = int(request.GET.get('items'))
+        except ValueError as verr:
+            items_per_page = 12  # the default
     offersForMyItems = [{
         'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
@@ -27,9 +34,14 @@ def index(request):
         'highestUser': x.item.current_winning_user(),
         'item': x.item,
     } for x in Offer.objects.filter(offer_by=request.user).distinct('item')]
+
+    # going to the default items handler
+    items = Item.objects.filter(user=request.user).order_by('-hitcount', 'created')
+    paginator = Paginator(items, items_per_page)
+    page_obj = paginator.get_page(page_number)
     return render(request, 'user/index.html', {
         'users': User.objects.filter(pk=request.user.id),
-        'myItems': Item.objects.filter(user=request.user).order_by('-hitcount', 'created'),
+        'myItems': page_obj,
         'myOffers': myOffers,
         'offersForMyItems': offersForMyItems,
     })

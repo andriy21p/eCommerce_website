@@ -13,37 +13,56 @@
 {% if offersForMyItems|length > 0 %}
 <h4 class="Item_Offers">Offers for my items</h4>
     <div class="container">
-        <span id="items-header"><H2>Offers</H2></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in offersForMyItems %}
                 {% include 'user/current_offer_myitem.html' with offer=offer %}
             {% endfor %}
         </div>
     </div>
+<hr class="profile"/>
 {% endif %}
 
 {% if myOffers|length > 0 %}
 <h4 class="Item_My_Offers">My current offers</h4>
     <div class="container">
-        <span id="items-header"><H2>My Offers</H2></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in myOffers %}
                 {% include 'user/current_offer_item.html' with offer=offer %}
             {% endfor %}
         </div>
     </div>
+<hr class="profile"/>
 {% endif %}
 
 {% if myItems|length > 0 %}
 <h4 class="Item_For_Sale">My items for sale</h4>
     <div class="container">
-        <span id="items-header"><H1>Items</H1></span>
+        <span id="items-header"><H4>{{ myItems.paginator.count }} item{{ myItems.paginator.count|pluralize:"s" }} currently for sale, showing {{ myItems|length }}</H4></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for item in myItems %}
-                {% include 'item/single_item_myprofile.html' with item=item %}
+                {% include 'user/single_item_myprofile.html' with item=item %}
             {% endfor %}
         </div>
     </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if myItems.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ myItems.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ myItems.number }} of {{ myItems.paginator.num_pages }}.
+            </span>
+
+            {% if myItems.has_next %}
+                <a href="?page={{ myItems.next_page_number }}">next</a>
+                <a href="?page={{ myItems.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+<hr class="profile"/>
 {% endif %}
 
 
