@@ -21,10 +21,11 @@
             <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.counter == 1 %}show{% endif %}" aria-labelledby="offer{{ forloop.counter }}" data-bs-parent="#accordionOffer">
                 <div class="accordion-body">
                     {{ offer.amount }}
-                    {% if item.user == user %}
-                        <br/>
+                    <br/>
+                    {% if item.user == user and forloop.counter == 1 %}
                         <button type="button" class="btn btn-primary offerAccept" onclick="acceptAnOffer('{{ offer.pk }}');">Accept offer</button>
                     {% endif %}
+                    <a href="/user/{{ offer.offer_by_id }}" class="btn btn-info float-right">See bidders profile</a>
                 </div>
               </div>
             </div>

@@ -47,6 +47,24 @@ def index(request):
     })
 
 
+def other_profile(request, user_id):
+    page_number = request.GET.get('page')
+    items_per_page = 12
+    if 'items' in request.GET:
+        try:
+            items_per_page = int(request.GET.get('items'))
+        except ValueError as verr:
+            items_per_page = 12  # the default
+
+    items = Item.objects.filter(user=user_id, has_accepted_offer=False).order_by('-hitcount', 'created')
+    paginator = Paginator(items, items_per_page)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'user/other_profile.html', {
+        'users': User.objects.filter(pk=user_id),
+        'offeredItems': page_obj,
+    })
+
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(data=request.POST)
