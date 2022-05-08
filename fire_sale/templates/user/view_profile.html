@@ -1,0 +1,44 @@
+<h2>{{ user.get_full_name }}</h2>
+<br>
+<ul class="profile">
+    <li class="image" ><img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded"></li>
+    <br><br>
+    <p class="p_edit_profile">Bio:</p>
+    <li class="bio rounded" >{{ user.profile.bio }}</li>
+</ul>
+<br/>
+
+{% if offeredItems|length > 0 %}
+<h4 class="Item_For_Sale">My items for sale</h4>
+    <div class="container">
+        <span id="items-header"><H4>{{ offeredItems.paginator.count }} item{{ offeredItems.paginator.count|pluralize:"s" }} currently for sale, showing {{ offeredItems|length }}</H4></span>
+        <div class="d-flex justify-content-around flex-wrap" id="items-container">
+            {% for item in offeredItems %}
+                {% include 'item/single_item.html' with item=item %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if offeredItems.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ offeredItems.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ offeredItems.number }} of {{ offeredItems.paginator.num_pages }}.
+            </span>
+
+            {% if offeredItems.has_next %}
+                <a href="?page={{ offeredItems.next_page_number }}">next</a>
+                <a href="?page={{ offeredItems.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+<hr class="profile"/>
+{% endif %}
+
+
+    {% include 'item/item_details.html' %}
+
