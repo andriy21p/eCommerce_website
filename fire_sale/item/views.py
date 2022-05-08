@@ -17,6 +17,14 @@ def user_owns_item(user):
 
 # Create your views here.
 def index(request):
+    page_number = request.GET.get('page')
+    items_per_page = 15
+    if 'items' in request.GET:
+        try:
+            items_per_page = int(request.GET.get('items'))
+        except ValueError as verr:
+            items_per_page = 15  # the default
+
     if 'category' in request.GET:
         category = request.GET['category']
         items = [{
@@ -45,22 +53,27 @@ def index(request):
                                        category__name__icontains=category).order_by('-hitcount', 'name')]
         return JsonResponse({'items': items})
 
-    page_number = request.GET.get('page')
     if 'search' in request.GET:
         search = request.GET['search']
-        return render(request, 'item/index.html', {
-            'items': Item.objects.filter(show_in_catalog=True,
+        items = Item.objects.filter(show_in_catalog=True,
                                          has_accepted_offer=False,
-                                         name__icontains=search).order_by('-hitcount', 'name'),
+                                         name__icontains=search).order_by('-hitcount', 'name')
+        paginator = Paginator(items, items_per_page)
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'item/index.html', {
+            'items': page_obj,
+            'search': '&search=' + search,
             'categories': ItemCategory.objects.all().order_by('order'),
         })
-    # print(Item.objects.filter(show_in_catalog=True).order_by('-hitcount', 'name').query);
+
+    # going to the default items handler
     items = Item.objects.filter(show_in_catalog=True,
                                 has_accepted_offer=False).order_by('-hitcount', 'name')
-    paginator = Paginator(items, 15)  # Show 15 items per page.
+    paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
         'items': page_obj,
+        'search': '',
         'categories': ItemCategory.objects.all().order_by('order'),
     })
 

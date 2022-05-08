@@ -17,11 +17,12 @@
             </div>
         </div>
     </div>
+
     <div class="pagination">
         <span class="step-links">
             {% if items.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ items.previous_page_number }}">previous</a>
+                <a href="?page=1&items={{ items.paginator.per_page }}{{ search }}">&laquo; first</a>
+                <a href="?page={{ items.previous_page_number }}&items={{ items.paginator.per_page }}{{ search }}">previous</a>
             {% endif %}
 
             <span class="current">
@@ -29,8 +30,8 @@
             </span>
 
             {% if items.has_next %}
-                <a href="?page={{ items.next_page_number }}">next</a>
-                <a href="?page={{ items.paginator.num_pages }}">last &raquo;</a>
+                <a href="?page={{ items.next_page_number }}&items={{ items.paginator.per_page }}{{ search }}">next</a>
+                <a href="?page={{ items.paginator.num_pages }}&items={{ items.paginator.per_page }}{{ search }}">last &raquo;</a>
             {% endif %}
         </span>
     </div>
