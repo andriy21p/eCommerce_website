@@ -1,7 +1,7 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from message.models import Message
-from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept
+from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyModal
 from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -74,3 +74,16 @@ def reject_bid(request, msg_key):
             msg_accepted.offer.save()
             return redirect('message')
 
+
+def msg_reply(request):
+    if request.method == "POST":
+        form = MsgReplyModal(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                status=204)
+    else:
+        form = MsgReplyModal()
+    return render(request, 'message/msg_reply.html', {
+        'form': form,
+    })
