@@ -36,9 +36,8 @@ class MsgReplyModal(ModelForm):
 
     class Meta:
         model = Message
-        exclude = ['receiver', 'msg_replied', 'msg_received', 'msg_sent', 'sender', 'item', 'offer']
-        fields =['msg_subject', 'msg_body']
+        exclude = ['msg_subject', 'receiver', 'msg_replied', 'msg_received', 'msg_sent', 'sender', 'item', 'offer']
+        fields = ['msg_body']
         widgets = {
-            'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
             'msg_body': widgets.Textarea(attrs={'class': 'form-control'})
         }
