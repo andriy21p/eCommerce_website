@@ -10,10 +10,17 @@
         </div>
         <p class="singleItemName">{{ item.name }}</p>
         <p class="singleItemPrice">{{ item.current_price|floatformat:"-2g" }}</p>
-        {% if item.number_of_offers > 0 %}
-            <p class="singleItemHitcount">Has {{ item.number_of_offers }} offer{{ item.number_of_offers|pluralize:"s" }}</p>
-        {% elif item.user == user %}
-            <p class="singleItemHitcount">Visited {{ item.hitcount|floatformat:"-2g" }} time{{ item.hitcount|pluralize:"s" }}</p>
+
+        {% if item.current_price < 1000000 %}
+            {% if item.number_of_offers > 0 %}
+                <p class="singleItemHitcount">Has offers</p>
+            {% elif item.user == user and item.hitcount > 0 %}
+                <p class="singleItemHitcount">{{ item.hitcount|floatformat:"-2g" }} hit{{ item.hitcount|pluralize:"s" }}</p>
+            {% endif %}
+        {% elif item.number_of_offers > 0 %}
+            <p class="singleItemHitcount">Has offers</p>
+        {% elif item.hitcount > 10 %}
+            <p class="singleItemHitcount">Hot item</p>
         {% endif %}
     </span>
 </div>

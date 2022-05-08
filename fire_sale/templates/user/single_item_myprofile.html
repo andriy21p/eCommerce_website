@@ -7,19 +7,18 @@
         </div>
     </a>
 
-    {% if item.offer_set.count > 0 %}
-    <a href="/item/{{ item.id }}/offers" class="viewOffers" style="text-decoration: none">
         <div class="border border-info rounded bg-light">
             <i class="{{ item.category.icon }}"></i>
-            <small>{{ item.category.name }} - View offers</small>
+            <small>
+                {{ item.category.name }}
+                {% if item.number_of_offers > 0 %}
+                    - <a href="/item/{{ item.id }}/offers" class="viewOffers" style="text-decoration: none">
+                    View offers
+                    </a>
+                {% endif %}
+            </small>
         </div>
     </a>
-    {% else %}
-    <div class="border border-info rounded bg-light">
-        <i class="{{ item.category.icon }}"></i>
-        <small>{{ item.category.name }}</small>
-    </div>
-    {% endif %}
     <br/>
     <a href="/item/{{ item.id }}/edit" class="itemEditor">
         <div class="img-hover-zoom">
@@ -27,6 +26,6 @@
         </div>
         <p class="singleItemName">{{ item.name }}</p>
         <p class="singleItemPrice">{{ item.current_price|floatformat:"-2g" }}</p>  <!-- Smella á þetta til að sjá bids? -->
-        <p class="singleItemHitcount">Visited {{ item.hitcount|floatformat:"-2g" }} time{{ item.hitcount|pluralize:"s" }}</p>
+        <p class="singleItemHitcount">{{ item.hitcount|floatformat:"-2g" }} hit{{ item.hitcount|pluralize:"s" }}</p>
     </a>
 </div>

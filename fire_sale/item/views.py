@@ -121,7 +121,7 @@ def create(request):
                 new_image.save()
             return redirect("my-profile")
     return render(request, "item/item_create.html", {
-        "form": ItemFormWithUrl()
+        'form': ItemFormWithUrl()
     })
 
 
@@ -165,6 +165,15 @@ def bid(request, item_key):
                 form_msg.save()
             return redirect('my-profile')
     return render(request, 'item/', {
+    })
+
+
+@login_required
+def offers(request, item_key):
+    item = get_object_or_404(Item, pk=item_key)
+    return render(request, 'item/item_offers.html', {
+        'item': item,
+        'offers': item.offer_set.filter(valid=True).order_by('-amount')
     })
 
 

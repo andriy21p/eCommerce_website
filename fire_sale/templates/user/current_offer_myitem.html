@@ -18,6 +18,6 @@
         </div>
         <p class="singleItemName">{{ offer.item.name }}</p>
         <p class="singleItemPrice">{{ offer.highest|floatformat:"-2g" }}</p>  <!-- Smella á þetta til að sjá bids? -->
-        <p class="singleItemHitcount">Visited {{ offer.item.hitcount|floatformat:"-2g" }} time{{ item.hitcount|pluralize:"s" }}</p>
+        <p class="singleItemHitcount">Visited {{ offer.item.hitcount|floatformat:"-2g" }} time{{ offer.item.hitcount|pluralize:"s" }}</p>
     <p class="singleItemHighestBy">Highest by {{ offer.highestUser }}</p>
 </div>

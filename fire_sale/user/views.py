@@ -26,17 +26,17 @@ def index(request):
             'amount': y.amount,
             'offer_time': y.created,
         } for y in Offer.objects.filter(item=x.item, valid=True).order_by('-amount', 'created')[0:10]],
-    } for x in Offer.objects.filter(item__user=request.user, valid=True).distinct('item')]
+    } for x in Offer.objects.filter(item__user=request.user, valid=True, item__has_accepted_offer=False).distinct('item')]
     myOffers = [{
         'myOfferDetails': x.get_highest_by_user(request.user),
         'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
         'highestUser': x.item.current_winning_user(),
         'item': x.item,
-    } for x in Offer.objects.filter(offer_by=request.user).distinct('item')]
+    } for x in Offer.objects.filter(offer_by=request.user, item__has_accepted_offer=False).distinct('item')]
 
     # going to the default items handler
-    items = Item.objects.filter(user=request.user).order_by('-hitcount', 'created')
+    items = Item.objects.filter(user=request.user, has_accepted_offer=False).order_by('-hitcount', 'created')
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'user/index.html', {
