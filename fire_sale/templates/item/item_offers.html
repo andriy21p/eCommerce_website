@@ -22,7 +22,7 @@
                 <div class="accordion-body">
                     {{ offer.amount }}
                     <br/>
-                    {% if item.user == user %}
+                    {% if item.user == user and forloop.counter == 1 %}
                         <button type="button" class="btn btn-primary offerAccept" onclick="acceptAnOffer('{{ offer.pk }}');">Accept offer</button>
                     {% endif %}
                     <a href="/user/{{ offer.offer_by_id }}" class="btn btn-info float-right">See bidders profile</a>
