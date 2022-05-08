@@ -6,6 +6,7 @@ from message.forms.msg_form import MsgReplyForm
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -16,6 +17,14 @@ def user_owns_item(user):
 
 # Create your views here.
 def index(request):
+    page_number = request.GET.get('page')
+    items_per_page = 15
+    if 'items' in request.GET:
+        try:
+            items_per_page = int(request.GET.get('items'))
+        except ValueError as verr:
+            items_per_page = 15  # the default
+
     if 'category' in request.GET:
         category = request.GET['category']
         items = [{
@@ -46,16 +55,25 @@ def index(request):
 
     if 'search' in request.GET:
         search = request.GET['search']
-        return render(request, 'item/index.html', {
-            'items': Item.objects.filter(show_in_catalog=True,
+        items = Item.objects.filter(show_in_catalog=True,
                                          has_accepted_offer=False,
-                                         name__icontains=search).order_by('-hitcount', 'name'),
+                                         name__icontains=search).order_by('-hitcount', 'name')
+        paginator = Paginator(items, items_per_page)
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'item/index.html', {
+            'items': page_obj,
+            'search': '&search=' + search,
             'categories': ItemCategory.objects.all().order_by('order'),
         })
-    # print(Item.objects.filter(show_in_catalog=True).order_by('-hitcount', 'name').query);
+
+    # going to the default items handler
+    items = Item.objects.filter(show_in_catalog=True,
+                                has_accepted_offer=False).order_by('-hitcount', 'name')
+    paginator = Paginator(items, items_per_page)
+    page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
-        'items': Item.objects.filter(show_in_catalog=True,
-                                     has_accepted_offer=False).order_by('-hitcount', 'name'),
+        'items': page_obj,
+        'search': '',
         'categories': ItemCategory.objects.all().order_by('order'),
     })
 
@@ -103,7 +121,7 @@ def create(request):
                 new_image.save()
             return redirect("my-profile")
     return render(request, "item/item_create.html", {
-        "form": ItemFormWithUrl()
+        'form': ItemFormWithUrl()
     })
 
 
@@ -147,6 +165,15 @@ def bid(request, item_key):
                 form_msg.save()
             return redirect('my-profile')
     return render(request, 'item/', {
+    })
+
+
+@login_required
+def offers(request, item_key):
+    item = get_object_or_404(Item, pk=item_key)
+    return render(request, 'item/item_offers.html', {
+        'item': item,
+        'offers': item.offer_set.filter(valid=True).order_by('-amount')
     })
 
 

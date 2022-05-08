@@ -20,6 +20,10 @@
 
       <form class="d-flex p-2" method="get" action="/item/">
         <input class="form-control ms-5" type="search" placeholder="Search for stuff" aria-label="Search" name="search">
+        {% if items.paginator.per_page %}
+          <!-- þetta hidden element þarf að fylgja með ef það er búið að stilla annað items-per-page value -->
+          <input type="hidden" name="items" value="{{ items.paginator.per_page }}"/>
+        {% endif %}
         <button class="btn btn-outline-success mx-1" type="submit">Search</button>
           <p> </p>
       </form>

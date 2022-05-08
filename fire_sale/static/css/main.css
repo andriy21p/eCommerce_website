@@ -12,8 +12,15 @@
 }
 
 .singleItemWidth {
-    min-height: 245px;
+    min-height: 16em;
 }
+.singleItemWidth.myProfile {
+    min-height: 20em;
+}
+.singleItemWidth.myProfileOffers {
+    min-height: 23em;
+}
+
 .singleItemName {
     text-overflow: ellipsis;
     overflow:hidden;
@@ -32,6 +39,21 @@
     color: darkgreen;
     float:left;
     margin-bottom: 0px;
+}
+.singleItemHighestBy {
+    font-size:0.9em;
+    color: darkgreen;
+    float: left;
+    margin-bottom: 0px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    max-width: 100%;
+}
+.winningBid {
+    color: maroon;
+    font-weight: bold;
 }
 .base_div{
     background: #F8FDFF;
@@ -153,8 +175,30 @@ label{
     padding: 9px;
     background: #6ef583;
 }
+.Item_My_Offers{
+    box-sizing: border-box;
+    margin-left: 10%;
+    width: max-content;
+    border: 0.2px solid #000000;
+    border-radius: 10px;
+    padding: 9px;
+    background: #6ef583;
+}
+.Item_Offers{
+    box-sizing: border-box;
+    margin-left: 10%;
+    width: max-content;
+    border: 0.2px solid #000000;
+    border-radius: 10px;
+    padding: 9px;
+    background: #6ef583;
+}
 .p_edit_profile{
     margin-bottom: 0px;
+}
+hr.profile {
+    width: 95%;
+    color: darkslateblue;
 }
 
 /**Edit Categories  ********************************/
