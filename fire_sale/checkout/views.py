@@ -26,3 +26,7 @@ def register_checkout(request):
     return render(request, 'checkout/index.html', {
         'form': CheckoutForm()
     })
+
+
+def user_review(request, checkout_id):
+    pass
