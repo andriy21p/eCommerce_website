@@ -75,7 +75,7 @@ def reject_bid(request, msg_key):
             return redirect('message')
 
 
-def msg_reply(request):
+def msg_reply(request, msg_key):
     if request.method == "POST":
         form = MsgReplyModal(request.POST)
         if form.is_valid():

@@ -5,7 +5,7 @@
     <div class="offerButtons form">
         {% csrf_token %}
 
-        <button type="button" class="btn btn-sm btn-secondary msgReply" hx-get="{% url 'reply-message' %}" hx-target="#dialog">
+        <button type="button" class="btn btn-sm btn-secondary msgReply" hx-get="{% url 'reply-message' msg_key=message.pk %}" hx-target="#dialog">
             Reply
         </button>
 
