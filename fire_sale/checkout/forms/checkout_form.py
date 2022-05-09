@@ -1,6 +1,5 @@
 from django.forms import ModelForm, widgets
-from ..models import Checkout
-
+from ..models import Checkout, UserReview
 
 
 class CheckoutForm(ModelForm):
@@ -21,3 +20,10 @@ class CheckoutForm(ModelForm):
             'cvv': widgets.NumberInput(attrs={'class': 'form-control'}),
 
         }
+
+
+class UserReviewForm(ModelForm):
+
+    class Meta:
+        model = UserReview
+        fields = ['checkout', 'review_text', 'rating']
