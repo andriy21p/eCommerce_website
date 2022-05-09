@@ -5,7 +5,7 @@ from item.models import Item, Offer
 class ItemForm(ModelForm):
     class Meta:
         model = Item
-        exclude = ['id', 'user', 'hitcount', 'price_fixed', 'show_in_catalog', 'created', 'edited', 'date_ends']
+        exclude = ['id', 'user', 'hitcount', 'price_fixed', 'show_in_catalog', 'created', 'edited', 'date_ends','has_accepted_offer']
         widgets = {
             'user': widgets.Select(attrs={'class': 'form-control'}),
             'sale_type': widgets.Select(attrs={'class': 'form-control'}),

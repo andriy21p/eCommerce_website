@@ -11,8 +11,28 @@
             {{ form }}
             <br/>
             <input type="submit" class="btn_create rounded" value="Save and update the item">
-            <a class="btn btn-danger" href="/user/">Cancel changes</a>
         </form>
+        <a class="btn btn-warning" href="/user/">Cancel changes</a>
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal">Delete this item</button>
         </div>
     </div>
+
+<div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteItemModalLabel">{{ item }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="">
+          <p>Are you sure you would like to delete this item from sale?</p>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-danger" href="/item/{{ item.id }}/delete">Yeah, i don't wan't to sell this item</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
