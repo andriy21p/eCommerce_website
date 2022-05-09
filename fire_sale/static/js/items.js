@@ -150,3 +150,19 @@ makeAnOffer = function() {
         }
     });
 }
+
+$(document).ready(function(){
+    function get_badge() {
+        $.get('/message/number_of_unread', function (data, textStatus, jqXHR) {
+            let number = data.number_of_unread_messages;
+            if (number > 0) {
+                $('#messageNotifierNumber').text(number);
+                $('.messageNotifier').show();
+            } else {
+                $('.messageNotifier').hide();
+            }
+        });
+    };
+    get_badge();
+    setInterval(get_badge,10000);
+});

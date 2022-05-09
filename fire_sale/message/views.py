@@ -7,8 +7,6 @@ from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
 
 
-
-
 # Create your views here.
 @login_required
 def index(request):
@@ -97,3 +95,11 @@ def msg_reply(request, msg_key):
     return render(request, "message/msg_reply.html", {
         "form": form,
     })
+
+
+def number_of_unread(request):
+    messages = Message.objects.filter(receiver=request.user, msg_received__isnull=True).count()
+    newest_message = Message.objects.filter(receiver=request.user, msg_received__isnull=True).order_by('-msg_sent').first()
+    return JsonResponse({"number_of_unread_messages": messages,
+                         "newest_subject": newest_message.msg_subject,
+                         "newest_date": newest_message.msg_sent})
