@@ -1,7 +1,6 @@
 from django.forms import ModelForm, widgets
 from ..models import Checkout
-from django_countries.fields import CountryField
-from django.core.exceptions import ValidationError
+
 
 
 class CheckoutForm(ModelForm):
