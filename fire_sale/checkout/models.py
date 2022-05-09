@@ -27,7 +27,7 @@ class Checkout(models.Model):
 
 # User Review
 class UserReview(models.Model):
-    checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
+    checkout = models.OneToOneField(Checkout, on_delete=models.CASCADE)
     review_text = models.TextField()
     rating = models.PositiveSmallIntegerField(choices=(
         (1, "★☆☆☆☆"),
@@ -39,6 +39,7 @@ class UserReview(models.Model):
 
     class Meta:
         verbose_name_plural = "Reviews"
+
 
 
 
