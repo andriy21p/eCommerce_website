@@ -6,6 +6,7 @@ from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyMod
 from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from datetime import timedelta
 
 
 # Create your views here.
@@ -104,3 +105,20 @@ def msg_reply(request, msg_key):
     return render(request, "message/msg_reply.html", {
         "form": form,
     })
+
+
+def number_of_unread(request):
+    """
+          Returns a JSON for the front-end with the current message count and
+          information about the newest message (for toast)
+
+          This must be super-fast :)  It's called about once every 10 seconds from every client
+    """
+    messages = Message.objects.filter(receiver=request.user, msg_received__isnull=True).count()
+    latest_message = Message.objects.filter(receiver=request.user, msg_received__isnull=True).order_by('-msg_sent').first()
+    show_toast = (latest_message.msg_sent + timedelta(seconds=15)) > timezone.now()
+    return JsonResponse({"number_of_unread_messages": messages,
+                         "latest_from": latest_message.sender.username,
+                         "latest_subject": latest_message.msg_subject,
+                         "latest_date": latest_message.msg_sent,
+                         "show_toast": show_toast})
