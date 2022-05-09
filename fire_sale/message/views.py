@@ -5,8 +5,7 @@ from message.models import Message
 from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyModal
 from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
-
-
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -14,8 +13,16 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     """ When a message is requested, when a user is logged, all messages related to him will be displayed."""
     current_user = request.user
+    messages = Message.objects.filter(receiver=current_user.id).order_by("-msg_sent")
+    msg_count = messages.count()
+    # Paginator initiated. Set to 15 msg per page.
+    page_number = request.GET.get('page')
+    msg_per_page = 15
+    paginator = Paginator(messages, msg_per_page)
+    page_obj = paginator.get_page(page_number)
     return render(request, "message/index.html", {
-        "messages": Message.objects.filter(receiver=current_user.id).order_by("-msg_sent"),
+        "messages": page_obj,
+        "msg_count": msg_count
     })
 
 

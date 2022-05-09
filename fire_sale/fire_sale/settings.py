@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'message.apps.MessageConfig',
     'django_bootstrap_icons',
     'checkout.apps.CheckoutConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
