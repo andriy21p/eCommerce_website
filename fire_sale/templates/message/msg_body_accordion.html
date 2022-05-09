@@ -13,7 +13,7 @@
             <button type="button" class="btn btn-sm btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
         {% endif %}
         {% if message.item.has_accepted_offer == True and message.item == message.offer.item and message.offer.valid == True and message.offer.offer_by_id == user.pk %}
-            <button type="button" class="btn btn-sm btn-primary proceed" onclick="">Proceed to checkout</button>
+          <a type="button" class="btn btn-sm btn-primary proceed" href="/checkout/{{ message.offer.id }}">Proceed to checkout</a>
         {% endif %}
     </div>
 </div>
