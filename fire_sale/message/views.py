@@ -1,10 +1,12 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from message.models import Message
 from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyModal
 from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+
+
 
 
 # Create your views here.
@@ -24,7 +26,7 @@ def create_new_msg(request):
             new_message = form.save(commit=False)
             new_message.user = request.user
             new_message.save()
-            return redirect("my-profile")
+            return redirect("message")
     return render(request, "message/msg_create.html", {
         "form": MsgReplyForm()
     })
@@ -76,14 +78,22 @@ def reject_bid(request, msg_key):
 
 
 def msg_reply(request, msg_key):
+    msg = get_object_or_404(Message, pk=msg_key)
     if request.method == "POST":
-        form = MsgReplyModal(request.POST)
+        form = MsgReplyModal(data=request.POST)
+        new_message = MsgReplyForm()
         if form.is_valid():
-            form.save()
-            return HttpResponse(
-                status=204)
+            reply = new_message.save(commit=False)
+            reply.msg_body = form.cleaned_data["msg_body"]
+            reply.msg_subject = msg.msg_subject
+            reply.msg_replied = timezone.now()
+            reply.receiver = msg.sender
+            reply.sender = msg.receiver
+            reply.save()
+            return HttpResponse("message",
+                                status=204)
     else:
         form = MsgReplyModal()
-    return render(request, 'message/msg_reply.html', {
-        'form': form,
+    return render(request, "message/msg_reply.html", {
+        "form": form,
     })

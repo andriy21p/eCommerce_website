@@ -13,6 +13,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.first_name
 
+    @property
+    def number_of_unread_message(self):
+        number = self.user.msg_receiver.filter(receiver=self.id, msg_received__isnull=True).count()
+        return number
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

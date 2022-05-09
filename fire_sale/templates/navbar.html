@@ -36,6 +36,9 @@
               {% else %}
                 My info
               {% endif %}
+              {% if user.profile.number_of_unread_message > 0 %}
+                  <span class="badge bg-danger"><small>{{ user.profile.number_of_unread_message }}</small></span>
+              {% endif %}
           {% else %}
               Hello, sign in?
           {% endif %}
@@ -43,7 +46,13 @@
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
           {% if user.is_authenticated %}
               <li><a class="dropdown-item" href="{% url 'my-profile' %}">My profile</a></li>
-              <li><a class="dropdown-item" href="{% url 'message' %}">Messages</a></li>
+              <li>
+                  <a class="dropdown-item" href="{% url 'message' %}">Messages
+                  {% if user.profile.number_of_unread_message > 0 %}
+                      <span class="badge bg-danger"><small>{{ user.profile.number_of_unread_message }}</small></span>
+                  {% endif %}
+                  </a>
+              </li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
           {% else %}
