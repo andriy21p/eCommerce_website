@@ -7,7 +7,6 @@ from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import user_passes_test
 
 
 # check if user is owner of item
@@ -43,7 +42,7 @@ def index(request):
             'category': x.category.name,
             'category_icon': x.category.icon,
             'hitcount': x.hitcount,
-            'image': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
+            'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
             'current_price': x.current_price(),
             'number_of_bids': x.number_of_offers(),
             'seller': x.user.id,
@@ -223,3 +222,39 @@ def accept_item_bid(request, offer_id):
         item.has_accepted_offer = True
         item.save()
     return None
+
+
+def similar(request, item_key):
+    """
+        Returns JSON of similar items
+    """
+    number_of_similar_items_max = 4
+    selected = Item.objects.filter(pk=item_key).first()
+    items = [{
+        'id': x.id,
+        'sale_type_id': x.sale_type_id,
+        'sale_type': x.sale_type.name,
+        'price_minimum': x.price_minimum,
+        'price_fixed': x.price_fixed,
+        'condition': x.condition.name,
+        'name': x.name,
+        'description': x.description,
+        'ends': x.date_ends,
+        'created': x.created,
+        'edited': x.edited,
+        'category_id': x.category_id,
+        'category': x.category.name,
+        'category_icon': x.category.icon,
+        'hitcount': x.hitcount,
+        'images': [{'url': y.url, 'description': y.description, } for y in x.itemimage_set.all()],
+        'current_price': x.current_price(),
+        'number_of_bids': x.number_of_offers(),
+        'seller': x.user.id,
+        'current_user': request.user.id,
+        'current_highest_bidder': x.current_winning_user_id(),
+    } for x in Item.objects.filter(category=selected.category,
+                                   show_in_catalog=True,
+                                   has_accepted_offer=False)
+                                .exclude(pk=item_key)
+                                .order_by('-hitcount')[0:number_of_similar_items_max]]
+    return JsonResponse({'items': items})

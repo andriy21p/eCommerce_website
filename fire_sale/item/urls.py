@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:item_key>/offers', views.offers, name='item-bid'),
     path('<int:item_key>/delete', views.delete, name='delete-item'),
     path('offer/<int:offer_id>/accept', views.accept_item_bid, name='offer-accept'),
+    path('<int:item_key>/similar', views.similar, name='similar-items'),
 ]
