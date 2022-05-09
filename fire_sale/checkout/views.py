@@ -18,7 +18,7 @@ def register_checkout(request):
         form = CheckoutForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('logingiot')
+            return redirect('item')
     return render(request, 'checkout/index.html', {
         'form': CheckoutForm()
     })
