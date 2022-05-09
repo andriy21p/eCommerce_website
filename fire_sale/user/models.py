@@ -15,7 +15,7 @@ class Profile(models.Model):
 
     @property
     def number_of_unread_message(self):
-        number = self.user.msg_receiver.filter(receiver=self.id, msg_received__isnull=True).count()
+        number = self.user.msg_receiver.filter(receiver=self.user_id, msg_received__isnull=True).count()
         return number
 
 
