@@ -15,5 +15,4 @@ class CheckoutForm(ModelForm):
             'city': widgets.TextInput(attrs={'class': 'form-control'}),
             'country': widgets.TextInput(attrs={'class': 'form-control'}),
             'postal_code': widgets.TextInput(attrs={'class': 'form-control'}),
-
         }

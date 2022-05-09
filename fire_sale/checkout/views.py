@@ -1,15 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from .forms.checkout_form import CheckoutForm
 from django.shortcuts import render, redirect, get_object_or_404
-from ..checkout.models import Checkout
+from checkout.models import Checkout
+from item.models import Offer
+
 
 # Create your views here.
 @login_required
-def index(request):
-    """ When a message is requested, when a user is logged, all messages related to him will be displayed."""
+def index(request, order_id):
+
     current_user = request.user
+    order = get_object_or_404(Offer, pk=order_id)
     return render(request, "checkout/index.html", {
-        "Checkout": Checkout.objects.filter(receiver=current_user.id)
+        "Checkout": Checkout.objects.filter(name=current_user.id),
+        'order': order
     })
 
 

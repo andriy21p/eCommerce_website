@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='checkout'),
-    # path('<int:msg_key>', views.get_msg_by_id),
-    # path('create', views.register_checkout, name='create-checkout'),
+    path('<int:order_id>', views.index),
+    # path('create', views.register_checkout, ame='create-checkout'),
 ]
