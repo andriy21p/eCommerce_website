@@ -48,6 +48,8 @@ def index(request):
 
 
 def other_profile(request, user_id):
+    if request.user.id == user_id:
+        return redirect('my-profile')
     page_number = request.GET.get('page')
     items_per_page = 12
     if 'items' in request.GET:
