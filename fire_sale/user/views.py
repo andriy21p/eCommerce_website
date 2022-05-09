@@ -19,7 +19,7 @@ def index(request):
     offersForMyItems = [{
         'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
-        'highestUser': x.item.current_winning_user(),
+        'highestUser': x.item.current_winning_user,
         'item': x.item,
         'bids': [{
             'user': y.offer_by,
@@ -31,7 +31,7 @@ def index(request):
         'myOfferDetails': x.get_highest_by_user(request.user),
         'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
-        'highestUser': x.item.current_winning_user(),
+        'highestUser': x.item.current_winning_user,
         'item': x.item,
     } for x in Offer.objects.filter(offer_by=request.user, item__has_accepted_offer=False).distinct('item')]
 

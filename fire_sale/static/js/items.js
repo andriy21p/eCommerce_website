@@ -22,13 +22,16 @@ getCookie = function(c_name)
     return "";
 }
 
-categoryFilter = function(category) {
+categoryFilter = function(category, categoryId) {
     let workingHeader = '<H1>Items refreshing ...</H1>';
+    $('.categoryFilterItems').removeClass('active')
     $('#items-header').html($.parseHTML(workingHeader));
     $.ajax({
         url: '/item/?category=' + category,
         type: 'GET',
         success: function(response) {
+            console.log($('.category_' + categoryId));
+            $('.category_' + categoryId).addClass('active')
             let newHeader = '<H1>Items</H1>';
             if (category != '') {
                 newHeader += ' in category ' + category + ' - <a href="#" onclick="categoryFilter(\'\')">clear category filter</a>';

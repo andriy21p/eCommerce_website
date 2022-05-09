@@ -48,7 +48,7 @@ def index(request):
             'number_of_bids': x.number_of_offers(),
             'seller': x.user.id,
             'current_user': request.user.id,
-            'current_highest_bidder': x.current_winning_user(),
+            'current_highest_bidder': x.current_winning_user_id(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
                                        category__name__icontains=category).order_by('-hitcount', 'name')]
         return JsonResponse({'items': items})
@@ -138,8 +138,19 @@ def edit(request, item_key):
             newItem.save()
             return redirect('my-profile')
     return render(request, 'item/item_edit.html', {
-        'form': ItemForm(instance=item)
+        'form': ItemForm(instance=item),
+        'item': item,
     })
+
+
+@login_required
+def delete(request, item_key):
+    item = get_object_or_404(Item, pk=item_key)
+    if item.user != request.user:
+        return redirect("my-profile")
+    form = get_object_or_404(Item, pk=item_key)
+    form.delete()
+    return redirect('my-profile')
 
 
 @login_required
