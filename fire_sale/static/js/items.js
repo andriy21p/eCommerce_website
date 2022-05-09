@@ -158,6 +158,9 @@ $(document).ready(function(){
             if (number > 0) {
                 $('#messageNotifierNumber').text(number);
                 $('.messageNotifier').show();
+                if (data.show_toast) {
+                    alert('NEW MESSAGE HAS ARRIVED FROM '+data.latest_from);
+                }
             } else {
                 $('.messageNotifier').hide();
             }
