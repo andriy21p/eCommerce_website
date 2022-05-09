@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from item.models import Item
 
 
-
 # Create your models here.
 
 class Checkout(models.Model):
@@ -21,3 +20,24 @@ class Checkout(models.Model):
 
 # class Payment(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+# User Review
+RATING = (
+    (1, "1"),
+    (2, "2"),
+    (3, "3"),
+    (4, "4"),
+    (5, "5"),
+)
+
+
+class UserReview(models.Model):
+    checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE)
+    review_text = models.TextField()
+    review_rating = models.CharField(choices=RATING, max_length=150)
+
+    class Meta:
+        verbose_name_plural = "Reviews"
+
+    def get_review_rating(self):
+        return self.review_rating
