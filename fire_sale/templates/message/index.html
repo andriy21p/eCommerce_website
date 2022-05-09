@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-        <p>Message app!</p>
+        <h1 class="display-4">Message Inbox</h1>
+        <p><small>You have {{ msg_count }} messages in your inbox. </small></p>
         <!-- Messages generated in message/views.py. Filter by logged in receiver. -->
         <div class="accordion" id="accordionMessage">
         {% for message in messages %}
@@ -9,7 +10,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="msg{{ forloop.counter }}">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse2">
-                      # {{ forloop.counter }}  - Sent: {{ message.msg_sent }} | {{ message.msg_subject }}
+                      <span class="text-primary">Sent by {{ message.sender }} on {{ message.msg_sent }}</span> | {{ message.msg_subject }}
                   </button>
                 </h2>
                 <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse show" aria-labelledby="msg{{ forloop.counter }}" data-bs-parent="#accordionMessage">
@@ -20,7 +21,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="msg{{ forloop.counter}}">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-                      # {{ forloop.counter }}  - Sent: {{ message.msg_sent }} | {{ message.msg_subject }}
+                      <span class="text-primary">Sent by {{ message.sender }} on {{ message.msg_sent }}</span>  | {{ message.msg_subject }}
                   </button>
                 </h2>
                 <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="msg{{ forloop.counter }}" data-bs-parent="#accordionMessage">
@@ -32,6 +33,20 @@
         </div>
         <div id="modal" class="modal fade">
       <div id="dialog" class="modal-dialog" hx-target="this"></div>
+    </div>
+    <div class="d-flex justify-content-center">
+    <nav aria-label="Message paginator">
+
+        <ul class="pagination mt-2">
+
+            <li class="page-item"><a class="page-link" href="?page=1&items={{ messages.paginator.per_page }}">&laquo;</a></li>
+            {% for page in messages.paginator %}
+            <li class="page-item"><a class="page-link" href="?page={{ page.number }}">{{ page.number }}</a></li>
+            {% endfor %}
+            <li class="page-item"><a class="page-link" href="?page={{ messages.paginator.num_pages }}">&raquo;</a></li>
+
+        </ul>
+    </nav>
     </div>
     </div>
 {% endblock %}
