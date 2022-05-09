@@ -3,11 +3,12 @@
 <div class="container">
     <div class="col">
         <h2> Step 1 - My Awesome Cart Express Checkout - Review Your Cart items </h2>
-
-                    {{ order.amount}}
+        <img class="p-1  rounded shadow" width="100" src="{{ order.item.itemimage_set.first.url}}" alt="{{ order.item.itemimage_set.first.description }}" />
+                    {{ order.item }}
+                    {{ order.amount|floatformat:'-2g' }}
           <form class="create_item" method="post">
             {% csrf_token %}
-            {{ form }}
+            {{ form.expiration_year }}
             <br/>
             <input type="submit" class="btn_create rounded" value="Save and update the item">
         </form>

@@ -17,14 +17,24 @@ def index(request, order_id):
     })
 
 
-def register_checkout(request):
+def register_checkout(request, order_id):
+    order = get_object_or_404(Offer, pk=order_id)
+    if order.offer_by != request.user:
+        return redirect('item/' + order_id)
     if request.method == 'POST':
-        form = CheckoutForm(data=request.POST)
+        formdata = request.POST.copy()
+        formdata['name'] = order.offer_by.pk
+        formdata['item'] = order.item_id
+        form = CheckoutForm(data=formdata)
         if form.is_valid():
             form.save()
-            return redirect('item')
+            return redirect('my-profile')
+    orderinstance = {'name': order.offer_by.pk, 'item': order.item_id}
+
     return render(request, 'checkout/index.html', {
-        'form': CheckoutForm()
+        'item': order_id,
+        'form': CheckoutForm(initial=orderinstance),
+        'order': order,
     })
 
 

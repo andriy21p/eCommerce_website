@@ -13,6 +13,11 @@ class Checkout(models.Model):
     country = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=100, blank=True)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.CASCADE)
+    credit_card_num = models.BigIntegerField()
+    expiration_month = models.BigIntegerField()
+    expiration_year = models.BigIntegerField()
+    cvv = models.BigIntegerField()
+
 
     def __str__(self):
         return self.name
@@ -41,3 +46,5 @@ class UserReview(models.Model):
 
     def get_review_rating(self):
         return self.review_rating
+
+
