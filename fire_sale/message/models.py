@@ -14,8 +14,8 @@ class Message(models.Model):
     msg_sent = models.DateTimeField(auto_now=True)
     msg_received = models.DateTimeField(auto_now=False, null=True, blank=True)
     msg_replied = models.DateTimeField(auto_now=False, null=True, blank=True)
-    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.CASCADE)
-    offer = models.ForeignKey(Offer, blank=True, null=True, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
+    offer = models.ForeignKey(Offer, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return "Msg ID: {} |  " \
