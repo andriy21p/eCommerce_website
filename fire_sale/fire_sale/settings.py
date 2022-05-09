@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'message.apps.MessageConfig',
     'django_bootstrap_icons',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
