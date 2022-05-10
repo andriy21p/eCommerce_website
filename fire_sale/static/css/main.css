@@ -57,10 +57,12 @@
 }
 .base_div{
     background: #F8FDFF;
+    width: 100%;
 }
 .container-full {
     background: #F8FDFF;
     border-bottom: 0.2px solid #000000;
+    width: 100%;
 }
 .container{
     margin-left: -10px;
@@ -154,6 +156,10 @@ label{
 
 /**Edit profile page  ********************************/
 
+.container-full-2 h1{
+    display: none;
+}
+
 .container-full-2{
     margin-left: 3%;
     margin-top: 20px;
@@ -233,7 +239,7 @@ hr.profile {
     margin-left: 30px;
 }
 .form-control{
-   width: 400px;
+   width: 40%;
 }
 #id_description{
     width: 400px;
@@ -250,9 +256,30 @@ hr.profile {
 /** Checkout index  ********************************/
 .container_checkout{
     display: flex;
-    justify-content:center;
-    flex-direction: row;
-    background: red;
+    justify-content: center;
+    /*display:contents !important;*/
+
+
+}
+.checkout{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.img_checkout{
+    margin-left: 3rem;
+    align-self: center;
+}
+.order_item{
+    font-size: 20px;
+}
+
+.float-child {
+    width: 50%;
+    float: left;
+    padding: 20px;
+
 }
 
 /********************************************************/
