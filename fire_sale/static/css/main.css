@@ -11,6 +11,9 @@
     max-width: 300px;
 }
 
+.singleItemItem {
+    transition: all 200ms ease;
+}
 .singleItemWidth {
     min-height: 16em;
 }
