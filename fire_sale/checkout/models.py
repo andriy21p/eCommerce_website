@@ -4,7 +4,6 @@ from item.models import Item
 
 
 # Create your models here.
-
 class Checkout(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE)
     street_address = models.CharField(max_length=100)
@@ -41,6 +40,3 @@ class UserReview(models.Model):
 
     def __str__(self):
         return "ID:{} | Checkout ID: {}".format(self.pk, self.checkout_id)
-
-
-

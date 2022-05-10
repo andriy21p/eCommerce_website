@@ -20,7 +20,7 @@ def index(request, order_id):
 def register_checkout(request, order_id):
     order = get_object_or_404(Offer, pk=order_id)
     if order.offer_by != request.user:
-        return redirect('item/' + order_id)
+        return redirect('my-profile')
     if request.method == 'POST':
         formdata = request.POST.copy()
         formdata['name'] = order.offer_by.pk

@@ -10,8 +10,16 @@ from django.core.paginator import Paginator
 
 
 # check if user is owner of item
-def user_owns_item(user):
-    return True
+def user_owns_item(user, item):
+    if item.user == user:
+        return True
+    return False
+
+
+def current_user_if_authenticated(request):
+    if request.user.is_authenticated:
+        return request.user.id
+    return -1
 
 
 # Create your views here.
@@ -23,6 +31,17 @@ def index(request):
             items_per_page = int(request.GET.get('items'))
         except ValueError as verr:
             items_per_page = 15  # the default
+
+    sort_order = 0
+    if 'sortorder' in request.COOKIES:
+        sort_order = request.COOKIES.get('sortorder')
+    firstOrder = '-hitcount'
+    match sort_order:
+        case '1': firstOrder = 'hitcount'
+        case '2': firstOrder = 'price_minimum'
+        case '3': firstOrder = '-price_minimum'
+        case '4': firstOrder = 'name'
+        case '5': firstOrder = '-name'
 
     if 'category' in request.GET:
         category = request.GET['category']
@@ -46,17 +65,17 @@ def index(request):
             'current_price': x.current_price(),
             'number_of_bids': x.number_of_offers(),
             'seller': x.user.id,
-            'current_user': request.user.id,
+            'current_user': current_user_if_authenticated(request),
             'current_highest_bidder': x.current_winning_user_id(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
-                                       category__name__icontains=category).order_by('-hitcount', 'name')]
+                                       category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')]
         return JsonResponse({'items': items})
 
     if 'search' in request.GET:
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
-                                         has_accepted_offer=False,
-                                         name__icontains=search).order_by('-hitcount', 'name')
+                                    has_accepted_offer=False,
+                                    name__icontains=search).order_by(firstOrder, '-hitcount', 'name')
         paginator = Paginator(items, items_per_page)
         page_obj = paginator.get_page(page_number)
         return render(request, 'item/index.html', {
@@ -67,7 +86,7 @@ def index(request):
 
     # going to the default items handler
     items = Item.objects.filter(show_in_catalog=True,
-                                has_accepted_offer=False).order_by('-hitcount', 'name')
+                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name')
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
@@ -78,7 +97,7 @@ def index(request):
 
 
 def get_item_by_id(request, item_key):
-    Item.objects.filter(id=item_key).exclude(user=request.user).update(hitcount=F('hitcount') + 1)
+    Item.objects.filter(id=item_key).exclude(user=current_user_if_authenticated(request)).update(hitcount=F('hitcount') + 1)
     items = [{
         'id': x.id,
         'sale_type_id': x.sale_type_id,
@@ -99,7 +118,7 @@ def get_item_by_id(request, item_key):
         'current_price': x.current_price(),
         'number_of_bids': x.number_of_offers(),
         'seller': x.user.id,
-        'current_user': request.user.id,
+        'current_user': current_user_if_authenticated(request),
         'current_highest_bidder': x.current_winning_user_id(),
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
@@ -108,7 +127,9 @@ def get_item_by_id(request, item_key):
 @login_required
 def create(request):
     if request.method == "POST":
-        form = ItemFormWithUrl(data=request.POST)
+        formdata = request.POST.copy()
+        formdata['sale_type'] = 1
+        form = ItemFormWithUrl(data=formdata)
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.user = request.user
@@ -127,8 +148,10 @@ def create(request):
 @login_required
 def edit(request, item_key):
     item = get_object_or_404(Item, pk=item_key)
+    if not request.user.is_authenticated:
+        return redirect('item-index')
     if item.user != request.user:
-        return redirect("my-profile")
+        return redirect('my-profile')
     if request.POST:
         form = ItemForm(instance=item, data=request.POST)
         if form.is_valid():
@@ -145,8 +168,10 @@ def edit(request, item_key):
 @login_required
 def delete(request, item_key):
     item = get_object_or_404(Item, pk=item_key)
+    if not request.user.is_authenticated:
+        return redirect('item-index')
     if item.user != request.user:
-        return redirect("my-profile")
+        return redirect('my-profile')
     form = get_object_or_404(Item, pk=item_key)
     form.delete()
     return redirect('my-profile')
@@ -154,6 +179,8 @@ def delete(request, item_key):
 
 @login_required
 def bid(request, item_key):
+    if not request.user.is_authenticated:
+        return redirect('item-index')
     if request.POST and ('amount' in request.POST):
         form = ItemBidForm(data=request.POST)
         if form.is_valid():
@@ -188,6 +215,8 @@ def offers(request, item_key):
 
 
 def accept_item_bid(request, offer_id):
+    if not request.user.is_authenticated:
+        return redirect('item-index')
     offer = get_object_or_404(Offer, pk=offer_id)
     if request.user == offer.item.user:
         # 1. accept offer and congratulate the winner
@@ -250,7 +279,7 @@ def similar(request, item_key):
         'current_price': x.current_price(),
         'number_of_bids': x.number_of_offers(),
         'seller': x.user.id,
-        'current_user': request.user.id,
+        'current_user': current_user_if_authenticated(request),
         'current_highest_bidder': x.current_winning_user_id(),
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,

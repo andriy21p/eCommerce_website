@@ -8,7 +8,7 @@ class ItemForm(ModelForm):
         exclude = ['id', 'user', 'hitcount', 'price_fixed', 'show_in_catalog', 'created', 'edited', 'date_ends','has_accepted_offer']
         widgets = {
             'user': widgets.Select(attrs={'class': 'form-control'}),
-            'sale_type': widgets.Select(attrs={'class': 'form-control'}),
+            'sale_type': widgets.HiddenInput(attrs={'class': 'form-control'}),
             'condition': widgets.Select(attrs={'class': 'form-control'}),
             'category': widgets.Select(attrs={'class': 'form-control'}),
             'price_minimum': widgets.NumberInput(attrs={'class': 'form-control'}),
@@ -26,7 +26,7 @@ class ItemFormWithUrl(ModelForm):
         # exclude = ['id', 'user', 'hitcount', 'price_fixed', 'show_in_catalog', 'created', 'edited', 'date_ends']
         fields = ['name', 'image_url', 'sale_type', 'condition', 'category', 'price_minimum', 'description']
         widgets = {
-            'sale_type': widgets.Select(attrs={'class': 'form-control'}),
+            'sale_type': widgets.HiddenInput(attrs={'class': 'form-control'}),
             'condition': widgets.Select(attrs={'class': 'form-control'}),
             'category': widgets.Select(attrs={'class': 'form-control'}),
             'price_minimum': widgets.NumberInput(attrs={'class': 'form-control'}),

@@ -114,6 +114,12 @@ def number_of_unread(request):
 
           This must be super-fast :)  It's called about once every 10 seconds from every client
     """
+    if not request.user.is_authenticated:
+        return JsonResponse({"number_of_unread_messages": 0,
+                             "latest_from": '',
+                             "latest_subject": '',
+                             "latest_date": '',
+                             "show_toast": False})
     messages = Message.objects.filter(receiver=request.user, msg_received__isnull=True).count()
     latest_message = Message.objects.filter(receiver=request.user, msg_received__isnull=True).order_by('-msg_sent').first()
     show_toast = (latest_message.msg_sent + timedelta(seconds=15)) > timezone.now()
