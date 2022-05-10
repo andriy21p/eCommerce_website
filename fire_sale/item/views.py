@@ -35,18 +35,18 @@ def index(request):
     sort_order = 0
     if 'sortorder' in request.COOKIES:
         sort_order = request.COOKIES.get('sortorder')
-    firstOrder = '-hitcount'
-    match sort_order:
-        case '1':
-            firstOrder = 'hitcount'
-        case '2':
-            firstOrder = 'price_minimum'
-        case '3':
-            firstOrder = '-price_minimum'
-        case '4':
-            firstOrder = 'name'
-        case '5':
-            firstOrder = '-name'
+
+    first_order = "-hitcount"
+    if sort_order == "1":
+        first_order = 'hitcount'
+    elif sort_order == "2":
+        first_order = 'price_minimum'
+    elif sort_order == "3":
+        first_order = '-price_minimum'
+    elif sort_order == "4":
+        first_order = 'name'
+    elif sort_order == "5":
+        first_order = '-name'
 
     if 'category' in request.GET:
         category = request.GET['category']
@@ -96,7 +96,7 @@ def index(request):
 
     # going to the default items handler
     items = Item.objects.filter(show_in_catalog=True,
-                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name') \
+                                has_accepted_offer=False).order_by(first_order, '-hitcount', 'name') \
         .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
         .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
     paginator = Paginator(items, items_per_page)
