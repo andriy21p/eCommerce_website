@@ -247,8 +247,13 @@ hr.profile {
     margin: 10px 30px 40px 0;
 }
 
-
-
+/** Checkout index  ********************************/
+.container_checkout{
+    display: flex;
+    justify-content:center;
+    flex-direction: row;
+    background: red;
+}
 
 /********************************************************/
 @media only screen and (max-width: 576px) {

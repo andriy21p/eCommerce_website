@@ -1,16 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
+<div class="container_checkout">
     <div class="col">
-        <h2> Step 1 - My Awesome Cart Express Checkout - Review Your Cart items </h2>
+        <h2> Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items </h2>
         <img class="p-1  rounded shadow" width="100" src="{{ order.item.itemimage_set.first.url}}" alt="{{ order.item.itemimage_set.first.description }}" />
-                    {{ order.item }}
-                    {{ order.amount|floatformat:'-2g' }}
+                   <p> {{ order.item }}</p>
+                    <p>{{ order.amount|floatformat:'-2g' }}</p>
           <form class="create_item" method="post">
             {% csrf_token %}
-            {{ form.expiration_year }}
+              <div class="checkout">
+                  <p>Street Address{{ form.street_address }}</p>
+                  <p> House Number{{ form.house_number }}</p>
+                  <p>City {{ form.city }}</p>
+                 <p> Country {{ form.country }}</p>
+                 <p>Postal code {{ form.postal_code }}</p>
+              </div>
+               <div class="payment">
+                  <p>Credit card number{{ form.credit_card_number }}</p>
+                  <p> Expiration Month{{ form.expiration_month }}</p>
+                  <p>Expiration Year {{ form.expiration_year }}</p>
+                 <p> CVV {{ form.cvv  }}</p>
+                 <p>Postal code {{ form.postal_code }}</p>
+              </div>
             <br/>
-            <input type="submit" class="btn_create rounded" value="Save and update the item">
+            <input type="submit" class="btn_create rounded" value="Proceed">
         </form>
         </div>
     </div>
