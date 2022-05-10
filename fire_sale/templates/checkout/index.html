@@ -3,10 +3,10 @@
 
 <div class="container_checkout">
     <div class="checkout">
- <h2> Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items </h2>
-        <img class="p-1 rounded shadow img_checkout" width="100" src="{{ order.item.itemimage_set.first.url}}" alt="{{ order.item.itemimage_set.first.description }}" />
-                   <p class="order_item"> {{ order.item }}</p>
-                    <p>{{ order.amount|floatformat:'-2g' }}</p>
+ <h2> My Awesome Cart Express Checkout - Review Your Cart Items </h2>
+        <img class="p-1 rounded shadow img_checkout" width="140" src="{{ order.item.itemimage_set.first.url}}" alt="{{ order.item.itemimage_set.first.description }}" />
+                   <p class="order_item"> {{ order.item }} </p>
+                    <p class="order_price">{{ order.amount|floatformat:'-2g' }} kr</p>
           <form class="create_item" method="post">
             {% csrf_token %}
               <div class="float-child">

@@ -268,19 +268,27 @@ hr.profile {
 
 }
 .img_checkout{
-    margin-left: 3rem;
-    align-self: center;
+    /*align-self: center;*/
 }
-.order_item{
-    font-size: 20px;
-}
+/*.order_item{*/
+/*    font-size: 20px;*/
+/*    position: relative;*/
+/*    top: 200px;*/
+/*    left: 489px;*/
+/*}*/
+/*.order_price{*/
+/*    font-size: 20px;*/
+/*    position: relative;*/
+/*    top: 240px;*/
+/*    left: 489px;*/
+/*}*/
 
-.float-child {
-    width: 50%;
-    float: left;
-    padding: 20px;
+/*.float-child {*/
+/*    width: 50%;*/
+/*    float: left;*/
+/*    padding: 20px;*/
 
-}
+/*}*/
 
 /********************************************************/
 @media only screen and (max-width: 576px) {
