@@ -224,7 +224,7 @@ $(document).ready(function(){
         });
     };
     get_badge();
-    setInterval(get_badge,10000);
+    setInterval(get_badge,20000);
     sorder = getCookie('sortorder') ;
     console.log(sorder);
     if (sorder != undefined) {

@@ -125,7 +125,7 @@ def number_of_unread(request):
     messages = Message.objects.filter(receiver=request.user, msg_received__isnull=True).count()
     latest_message = Message.objects.filter(receiver=request.user, msg_received__isnull=True)\
         .order_by('-msg_sent').first()
-    show_toast = (latest_message.msg_sent + timedelta(seconds=15)) > timezone.now()
+    show_toast = (latest_message.msg_sent + timedelta(seconds=25)) > timezone.now()
     return JsonResponse({"number_of_unread_messages": messages,
                          "latest_from": latest_message.sender.username,
                          "latest_subject": latest_message.msg_subject,
