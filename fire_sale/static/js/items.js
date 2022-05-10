@@ -16,7 +16,7 @@ getCookie = function(c_name)
             c_start = c_start + c_name.length + 1;
             c_end = document.cookie.indexOf(";", c_start);
             if (c_end == -1) c_end = document.cookie.length;
-            return unescape(document.cookie.substring(c_start,c_end));
+            return decodeURI(document.cookie.substring(c_start,c_end));
         }
     }
     return "";
@@ -53,9 +53,9 @@ categoryFilter = function(category, categoryId) {
         success: function(response) {
             // console.log($('.category_' + categoryId));
             $('.category_' + categoryId).addClass('active')
-            let newHeader = '<H1>Items</H1>';
+            let newHeader = '';
             if (category != '') {
-                newHeader += ' in category ' + category + ' - <a href="#" onclick="categoryFilter(\'\')">clear category filter</a>';
+                newHeader += ' Items in category ' + category + ' - <a href="#" onclick="categoryFilter(\'\')">clear category filter</a>';
             }
             let newHtml = response.items.map(d => {
                 // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
@@ -184,6 +184,13 @@ makeAnOffer = function() {
     });
 }
 
+changeSortOrder = function() {
+    let new_order = $('#sort_order').val();
+    console.log(new_order);
+    document.cookie = 'sortorder=' + new_order;
+    location.reload();
+}
+
 $(document).ready(function(){
     function get_badge() {
         $.get('/message/number_of_unread', function (data, textStatus, jqXHR) {
@@ -201,4 +208,9 @@ $(document).ready(function(){
     };
     get_badge();
     setInterval(get_badge,10000);
+    sorder = getCookie('sortorder') ;
+    console.log(sorder);
+    if (sorder != undefined) {
+        $('#sort_order').val(sorder);
+    }
 });

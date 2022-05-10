@@ -7,6 +7,17 @@
             </div>
             <div class="col-sm-12 col-sm-6 col-md-8 col-xl-9 col-xxl-10">
                 <div class="container">
+                    <span>
+                        Result sort order
+                        <select id="sort_order" onchange="changeSortOrder()">
+                            <option value="0">Popular first</option>
+                            <option value="1">Unpopular first</option>
+                            <option value="2">Lowest price first</option>
+                            <option value="3">Highest price first</option>
+                            <option value="4">Alphabetical</option>
+                            <option value="5">Antibetical</option>
+                        </select>
+                    </span>
                     <span id="items-header"><H1>Items</H1></span>
                     <div class="d-flex justify-content-around flex-wrap" id="items-container">
                         {% for item in items %}

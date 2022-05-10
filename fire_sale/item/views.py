@@ -32,6 +32,17 @@ def index(request):
         except ValueError as verr:
             items_per_page = 15  # the default
 
+    sort_order = 0
+    if 'sortorder' in request.COOKIES:
+        sort_order = request.COOKIES.get('sortorder')
+    firstOrder = '-hitcount'
+    match sort_order:
+        case '1': firstOrder = 'hitcount'
+        case '2': firstOrder = 'price_minimum'
+        case '3': firstOrder = '-price_minimum'
+        case '4': firstOrder = 'name'
+        case '5': firstOrder = '-name'
+
     if 'category' in request.GET:
         category = request.GET['category']
         items = [{
@@ -57,25 +68,25 @@ def index(request):
             'current_user': current_user_if_authenticated(request),
             'current_highest_bidder': x.current_winning_user_id(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
-                                       category__name__icontains=category).order_by('-hitcount', 'name')]
+                                       category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')]
         return JsonResponse({'items': items})
 
     if 'search' in request.GET:
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
                                          has_accepted_offer=False,
-                                         name__icontains=search).order_by('-hitcount', 'name')
+                                         name__icontains=search).order_by(firstOrder, '-hitcount', 'name')
         paginator = Paginator(items, items_per_page)
         page_obj = paginator.get_page(page_number)
         return render(request, 'item/index.html', {
             'items': page_obj,
             'search': '&search=' + search,
-            'categories': ItemCategory.objects.all().order_by('order'),
+            'categories': ItemCategory.objects.all().order_by(firstOrder, 'order'),
         })
 
     # going to the default items handler
     items = Item.objects.filter(show_in_catalog=True,
-                                has_accepted_offer=False).order_by('-hitcount', 'name')
+                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name')
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
