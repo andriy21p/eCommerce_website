@@ -19,7 +19,7 @@ class Checkout(models.Model):
     cvv = models.BigIntegerField()
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "ID:{} | Buyer:{} ".format(self.pk, self.name)
 
 
 # class Payment(models.Model):
@@ -39,7 +39,8 @@ class UserReview(models.Model):
     class Meta:
         verbose_name_plural = "Reviews"
 
-
+    def __str__(self):
+        return "ID:{} | Checkout ID: {}".format(self.pk, self.checkout_id)
 
 
 
