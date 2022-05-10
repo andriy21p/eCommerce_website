@@ -74,14 +74,14 @@ def index(request):
     if 'search' in request.GET:
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
-                                         has_accepted_offer=False,
-                                         name__icontains=search).order_by(firstOrder, '-hitcount', 'name')
+                                    has_accepted_offer=False,
+                                    name__icontains=search).order_by(firstOrder, '-hitcount', 'name')
         paginator = Paginator(items, items_per_page)
         page_obj = paginator.get_page(page_number)
         return render(request, 'item/index.html', {
             'items': page_obj,
             'search': '&search=' + search,
-            'categories': ItemCategory.objects.all().order_by(firstOrder, 'order'),
+            'categories': ItemCategory.objects.all().order_by('order'),
         })
 
     # going to the default items handler
@@ -127,7 +127,9 @@ def get_item_by_id(request, item_key):
 @login_required
 def create(request):
     if request.method == "POST":
-        form = ItemFormWithUrl(data=request.POST)
+        formdata = request.POST.copy()
+        formdata['sale_type'] = 1
+        form = ItemFormWithUrl(data=formdata)
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.user = request.user
