@@ -19,12 +19,11 @@ class Checkout(models.Model):
     cvv = models.BigIntegerField()
 
     def __str__(self):
-        return self.name
+        return "{}".format(self.name)
 
 
 # class Payment(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
 # User Review
 class UserReview(models.Model):
     checkout = models.OneToOneField(Checkout, on_delete=models.CASCADE)
