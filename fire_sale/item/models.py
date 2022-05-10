@@ -5,6 +5,15 @@ from django.db import connection
 
 
 # Create your models here.
+def dictfetchall(cursor):
+    """ Return all rows from a cursor as a dict """
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
+
 class ItemSalesType(models.Model):
     name = models.CharField(max_length=200)
     buyItNow = models.BooleanField(default=False)
@@ -86,13 +95,25 @@ class Item(models.Model):
             gets alternate sort orders for items
         :return: array of sort orders
         """
-        popd = Item.objects.filter(hitcount__lte=self.hitcount).count()
-        popa = Item.objects.filter(hitcount__gte=self.hitcount).count()
-        pricea = Item.objects.filter(price_minimum__lte=self.price_minimum).count()
-        priced = Item.objects.filter(price_minimum__gte=self.price_minimum).count()
-        alpha = Item.objects.filter(name__lte=self.name).count()
-        alphd = Item.objects.filter(name__gte=self.name).count()
-        # Þetta verður optimizað
+        # popd = Item.objects.filter(hitcount__lte=self.hitcount).count()
+        # popa = Item.objects.filter(hitcount__gte=self.hitcount).count()
+        # pricea = Item.objects.filter(price_minimum__lte=self.price_minimum).count()
+        # priced = Item.objects.filter(price_minimum__gte=self.price_minimum).count()
+        # alpha = Item.objects.filter(name__lte=self.name).count()
+        # alphd = Item.objects.filter(name__gte=self.name).count()
+
+        # Þessi with skipun gerir það sama og allar .count() skipanirnar fyrir ofan, nema í einu kalli ístaðin fyrir 6
+        with connection.cursor() as cursor:
+            cursor.execute('select ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" >= ' + str(self.hitcount) + ') as popa, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" < ' + str(self.hitcount) + ') as popd, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" >= ' + str(round(self.price_minimum)) + ') as pricea, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" < ' + str(round(self.price_minimum)) + ') as priced, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" >= \'' + self.name + '\') as alphd, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" < \'' + self.name + '\') as alpha ' +
+                           '');
+            return dictfetchall(cursor)[0]
+
         orderlist = {"popa": popa, "popd": popd, "alpha": alpha, "alphd": alphd, "pricea": pricea, "priced": priced}
         return orderlist
 
@@ -122,15 +143,7 @@ class Offer(models.Model):
         return round(self.amount)
 
     def get_highest_by_user(self, user):
-        def dictfetchall(cursor):
-            """ Return all rows from a cursor as a dict """
-            columns = [col[0] for col in cursor.description]
-            return [
-                dict(zip(columns, row))
-                for row in cursor.fetchall()
-            ]
-
-        """ 
+        """
             A short explination of what this SQL command does. We are trying to get information 
             on my current bid status on an item :
                 item ID

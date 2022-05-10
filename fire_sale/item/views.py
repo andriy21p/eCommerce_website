@@ -25,7 +25,7 @@ def current_user_if_authenticated(request):
 # Create your views here.
 def index(request):
     page_number = request.GET.get('page')
-    items_per_page = 15
+    items_per_page = 100
     if 'items' in request.GET:
         try:
             items_per_page = int(request.GET.get('items'))
@@ -47,16 +47,16 @@ def index(request):
         category = request.GET['category']
         items = [{
             'id': x.id,
-            'sale_type_id': x.sale_type_id,
-            'sale_type': x.sale_type.name,
+            # 'sale_type_id': x.sale_type_id,
+            # 'sale_type': x.sale_type.name,
             'price_minimum': x.price_minimum,
-            'price_fixed': x.price_fixed,
+            # 'price_fixed': x.price_fixed,
             'condition': x.condition.name,
             'name': x.name,
             'description': x.description,
             'ends': x.date_ends,
-            'created': x.created,
-            'edited': x.edited,
+            # 'created': x.created,
+            # 'edited': x.edited,
             'category_id': x.category_id,
             'category': x.category.name,
             'category_icon': x.category.icon,
@@ -69,14 +69,16 @@ def index(request):
             'current_highest_bidder': x.current_winning_user_id(),
             'sort': x.sort_order(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
-                                       category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')]
+                                       category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')
+            .select_related()]
         return JsonResponse({'items': items})
 
     if 'search' in request.GET:
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
                                     has_accepted_offer=False,
-                                    name__icontains=search).order_by(firstOrder, '-hitcount', 'name')
+                                    name__icontains=search).order_by(firstOrder, '-hitcount', 'name')\
+            .select_related()
         paginator = Paginator(items, items_per_page)
         page_obj = paginator.get_page(page_number)
         return render(request, 'item/index.html', {
@@ -87,7 +89,8 @@ def index(request):
 
     # going to the default items handler
     items = Item.objects.filter(show_in_catalog=True,
-                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name')
+                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name')\
+        .select_related()
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
