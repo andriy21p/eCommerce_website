@@ -74,7 +74,7 @@ def index(request):
             'current_highest_bidder': x.current_winning_user_id(),
             'sort': x.sort_order(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
-                                       category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')
+                                       category__name__icontains=category).order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')]
         return JsonResponse({'items': items})
@@ -83,7 +83,7 @@ def index(request):
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
                                     has_accepted_offer=False,
-                                    name__icontains=search).order_by(firstOrder, '-hitcount', 'name') \
+                                    name__icontains=search).order_by(first_order, '-hitcount', 'name') \
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
         paginator = Paginator(items, items_per_page)
