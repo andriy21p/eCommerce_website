@@ -4,8 +4,6 @@ from item.models import Item, Offer
 
 
 # Create your models here.
-
-
 class Message(models.Model):
     msg_body = models.CharField(max_length=10000)
     sender = models.ForeignKey(User, related_name="msg_sender", on_delete=models.CASCADE)

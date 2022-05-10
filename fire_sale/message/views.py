@@ -14,7 +14,9 @@ from datetime import timedelta
 def index(request):
     """ When a message is requested, when a user is logged, all messages related to him will be displayed."""
     current_user = request.user
-    messages = Message.objects.filter(receiver=current_user.id).order_by("-msg_sent")
+    messages = Message.objects.filter(receiver=current_user.id).order_by("-msg_sent")\
+        .select_related('sender', 'receiver', 'item', 'offer')\
+        .prefetch_related('msg_next')
     msg_count = messages.count()
     # Paginator initiated. Set to 15 msg per page.
     page_number = request.GET.get('page')
