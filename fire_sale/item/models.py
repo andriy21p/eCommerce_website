@@ -56,6 +56,7 @@ class Item(models.Model):
         res = self.name
         if not self.show_in_catalog:
             res += ' (unlisted)'
+        res += ' [' + self.user.username + ']'
         return res
 
     def current_price(self):
