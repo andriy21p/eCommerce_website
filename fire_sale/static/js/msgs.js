@@ -1,5 +1,4 @@
 function init_messages() {
-    console.log('initing messages');
     const modal = new bootstrap.Modal(document.getElementById("modalDiv"));
 
     htmx.on("htmx:afterSwap", (e) => {
@@ -45,7 +44,7 @@ function acceptAnOffer(msgId) {
         },
         error: function (xhr, status, error) {
             // add toaster with error
-    //        console.error(error);
+            console.error(error);
         }
     });
 }

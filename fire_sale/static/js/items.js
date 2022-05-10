@@ -89,6 +89,10 @@ getSimilarItems = function(id) {
                     $('#similar-items-container').append(newHtml);
                 }
             }
+        },
+        error: function(xhr, status, error) {
+            // add toaster with error
+            console.error(error);
         }
     });
 }
@@ -204,7 +208,7 @@ changeSortOrder = function() {
             case '5': new_ord=obj.alphd ; break ;
         }
         $(flex_item).css('order', new_ord);
-        //console.log($(flex_item).css('order'));
+        // console.log($(flex_item).css('order'));
     })
 }
 
@@ -219,14 +223,17 @@ $(document).ready(function(){
                     alert('NEW MESSAGE HAS ARRIVED FROM '+data.latest_from);
                 }
             } else {
-                $('.messageNotifier').hide();
+                $('.messageNotifier').fadeOut();
             }
+        }).fail( function(error) {
+            // unable to get messages badge, lets hide it for now
+            $('.messageNotifier').fadeOut();
         });
     };
     get_badge();
     setInterval(get_badge,20000);
     sorder = getCookie('sortorder') ;
-    console.log(sorder);
+    // console.log(sorder);
     if (sorder != undefined) {
         $('#sort_order').val(sorder);
     }
