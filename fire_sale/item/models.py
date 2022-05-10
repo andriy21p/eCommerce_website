@@ -105,13 +105,19 @@ class Item(models.Model):
         # Þessi with skipun gerir það sama og allar .count() skipanirnar fyrir ofan, nema í einu kalli ístaðin fyrir 6
         with connection.cursor() as cursor:
             cursor.execute('select ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" >= ' + str(self.hitcount) + ') as popa, ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" < ' + str(self.hitcount) + ') as popd, ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" >= ' + str(round(self.price_minimum)) + ') as pricea, ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" < ' + str(round(self.price_minimum)) + ') as priced, ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" >= \'' + self.name + '\') as alphd, ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" < \'' + self.name + '\') as alpha ' +
-                           '');
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" >= ' +
+                           str(self.hitcount) + ') as popa, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" < ' +
+                           str(self.hitcount) + ') as popd, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" >= ' +
+                           str(round(self.price_minimum)) + ') as pricea, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" < ' +
+                           str(round(self.price_minimum)) + ') as priced, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" >= \'' +
+                           self.name + '\') as alphd, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" < \'' +
+                           self.name + '\') as alpha ' +
+                           '')
             return dictfetchall(cursor)[0]
 
         orderlist = {"popa": popa, "popd": popd, "alpha": alpha, "alphd": alphd, "pricea": pricea, "priced": priced}
