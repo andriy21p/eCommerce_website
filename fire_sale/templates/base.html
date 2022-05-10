@@ -22,6 +22,10 @@
         {% block content %}
         {% endblock %}
     </div>
+
+    {% include "footer.html" %}
+
+
     <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
     <script src="{% static 'js/items.js' %}"></script>
     <script src="{% static 'js/msgs.js' %}"></script>
