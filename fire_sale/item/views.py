@@ -67,6 +67,7 @@ def index(request):
             'seller': x.user.id,
             'current_user': current_user_if_authenticated(request),
             'current_highest_bidder': x.current_winning_user_id(),
+            'sort': x.sort_order(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
                                        category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')]
         return JsonResponse({'items': items})
@@ -120,6 +121,7 @@ def get_item_by_id(request, item_key):
         'seller': x.user.id,
         'current_user': current_user_if_authenticated(request),
         'current_highest_bidder': x.current_winning_user_id(),
+        'sort': x.sort_order(),
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
 
@@ -281,6 +283,7 @@ def similar(request, item_key):
         'seller': x.user.id,
         'current_user': current_user_if_authenticated(request),
         'current_highest_bidder': x.current_winning_user_id(),
+        'sort': x.sort_order(),
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,
                                    has_accepted_offer=False)

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, widgets, CharField,forms
+from django.forms import ModelForm, widgets, CharField
 from item.models import Item, Offer
 
 

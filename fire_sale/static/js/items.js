@@ -23,7 +23,8 @@ getCookie = function(c_name)
 }
 
 formatItem = function(d, withCategoryFilter) {
-    res = '<div class="singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
+    res = '<div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
+          '<span class="d-none" id="sort_order_item">' + JSON.stringify(d.sort) + '</span>\n' +
           '<div class="border border-info rounded bg-light"' ;
     if (withCategoryFilter) {
         res +='     onclick="categoryFilter(\'' + d.category + '\', ' + d.category_id + ');"';
@@ -186,9 +187,25 @@ makeAnOffer = function() {
 
 changeSortOrder = function() {
     let new_order = $('#sort_order').val();
-    console.log(new_order);
     document.cookie = 'sortorder=' + new_order;
-    location.reload();
+    // location.reload();
+
+    // loop though all items on display and change the flex-box ordering element for the new sort order
+    $('.singleItemItem').each(function(i, flex_item) {
+        let ordering = flex_item.firstElementChild.textContent.replaceAll('\'', '"');
+        let obj = JSON.parse(ordering);
+        let new_ord = '0'
+        switch(new_order) {
+            case '0': new_ord=obj.popa ; break ;
+            case '1': new_ord=obj.popd ; break ;
+            case '2': new_ord=obj.pricea ; break ;
+            case '3': new_ord=obj.priced ; break ;
+            case '4': new_ord=obj.alpha ; break ;
+            case '5': new_ord=obj.alphd ; break ;
+        }
+        $(flex_item).css('order', new_ord);
+        //console.log($(flex_item).css('order'));
+    })
 }
 
 $(document).ready(function(){

@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 from user.models import User
 from django.db import connection
-import json
 
 
 # Create your models here.
@@ -81,6 +80,21 @@ class Item(models.Model):
         if winner is not None:
             return winner.id
         return None
+
+    def sort_order(self):
+        """
+            gets alternate sort orders for items
+        :return: array of sort orders
+        """
+        popd = Item.objects.filter(hitcount__lte=self.hitcount).count()
+        popa = Item.objects.filter(hitcount__gte=self.hitcount).count()
+        pricea = Item.objects.filter(price_minimum__lte=self.price_minimum).count()
+        priced = Item.objects.filter(price_minimum__gte=self.price_minimum).count()
+        alpha = Item.objects.filter(name__lte=self.name).count()
+        alphd = Item.objects.filter(name__gte=self.name).count()
+        # Þetta verður optimizað
+        orderlist = {"popa": popa, "popd": popd, "alpha": alpha, "alphd": alphd, "pricea": pricea, "priced": priced}
+        return orderlist
 
 
 class ItemImage(models.Model):
