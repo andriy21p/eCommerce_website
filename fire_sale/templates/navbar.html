@@ -36,9 +36,8 @@
               {% else %}
                 My info
               {% endif %}
-              {% if user.profile.number_of_unread_message > 0 %}
-                  <span class="badge bg-danger"><small>{{ user.profile.number_of_unread_message }}</small></span>
-              {% endif %}
+              <span class="d-none" id="user_id">{{ user.id }}</span>
+              <span class="messageNotifier badge bg-danger"><small id="messageNotifierNumber"></small></span>
           {% else %}
               Hello, sign in?
           {% endif %}

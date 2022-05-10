@@ -5,8 +5,8 @@ from message.models import Message
 from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyModal
 from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
-
-
+from django.core.paginator import Paginator
+from datetime import timedelta
 
 
 # Create your views here.
@@ -14,8 +14,16 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     """ When a message is requested, when a user is logged, all messages related to him will be displayed."""
     current_user = request.user
+    messages = Message.objects.filter(receiver=current_user.id).order_by("-msg_sent")
+    msg_count = messages.count()
+    # Paginator initiated. Set to 15 msg per page.
+    page_number = request.GET.get('page')
+    msg_per_page = 15
+    paginator = Paginator(messages, msg_per_page)
+    page_obj = paginator.get_page(page_number)
     return render(request, "message/index.html", {
-        "messages": Message.objects.filter(receiver=current_user.id).order_by("-msg_sent"),
+        "messages": page_obj,
+        "msg_count": msg_count
     })
 
 
@@ -97,3 +105,20 @@ def msg_reply(request, msg_key):
     return render(request, "message/msg_reply.html", {
         "form": form,
     })
+
+
+def number_of_unread(request):
+    """
+          Returns a JSON for the front-end with the current message count and
+          information about the newest message (for toast)
+
+          This must be super-fast :)  It's called about once every 10 seconds from every client
+    """
+    messages = Message.objects.filter(receiver=request.user, msg_received__isnull=True).count()
+    latest_message = Message.objects.filter(receiver=request.user, msg_received__isnull=True).order_by('-msg_sent').first()
+    show_toast = (latest_message.msg_sent + timedelta(seconds=15)) > timezone.now()
+    return JsonResponse({"number_of_unread_messages": messages,
+                         "latest_from": latest_message.sender.username,
+                         "latest_subject": latest_message.msg_subject,
+                         "latest_date": latest_message.msg_sent,
+                         "show_toast": show_toast})

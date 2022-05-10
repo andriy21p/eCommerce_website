@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from .forms.checkout_form import CheckoutForm
+from .forms.checkout_form import CheckoutForm, UserReviewForm
 from django.shortcuts import render, redirect, get_object_or_404
 from checkout.models import Checkout
 from item.models import Offer
@@ -39,4 +39,12 @@ def register_checkout(request, order_id):
 
 
 def user_review(request, checkout_id):
-    pass
+    if request.method == "POST":
+        form = UserReviewForm(data=request.POST)
+        if form.is_valid():
+            new_review = form.save(commit=False)
+            new_review.save()
+    return render(request, "checkout/user_review.html", {
+        "form": form
+    })
+
