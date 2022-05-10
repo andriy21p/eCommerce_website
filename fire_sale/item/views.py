@@ -29,7 +29,7 @@ def index(request):
     if 'items' in request.GET:
         try:
             items_per_page = int(request.GET.get('items'))
-        except ValueError as verr:
+        except ValueError:
             items_per_page = 15  # the default
 
     sort_order = 0
@@ -37,11 +37,16 @@ def index(request):
         sort_order = request.COOKIES.get('sortorder')
     firstOrder = '-hitcount'
     match sort_order:
-        case '1': firstOrder = 'hitcount'
-        case '2': firstOrder = 'price_minimum'
-        case '3': firstOrder = '-price_minimum'
-        case '4': firstOrder = 'name'
-        case '5': firstOrder = '-name'
+        case '1':
+            firstOrder = 'hitcount'
+        case '2':
+            firstOrder = 'price_minimum'
+        case '3':
+            firstOrder = '-price_minimum'
+        case '4':
+            firstOrder = 'name'
+        case '5':
+            firstOrder = '-name'
 
     if 'category' in request.GET:
         category = request.GET['category']
@@ -91,8 +96,8 @@ def index(request):
 
     # going to the default items handler
     items = Item.objects.filter(show_in_catalog=True,
-                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name')\
-        .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')\
+                                has_accepted_offer=False).order_by(firstOrder, '-hitcount', 'name') \
+        .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
         .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
@@ -104,19 +109,21 @@ def index(request):
 
 
 def get_item_by_id(request, item_key):
-    Item.objects.filter(id=item_key).exclude(user=current_user_if_authenticated(request)).update(hitcount=F('hitcount') + 1)
+    Item.objects.filter(id=item_key) \
+        .exclude(user=current_user_if_authenticated(request)) \
+        .update(hitcount=F('hitcount') + 1)
     items = [{
         'id': x.id,
-        'sale_type_id': x.sale_type_id,
-        'sale_type': x.sale_type.name,
+        # 'sale_type_id': x.sale_type_id,
+        # 'sale_type': x.sale_type.name,
         'price_minimum': x.price_minimum,
-        'price_fixed': x.price_fixed,
+        # 'price_fixed': x.price_fixed,
         'condition': x.condition.name,
         'name': x.name,
         'description': x.description,
         'ends': x.date_ends,
-        'created': x.created,
-        'edited': x.edited,
+        # 'created': x.created,
+        # 'edited': x.edited,
         'category_id': x.category_id,
         'category': x.category.name,
         'category_icon': x.category.icon,
@@ -248,7 +255,8 @@ def accept_item_bid(request, offer_id):
                                           'receiver': offer.offer_by,
                                           'item': offer.item,
                                           'offer': offer,
-                                          'msg_subject': 'So sorry, your offer for ' + offer.item.name + ' was rejected',
+                                          'msg_subject': 'So sorry, your offer for ' +
+                                                         offer.item.name + ' was rejected',
                                           'msg_body': 'Try searching again for ' + offer.item.name})
             if form_msg.is_valid():
                 form_msg.save()
@@ -269,15 +277,15 @@ def similar(request, item_key):
     selected = Item.objects.filter(pk=item_key).first()
     items = [{
         'id': x.id,
-        'sale_type_id': x.sale_type_id,
-        'sale_type': x.sale_type.name,
+        # 'sale_type_id': x.sale_type_id,
+        # 'sale_type': x.sale_type.name,
         'price_minimum': x.price_minimum,
-        'price_fixed': x.price_fixed,
+        # 'price_fixed': x.price_fixed,
         'condition': x.condition.name,
         'name': x.name,
         'description': x.description,
-        'ends': x.date_ends,
-        'created': x.created,
+        # 'ends': x.date_ends,
+        # 'created': x.created,
         'edited': x.edited,
         'category_id': x.category_id,
         'category': x.category.name,
@@ -293,6 +301,9 @@ def similar(request, item_key):
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,
                                    has_accepted_offer=False)
-                                .exclude(pk=item_key)
-                                .order_by('-hitcount')[0:number_of_similar_items_max]]
+                   .exclude(pk=item_key)
+                   .order_by('-hitcount')[0:number_of_similar_items_max]
+        .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
+        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
+    ]
     return JsonResponse({'items': items})
