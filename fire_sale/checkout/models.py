@@ -26,7 +26,7 @@ class Checkout(models.Model):
 # User Review
 class UserReview(models.Model):
     checkout = models.OneToOneField(Checkout, on_delete=models.CASCADE)
-    review_text = models.TextField()
+    review_text = models.TextField(max_length=10000)
     rating = models.PositiveSmallIntegerField(choices=(
         (1, "★☆☆☆☆"),
         (2, "★★☆☆☆"),

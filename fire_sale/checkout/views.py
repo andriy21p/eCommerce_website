@@ -28,9 +28,8 @@ def register_checkout(request, order_id):
         form = CheckoutForm(data=formdata)
         if form.is_valid():
             form.save()
-            return redirect('my-profile')
+            return redirect('review', checkout_id=form.id)
     orderinstance = {'name': order.offer_by.pk, 'item': order.item_id}
-
     return render(request, 'checkout/index.html', {
         'item': order_id,
         'form': CheckoutForm(initial=orderinstance),
