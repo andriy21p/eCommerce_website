@@ -37,7 +37,7 @@
                 My info
               {% endif %}
               <span class="d-none" id="user_id">{{ user.id }}</span>
-              <span class="messageNotifier badge bg-danger"><small id="messageNotifierNumber"></small></span>
+              <span class="messageNotifier badge bg-danger" style="display:none;"><small class="messageNotifierNumber"></small></span>
           {% else %}
               Hello, sign in?
           {% endif %}
@@ -47,9 +47,7 @@
               <li><a class="dropdown-item" href="{% url 'my-profile' %}">My profile</a></li>
               <li>
                   <a class="dropdown-item" href="{% url 'message' %}">Messages
-                  {% if user.profile.number_of_unread_message > 0 %}
-                      <span class="badge bg-danger"><small>{{ user.profile.number_of_unread_message }}</small></span>
-                  {% endif %}
+                      <span class="messageNotifier badge bg-danger" style="display:none;"><small class="messageNotifierNumber"></small></span>
                   </a>
               </li>
               <li><hr class="dropdown-divider"></li>

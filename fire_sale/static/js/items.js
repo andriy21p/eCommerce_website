@@ -213,8 +213,8 @@ $(document).ready(function(){
         $.get('/message/number_of_unread', function (data, textStatus, jqXHR) {
             let number = data.number_of_unread_messages;
             if (number > 0) {
-                $('#messageNotifierNumber').text(number);
-                $('.messageNotifier').show();
+                $('.messageNotifierNumber').text(number);
+                $('.messageNotifier').fadeIn();
                 if (data.show_toast) {
                     alert('NEW MESSAGE HAS ARRIVED FROM '+data.latest_from);
                 }
