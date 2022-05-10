@@ -110,9 +110,9 @@ class Item(models.Model):
                            '(SELECT count(*) FROM "item_item" WHERE "item_item"."hitcount" < ' +
                            str(self.hitcount) + ') as popd, ' +
                            '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" >= ' +
-                           str(round(self.price_minimum)) + ') as pricea, ' +
-                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" < ' +
                            str(round(self.price_minimum)) + ') as priced, ' +
+                           '(SELECT count(*) FROM "item_item" WHERE "item_item"."price_minimum" < ' +
+                           str(round(self.price_minimum)) + ') as pricea, ' +
                            '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" >= \'' +
                            self.name + '\') as alphd, ' +
                            '(SELECT count(*) FROM "item_item" WHERE "item_item"."name" < \'' +
