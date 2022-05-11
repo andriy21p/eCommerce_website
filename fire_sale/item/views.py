@@ -73,19 +73,20 @@ def index(request):
             'current_user': current_user_if_authenticated(request),
             'current_highest_bidder': x.current_winning_user_id(),
             'sort': x.sort_order(),
+            'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
-                                       category__name__icontains=category).order_by(firstOrder, '-hitcount', 'name')
+                                       category__name__icontains=category).order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
-            .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')]
+            .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')]
         return JsonResponse({'items': items})
 
     if 'search' in request.GET:
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
                                     has_accepted_offer=False,
-                                    name__icontains=search).order_by(firstOrder, '-hitcount', 'name') \
+                                    name__icontains=search).order_by(first_order, '-hitcount', 'name') \
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
-            .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
+            .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
         paginator = Paginator(items, items_per_page)
         page_obj = paginator.get_page(page_number)
         return render(request, 'item/index.html', {
@@ -98,7 +99,7 @@ def index(request):
     items = Item.objects.filter(show_in_catalog=True,
                                 has_accepted_offer=False).order_by(first_order, '-hitcount', 'name') \
         .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
-        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
+        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
@@ -135,6 +136,7 @@ def get_item_by_id(request, item_key):
         'current_user': current_user_if_authenticated(request),
         'current_highest_bidder': x.current_winning_user_id(),
         'sort': x.sort_order(),
+        'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
 
@@ -298,12 +300,13 @@ def similar(request, item_key):
         'current_user': current_user_if_authenticated(request),
         'current_highest_bidder': x.current_winning_user_id(),
         'sort': x.sort_order(),
+        'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,
                                    has_accepted_offer=False)
                    .exclude(pk=item_key)
                    .order_by('-hitcount')[0:number_of_similar_items_max]
         .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
-        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set')
+        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
     ]
     return JsonResponse({'items': items})
