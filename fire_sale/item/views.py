@@ -78,13 +78,7 @@ def index(request):
                                        category__name__icontains=category).order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')]
-        # tags = [{'id': y.id, 'name': y.name, 'count': y.count}
-        #         for y in Tag.objects.filter(category__name__icontains=category)
-        #             .order_by('name')
-        #             .prefetch_related('category')]
-
         return JsonResponse({'items': items,
-                             # 'tags': tags,
                              })
 
     if 'search' in request.GET:

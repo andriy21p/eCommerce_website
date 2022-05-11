@@ -34,7 +34,7 @@ formatTags = function(tags) {
     return 'Tags for this item: ' + res;
 }
 
-formatItem = function(d, withCategoryFilter) {
+formatItem = function(d, withCategoryFilter, withDataDismiss) {
     res = '<div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
           '<span class="d-none" id="sort_order_item">' + JSON.stringify(d.sort) + '</span>\n' +
           '<span class="d-none" id="tags_item">' + JSON.stringify(d.tags) + '</span>\n' +
@@ -45,8 +45,11 @@ formatItem = function(d, withCategoryFilter) {
     res+= '>' +
           '       <i class="' + d.category_icon + '"></i>'+
           '       <small>' + d.category + '</small></div><br/>\n' +
-          '    <span onclick="getItemDetails(' + d.id + ');" data-bs-dismiss="modal">' +
-          '     <div class="img-hover-zoom">'+
+          '    <span onclick="getItemDetails(' + d.id + ');"' ;
+    if (withDataDismiss) {
+        res +=' data-bs-dismiss="modal"';
+    }
+    res+= '>    <div class="img-hover-zoom">'+
           '      <img class="itemImage rounded shadow" src="'+d.images[0].url+'" alt="'+safe(d.images[0].description)+'" />' +
           '     </div>\n' +
           '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
@@ -120,7 +123,7 @@ categoryFilter = function(category, categoryId) {
                 // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
                 if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
                 updateTagCloud(d.tags);
-                return formatItem(d, true);
+                return formatItem(d, true, false);
             });
             $('#items-container').html(newHtml.join(''));
             $('#items-header').html($.parseHTML(newHeader));
@@ -133,20 +136,19 @@ categoryFilter = function(category, categoryId) {
 }
 
 getSimilarItems = function(id) {
+    $('#similar-items-container').empty();
     $.ajax({
         url: '/item/' + id + '/similar',
         type: 'GET',
         success: function (response) {
             if (response.items.length > 0) {
                 $('#similar-items-header').show();
-                for (let i=0 ; i<response.items.length ; i++) {
-                    let newHtml = response.items.map(d => {
-                        // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
-                        if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
-                    return formatItem(d, false);
-                    });
-                    $('#similar-items-container').append(newHtml);
-                }
+                let newHtml = response.items.map(d => {
+                    // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
+                    if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
+                return formatItem(d, false, true);
+                });
+                $('#similar-items-container').append(newHtml);
             }
         },
         error: function(xhr, status, error) {
