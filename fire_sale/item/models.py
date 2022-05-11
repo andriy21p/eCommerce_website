@@ -156,6 +156,7 @@ class Offer(models.Model):
     accepted = models.BooleanField(default=False)
     valid = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
+    checkout_id = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.offer_by.first_name + ' wants ' + self.item.name + ' for ' + f'{self.amount:.0f}'

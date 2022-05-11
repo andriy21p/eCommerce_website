@@ -4,16 +4,18 @@
     <h2>Preview!</h2>
     {% for entry in checkout %}
         {% for key,value in entry.items %}
+            {% if key != "id" %}
             <ul class="list-group list-group-horizontal-sm">
                   <li class="list-group-item preview-first">{{ key }}</li>
                   <li class="list-group-item flex-fill">{{ value }}</li>
             </ul>
+            {% endif %}
         {% endfor %}
     {% endfor %}
     </div>
     <footer aria-label="preview footer">
     <div class="container p-4">
-        <button class="btn btn-success">Confirm</button>
+        <button class="btn btn-success" onclick="">Confirm</button>
         <button class="btn btn-secondary">Return to checkout</button>
     </div>
     </footer>
