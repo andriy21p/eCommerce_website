@@ -76,9 +76,10 @@ updateTagCloud = function(tags) {
     }
     if (tags.length > 0) {
         for (let i=0 ; i < tags.length ; i++) {
-            let inCloud = tagCloud.indexOf(tags[i]);
+            let inCloud = tagCloud.indexOf(tags[i].name);
+            // console.log(tags[i].name+':'+inCloud);
             if (inCloud<0) {
-                tagCloud.push(tags[i]);  // save that this tag has been added
+                tagCloud.push(tags[i].name);  // save that this tag has been added
 
                 newHtml = '<div class="text-center bg-opacity-75 bg-info bg-gradient border border-secondary rounded p-2 align-items-stretch flex-grow-2 m-1" onclick="tagFilterBy(' + tags[i].id + ')">' +
                     '<span class="d-none" id="tagId">' + tags[i].id + '</span>' +
@@ -98,7 +99,6 @@ tagFilterBy = function(id) {
     $('.singleItemItem').each(function(idx, e) {
         let tags_element = e.firstElementChild.nextElementSibling.textContent.replaceAll('\'', '"');
         let tags = JSON.parse(tags_element);
-        console.log(tags);
         for (let i=0 ; i < tags.length ; i++) {
             if (tags[i].id == id) {
                 $(e).show();
