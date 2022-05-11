@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="pagination">
+    <!--div class="pagination">
         <span class="step-links">
             {% if items.has_previous %}
                 <a href="?page=1&items={{ items.paginator.per_page }}{{ search }}">&laquo; first</a>
@@ -52,7 +52,8 @@
                 <a href="?page={{ items.paginator.num_pages }}&items={{ items.paginator.per_page }}{{ search }}">last &raquo;</a>
             {% endif %}
         </span>
-    </div>
+    </div-->
+    <br/>
 
     {% include 'item/item_details.html' %}
 {% endblock %}

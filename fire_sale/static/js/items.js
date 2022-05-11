@@ -289,7 +289,7 @@ changeSortOrder = function() {
 
 $(document).ready(function(){
     loading(false);
-    if (!window.location.search.includes('search=')) {
+    if (!window.location.search.includes('search=') && window.location.href.includes('/item/')) {
         categoryFilter('');
     }
     function get_badge() {
