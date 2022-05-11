@@ -239,8 +239,9 @@ hr.profile {
     margin-left: 30px;
 }
 .form-control{
-   width: 40%;
+   width: 60%;
 }
+
 #id_description{
     width: 400px;
     height: 100px;
@@ -259,7 +260,6 @@ hr.profile {
     justify-content: center;
     /*display:contents !important;*/
 
-
 }
 .checkout{
     display: flex;
@@ -267,28 +267,46 @@ hr.profile {
     flex-direction: column;
 
 }
+div.item_checkout{
+    border: black 1px solid;
+    margin-bottom: 15px;
+    padding: 5px 5px 5px 20px;
+    position: relative;
+    width: 80%;
+    height: 18%;
+
+}
+#id_house_number{
+    width: 20%
+}
+#id_postal_code{
+    width: 25%;
+}
+#id_expiration_year{
+    width: 19%;
+}
+#id_expiration_month{
+    width: 19%;
+}
+#id_cvv{
+   width: 15%;
+ }
+#id_credit_card_number{
+    width: 44%;
+}
 .img_checkout{
     /*align-self: center;*/
 }
-/*.order_item{*/
-/*    font-size: 20px;*/
-/*    position: relative;*/
-/*    top: 200px;*/
-/*    left: 489px;*/
-/*}*/
-/*.order_price{*/
-/*    font-size: 20px;*/
-/*    position: relative;*/
-/*    top: 240px;*/
-/*    left: 489px;*/
-/*}*/
+p.order_item{
+    font-size: 20px;
+    margin: -10rem 0 10rem 12rem;
+    padding-bottom: 20px;
+}
+p.order_price{
+    font-size: 20px;
+    margin: -10rem 0 10rem 12rem;
+}
 
-/*.float-child {*/
-/*    width: 50%;*/
-/*    float: left;*/
-/*    padding: 20px;*/
-
-/*}*/
 
 /********************************************************/
 @media only screen and (max-width: 576px) {
