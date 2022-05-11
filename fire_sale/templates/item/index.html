@@ -19,6 +19,10 @@
                         </select>
                     </span>
                     <span id="items-header"></span>
+                    <div id="tag-filter-block" class="border m-1 rounded">
+                        <span>Filter search further by tag:</span><span style="float:right"><button onclick="clearFilterTags()" class="btn btn-secondary">X</button></span>
+                        <div class="d-flex justify-left flex-wrap" id="tagFilter"></div>
+                    </div>
                     <div class="d-flex justify-content-around flex-wrap" id="items-container">
                         {% for item in items %}
                             {% include 'item/single_item.html' with item=item %}

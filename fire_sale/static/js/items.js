@@ -25,6 +25,7 @@ getCookie = function(c_name)
 formatItem = function(d, withCategoryFilter) {
     res = '<div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
           '<span class="d-none" id="sort_order_item">' + JSON.stringify(d.sort) + '</span>\n' +
+          '<span class="d-none" id="tags_item">' + JSON.stringify(d.tags) + '</span>\n' +
           '<div class="border border-info rounded bg-light"' ;
     if (withCategoryFilter) {
         res +='     onclick="categoryFilter(\'' + d.category + '\', ' + d.category_id + ');"';
@@ -43,11 +44,56 @@ formatItem = function(d, withCategoryFilter) {
     return res ;
 }
 
+let tagCloud = [];
+
+updateTagCloud = function(tags) {
+    if (tagCloud.length == 0) {
+        $('#tagFilter').empty() ;
+    }
+    if (tags.length > 0) {
+        for (let i=0 ; i < tags.length ; i++) {
+            let inCloud = tagCloud.indexOf(tags[i]);
+            if (inCloud<0) {
+                tagCloud.push(tags[i]);  // save that this tag has been added
+
+                newHtml = '<div class="text-center bg-opacity-75 bg-info bg-gradient border border-secondary rounded p-2 align-items-stretch flex-grow-2 m-1" onclick="tagFilterBy(' + tags[i].id + ')">' +
+                    '<span class="d-none" id="tagId">' + tags[i].id + '</span>' +
+                    '<span>' + tags[i].name + '</span>' +
+                    '</div>';
+                $('#tagFilter').append(newHtml);
+            }
+        }
+    }
+    if (tagCloud.length > 0) {
+        $('#tag-filter-block').show();
+    }
+}
+
+tagFilterBy = function(id) {
+    $('.singleItemItem').hide();
+    $('.singleItemItem').each(function(idx, e) {
+        let tags_element = e.firstElementChild.nextElementSibling.textContent.replaceAll('\'', '"');
+        let tags = JSON.parse(tags_element);
+        console.log(tags);
+        for (let i=0 ; i < tags.length ; i++) {
+            if (tags[i].id == id) {
+                $(e).show();
+            }
+        }
+    });
+}
+
+clearFilterTags = function() {
+    $('.singleItemItem').show();
+    $('#tag-filter-block').hide();
+}
+
 
 categoryFilter = function(category, categoryId) {
     let workingHeader = '<H1>Items refreshing ...</H1>';
     $('.categoryFilterItems').removeClass('active')
     $('#items-header').html($.parseHTML(workingHeader));
+    tagCloud = [];
     $.ajax({
         url: '/item/?category=' + category,
         type: 'GET',
@@ -61,6 +107,7 @@ categoryFilter = function(category, categoryId) {
             let newHtml = response.items.map(d => {
                 // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
                 if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
+                updateTagCloud(d.tags);
                 return formatItem(d, true);
             });
             $('#items-container').html(newHtml.join(''));
@@ -230,6 +277,7 @@ $(document).ready(function(){
             $('.messageNotifier').fadeOut();
         });
     };
+    $('#tag-filter-block').hide();
     get_badge();
     setInterval(get_badge,20000);
     sorder = getCookie('sortorder') ;

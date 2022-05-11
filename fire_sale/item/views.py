@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from item.models import Item, ItemCategory, ItemImage, Offer
+from item.models import Item, ItemCategory, ItemImage, Offer, Tag
 from item.forms.item_form import ItemForm, ItemFormWithUrl, ItemBidForm
 from message.forms.msg_form import MsgReplyForm
 from django.db.models import F
@@ -78,7 +78,14 @@ def index(request):
                                        category__name__icontains=category).order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')]
-        return JsonResponse({'items': items})
+        # tags = [{'id': y.id, 'name': y.name, 'count': y.count}
+        #         for y in Tag.objects.filter(category__name__icontains=category)
+        #             .order_by('name')
+        #             .prefetch_related('category')]
+
+        return JsonResponse({'items': items,
+                             # 'tags': tags,
+                             })
 
     if 'search' in request.GET:
         search = request.GET['search']

@@ -15,7 +15,7 @@ def index(request):
         try:
             items_per_page = int(request.GET.get('items'))
         except ValueError as verr:
-            items_per_page = 12  # the default
+            items_per_page = 16  # the default
     offersForMyItems = [{
         'numberOfBids': x.item.number_of_offers(),
         'highest': x.item.current_price(),
@@ -30,7 +30,8 @@ def index(request):
                                         .prefetch_related('offer_by')[0:10]],
     } for x in Offer.objects.filter(item__user=request.user, valid=True, item__has_accepted_offer=False)
         .distinct('item')
-        .prefetch_related('offer_by', 'item')]
+        .prefetch_related('offer_by', 'item')
+        .select_related('item')]
     myOffers = [{
         'myOfferDetails': x.get_highest_by_user(request.user),
         'numberOfBids': x.item.number_of_offers(),
