@@ -26,7 +26,13 @@
 #placeBid{
     width: 50%;
 }
+#sort_order{
+    margin-bottom: 2rem;
+}
 
+.carousel{
+    margin-bottom: 1rem;
+}
 .singleItemName {
     text-overflow: ellipsis;
     overflow:hidden;
@@ -186,6 +192,7 @@ label{
     border-radius: 10px;
     padding: 9px;
     background: #6ef583;
+    margin-bottom: 2em;
 }
 .Item_My_Offers{
     box-sizing: border-box;
@@ -259,7 +266,15 @@ hr.profile {
     padding: 10px;
     margin: 10px 30px 40px 0;
 }
-
+.form-group{
+    padding: 0.5rem;
+}
+.form-control{
+    padding: 0.5rem;
+}
+.singleItemItem{
+    cursor: pointer;
+}
 /** Checkout index  ********************************/
 .container_checkout{
     display: flex;
