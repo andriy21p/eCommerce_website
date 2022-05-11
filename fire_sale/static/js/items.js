@@ -305,7 +305,7 @@ $(document).ready(function(){
     }
 
     loading(false);
-    if (!window.location.search.includes('search=') && window.location.href.includes('/item/')) {
+    if ((!window.location.search.includes('search=') && window.location.href.includes('/item/')) || window.location.pathname=='/') {
         categoryFilter('');
     }
     function get_badge() {
