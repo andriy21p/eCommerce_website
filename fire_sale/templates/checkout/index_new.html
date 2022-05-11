@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{%load widget_tweaks%}
+{% block content %}
+
+ <div class="container">
+
+    <div class="col">
+        <h2>Review Your Cart Items </h2>
+        <img class="p-1 rounded shadow img_checkout" width="140" src="{{ order.item.itemimage_set.first.url}}" alt="{{ order.item.itemimage_set.first.description }}" />
+        <p class="order_item"> {{ order.item }} </p>
+        <p class="order_price">{{ order.amount|floatformat:'-2g' }} kr</p>
+    </div>
+      <form method="POST" class="container">
+          <div class="form-row">
+            <div class="col-md-6">
+                {% render_field form.street_address placeholder=form.street_address.label class="form-control" %}
+                {% render_field form.house_number placeholder=form.house_number.label %}
+                {% render_field form.city placeholder=form.city.label %}
+                {% render_field form.country placeholder=form.country.label %}
+                {% render_field form.postal_code placeholder=form.postal_code.label %}
+
+            </div>
+            <div class="col-md-6">
+                {% render_field form.credit_card_holder placeholder=form.credit_card_holder.label %}
+                {% render_field form.credit_card_number placeholder=form.credit_card_number.label %}
+                {% render_field form.expiration_month placeholder=form.expiration_month.label %}
+                {% render_field form.postal_code placeholder=form.postal_code.label %}
+                {% render_field form.cvv placeholder=form.cvv.label %}
+            </div>
+          </div>
+        </form>
+
+
+      <div class="row"><input type="submit" class="btn_create rounded" value="Proceed"></div>
+</div>
+
+{% endblock %}
