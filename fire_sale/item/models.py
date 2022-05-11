@@ -46,6 +46,12 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def count(self):
+        return self.category.item_set.filter(show_in_catalog=True,
+                                             has_accepted_offer=False,
+                                             tags__name__contains=self.name).count()
+
 
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
