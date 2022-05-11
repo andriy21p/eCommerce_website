@@ -7,7 +7,10 @@
             </div>
             <div class="col-sm-12 col-sm-6 col-md-8 col-xl-9 col-xxl-10">
                 <div class="container">
-                    <span>
+                    <div id="index-loading" class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span id="index-sort-order">
                         Result sort order
                         <select id="sort_order" onchange="changeSortOrder()">
                             <option value="0">Popular first</option>
@@ -33,7 +36,7 @@
         </div>
     </div>
 
-    <div class="pagination">
+    <!--div class="pagination">
         <span class="step-links">
             {% if items.has_previous %}
                 <a href="?page=1&items={{ items.paginator.per_page }}{{ search }}">&laquo; first</a>
@@ -49,7 +52,8 @@
                 <a href="?page={{ items.paginator.num_pages }}&items={{ items.paginator.per_page }}{{ search }}">last &raquo;</a>
             {% endif %}
         </span>
-    </div>
+    </div-->
+    <br/>
 
     {% include 'item/item_details.html' %}
 {% endblock %}

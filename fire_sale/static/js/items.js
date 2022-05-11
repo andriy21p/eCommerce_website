@@ -1,3 +1,5 @@
+let cookies = false;
+
 safe = function(texti) {
     if (texti == undefined) {
         return '';
@@ -22,19 +24,43 @@ getCookie = function(c_name)
     return "";
 }
 
-formatItem = function(d, withCategoryFilter) {
+loading = function(showIndicator) {
+    if (showIndicator) {
+        $('#index-loading').show();
+        $('#index-sort-order').hide();
+    } else {
+        $('#index-loading').hide();
+        $('#index-sort-order').show();
+    }
+}
+
+formatTags = function(tags) {
+    res = '';
+    if (tags.length>0) {
+        for (let i=0 ; i < tags.length-1 ; i++) {
+            res += tags[i].name +', ';
+        }
+        res += tags[tags.length-1].name;
+    }
+    return 'Tags for this item: ' + res;
+}
+
+formatItem = function(d, withCategoryFilter, withDataDismiss) {
     res = '<div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
           '<span class="d-none" id="sort_order_item">' + JSON.stringify(d.sort) + '</span>\n' +
           '<span class="d-none" id="tags_item">' + JSON.stringify(d.tags) + '</span>\n' +
-          '<div class="border border-info rounded bg-light"' ;
+          '<div class="border border-info rounded bg-light" data-toggle="tooltip" title="' + formatTags(d.tags) + '"' ;
     if (withCategoryFilter) {
         res +='     onclick="categoryFilter(\'' + d.category + '\', ' + d.category_id + ');"';
     }
     res+= '>' +
           '       <i class="' + d.category_icon + '"></i>'+
           '       <small>' + d.category + '</small></div><br/>\n' +
-          '    <span onclick="getItemDetails(' + d.id + ');" data-bs-dismiss="modal">' +
-          '     <div class="img-hover-zoom">'+
+          '    <span onclick="getItemDetails(' + d.id + ');"' ;
+    if (withDataDismiss) {
+        res +=' data-bs-dismiss="modal"';
+    }
+    res+= '>    <div class="img-hover-zoom">'+
           '      <img class="itemImage rounded shadow" src="'+d.images[0].url+'" alt="'+safe(d.images[0].description)+'" />' +
           '     </div>\n' +
           '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
@@ -52,9 +78,10 @@ updateTagCloud = function(tags) {
     }
     if (tags.length > 0) {
         for (let i=0 ; i < tags.length ; i++) {
-            let inCloud = tagCloud.indexOf(tags[i]);
+            let inCloud = tagCloud.indexOf(tags[i].name);
+            // console.log(tags[i].name+':'+inCloud);
             if (inCloud<0) {
-                tagCloud.push(tags[i]);  // save that this tag has been added
+                tagCloud.push(tags[i].name);  // save that this tag has been added
 
                 newHtml = '<div class="text-center bg-opacity-75 bg-info bg-gradient border border-secondary rounded p-2 align-items-stretch flex-grow-2 m-1" onclick="tagFilterBy(' + tags[i].id + ')">' +
                     '<span class="d-none" id="tagId">' + tags[i].id + '</span>' +
@@ -74,7 +101,6 @@ tagFilterBy = function(id) {
     $('.singleItemItem').each(function(idx, e) {
         let tags_element = e.firstElementChild.nextElementSibling.textContent.replaceAll('\'', '"');
         let tags = JSON.parse(tags_element);
-        console.log(tags);
         for (let i=0 ; i < tags.length ; i++) {
             if (tags[i].id == id) {
                 $(e).show();
@@ -83,13 +109,15 @@ tagFilterBy = function(id) {
     });
 }
 
+
 clearFilterTags = function() {
-    $('.singleItemItem').show();
-    $('#tag-filter-block').hide();
+    $('.singleItemItem').fadeIn();
+    $('#tag-filter-block').slideUp();
 }
 
 
 categoryFilter = function(category, categoryId) {
+    loading(true);
     let workingHeader = '<H1>Items refreshing ...</H1>';
     $('.categoryFilterItems').removeClass('active')
     $('#items-header').html($.parseHTML(workingHeader));
@@ -108,33 +136,35 @@ categoryFilter = function(category, categoryId) {
                 // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
                 if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
                 updateTagCloud(d.tags);
-                return formatItem(d, true);
+                return formatItem(d, true, false);
             });
             $('#items-container').html(newHtml.join(''));
             $('#items-header').html($.parseHTML(newHeader));
+            loading(false);
+
         },
         error: function(xhr, status, error) {
             // add toaster with error
             console.error(error);
+            loading(false);
         }
     })
 }
 
 getSimilarItems = function(id) {
+    $('#similar-items-container').empty();
     $.ajax({
         url: '/item/' + id + '/similar',
         type: 'GET',
         success: function (response) {
             if (response.items.length > 0) {
                 $('#similar-items-header').show();
-                for (let i=0 ; i<response.items.length ; i++) {
-                    let newHtml = response.items.map(d => {
-                        // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
-                        if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
-                    return formatItem(d, false);
-                    });
-                    $('#similar-items-container').append(newHtml);
-                }
+                let newHtml = response.items.map(d => {
+                    // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
+                    if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
+                return formatItem(d, false, true);
+                });
+                $('#similar-items-container').append(newHtml);
             }
         },
         error: function(xhr, status, error) {
@@ -151,7 +181,8 @@ getItemDetails = function(id) {
     $('#itemPlaceAnOffer').prop('disabled', true);
     $('#itemDetailModalLabel').text('') ;
     $('#itemDetailModalCurrentResult').text('') ;
-    $('#itemDetailModalBody').text('fetching, just a moment ...') ;
+    $('#itemDetailModalBody').html('<div id="index-loading" class="spinner-border text-success" role="status">\n' +
+        '<span class="visually-hidden">Loading...</span></div>') ;
     $('.carousel-inner').html('') ;
     $('#itemDetailCategoryTag').removeClass();
     $('.itemDetailBidding').hide();
@@ -238,8 +269,9 @@ makeAnOffer = function() {
 
 changeSortOrder = function() {
     let new_order = $('#sort_order').val();
-    document.cookie = 'sortorder=' + new_order;
-    // location.reload();
+    if (cookies) {
+        document.cookie = 'sortorder=' + new_order;
+    }
 
     // loop though all items on display and change the flex-box ordering element for the new sort order
     $('.singleItemItem').each(function(i, flex_item) {
@@ -259,7 +291,23 @@ changeSortOrder = function() {
     })
 }
 
+cookieConsent = function(accept) {
+    $('.cookie-consent').fadeOut();
+    if (accept) {
+        document.cookie = 'allowCookies=true';
+        cookies = true;
+    }
+}
+
 $(document).ready(function(){
+    if (getCookie('allowCookies') == '') {
+        $('.cookie-consent').fadeIn();
+    }
+
+    loading(false);
+    if ((!window.location.search.includes('search=') && window.location.href.includes('/item/')) || window.location.pathname=='/') {
+        categoryFilter('');
+    }
     function get_badge() {
         $.get('/message/number_of_unread', function (data, textStatus, jqXHR) {
             let number = data.number_of_unread_messages;

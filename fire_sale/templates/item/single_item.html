@@ -5,7 +5,7 @@
         <small>{{ item.category.name }}</small>
     </div>
     <br/>
-    <span onclick="getItemDetails({{ item.id }});" data-bs-dismiss="modal">
+    <span onclick="getItemDetails({{ item.id }});">
         <div class="img-hover-zoom">
             <img class="itemImage rounded shadow" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
         </div>

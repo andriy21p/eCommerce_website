@@ -78,13 +78,7 @@ def index(request):
                                        category__name__icontains=category).order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')]
-        # tags = [{'id': y.id, 'name': y.name, 'count': y.count}
-        #         for y in Tag.objects.filter(category__name__icontains=category)
-        #             .order_by('name')
-        #             .prefetch_related('category')]
-
         return JsonResponse({'items': items,
-                             # 'tags': tags,
                              })
 
     if 'search' in request.GET:
@@ -102,15 +96,7 @@ def index(request):
             'categories': ItemCategory.objects.all().order_by('order'),
         })
 
-    # going to the default items handler
-    items = Item.objects.filter(show_in_catalog=True,
-                                has_accepted_offer=False).order_by(first_order, '-hitcount', 'name') \
-        .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
-        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
-    paginator = Paginator(items, items_per_page)
-    page_obj = paginator.get_page(page_number)
     return render(request, 'item/index.html', {
-        'items': page_obj,
         'search': '',
         'categories': ItemCategory.objects.all().order_by('order'),
     })
