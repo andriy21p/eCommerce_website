@@ -275,6 +275,11 @@ hr.profile {
 .singleItemItem{
     cursor: pointer;
 }
+/** Checkout preview ********************************/
+.preview-first{
+    min-width: 200px;
+    text-align: right;
+}
 /** Checkout index  ********************************/
 .container_checkout{
     display: flex;

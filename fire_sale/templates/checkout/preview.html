@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+    <h2>Preview!</h2>
+    {% for entry in checkout %}
+        {% for key,value in entry.items %}
+            <ul class="list-group list-group-horizontal-sm">
+                  <li class="list-group-item preview-first">{{ key }}</li>
+                  <li class="list-group-item flex-fill">{{ value }}</li>
+            </ul>
+        {% endfor %}
+    {% endfor %}
+    </div>
+    <footer aria-label="preview footer">
+    <div class="container p-4">
+        <button class="btn btn-success">Confirm</button>
+        <button class="btn btn-secondary">Return to checkout</button>
+    </div>
+    </footer>
+{% endblock %}
