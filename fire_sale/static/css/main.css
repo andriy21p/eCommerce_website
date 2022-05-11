@@ -23,6 +23,9 @@
 .singleItemWidth.myProfileOffers {
     min-height: 23em;
 }
+#placeBid{
+    width: 50%;
+}
 
 .singleItemName {
     text-overflow: ellipsis;
@@ -312,6 +315,9 @@ p.order_price{
 
 
 /********************************************************/
+.pagination{
+    margin: 20px 0 20px 20px
+}
 @media only screen and (max-width: 576px) {
     .singleItemWidth {
         width:100%;
