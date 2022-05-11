@@ -23,8 +23,7 @@ def register_checkout(request, order_id):
         return redirect('my-profile')
     if request.method == 'POST':
         formdata = request.POST.copy()
-        formdata['name'] = order.offer_by.pk
-        formdata['item'] = order.item_id
+        formdata['offer'] = order.offer_by.pk
         form = CheckoutForm(data=formdata)
         if form.is_valid():
             form.save()
