@@ -1,4 +1,6 @@
 {% extends "base.html"%}
+{% load static %}
+
 {% block content %}
     <div class="container">
     <div class="item_create_container">
@@ -9,10 +11,14 @@
         <form class="create_item" method="post">
             {% csrf_token %}
             {{ form }}
+
             <br/><br/>
             <input type="submit" class="btn_create rounded" value="Lets get some offers for this stuff">
             <a class="btn btn-danger" href="/user/">Cancel selling for now</a>
         </form>
         </div>
     </div>
+    <br/>
+
+    <script src="{% static 'js/itemtags.js' %}"></script>
 {% endblock %}

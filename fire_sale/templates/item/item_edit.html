@@ -1,4 +1,6 @@
 {% extends "base.html"%}
+{% load static %}
+
 {% block content %}
     <div class="container">
     <div class="item_create_container">
@@ -17,22 +19,25 @@
         </div>
     </div>
 
-<div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteItemModalLabel">{{ item }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="">
-          <p>Are you sure you would like to delete this item from sale?</p>
-      </div>
-      <div class="modal-footer">
-        <a type="button" class="btn btn-danger" href="/item/{{ item.id }}/delete">Yeah, I don't wan't to sell this item</a>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteItemModalLabel">{{ item }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="">
+              <p>Are you sure you would like to delete this item from sale?</p>
+          </div>
+          <div class="modal-footer">
+            <a type="button" class="btn btn-danger" href="/item/{{ item.id }}/delete">Yeah, I don't wan't to sell this item</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <br/>
+
+    <script src="{% static 'js/itemtags.js' %}"></script>
 
 {% endblock %}
