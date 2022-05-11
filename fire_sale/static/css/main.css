@@ -29,7 +29,12 @@
 #sort_order{
     margin-bottom: 2rem;
 }
-
+.btn{
+    margin: 1rem 0 2rem 0;
+}
+.carousel{
+    margin-bottom: 1rem;
+}
 .singleItemName {
     text-overflow: ellipsis;
     overflow:hidden;
@@ -263,7 +268,15 @@ hr.profile {
     padding: 10px;
     margin: 10px 30px 40px 0;
 }
-
+.form-group{
+    padding: 0.5rem;
+}
+.form-control{
+    padding: 0.5rem;
+}
+.singleItemItem{
+    cursor: pointer;
+}
 /** Checkout index  ********************************/
 .container_checkout{
     display: flex;
