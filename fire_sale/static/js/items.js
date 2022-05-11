@@ -22,11 +22,23 @@ getCookie = function(c_name)
     return "";
 }
 
+
+formatTags = function(tags) {
+    res = '';
+    if (tags.length>0) {
+        for (let i=0 ; i < tags.length-1 ; i++) {
+            res += tags[i].name +', ';
+        }
+        res += tags[tags.length-1].name;
+    }
+    return 'Tags for this item: ' + res;
+}
+
 formatItem = function(d, withCategoryFilter) {
     res = '<div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
           '<span class="d-none" id="sort_order_item">' + JSON.stringify(d.sort) + '</span>\n' +
           '<span class="d-none" id="tags_item">' + JSON.stringify(d.tags) + '</span>\n' +
-          '<div class="border border-info rounded bg-light"' ;
+          '<div class="border border-info rounded bg-light" data-toggle="tooltip" title="' + formatTags(d.tags) + '"' ;
     if (withCategoryFilter) {
         res +='     onclick="categoryFilter(\'' + d.category + '\', ' + d.category_id + ');"';
     }
