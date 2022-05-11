@@ -22,7 +22,7 @@ def get_checkout_by_id(request, checkout_id):
     #checkout = get_object_or_404(Checkout, pk=checkout_id)
     checkout = [{
         "id": co_entry.id,
-        # "offer_id": co_entry.offer_id,
+        "offer_id": co_entry.offer_id,
         "Street Address:": co_entry.street_address,
         "House Number:": co_entry.house_number,
         "City:": co_entry.city,
@@ -44,17 +44,33 @@ def register_checkout(request, order_id):
         return redirect('my-profile')
 
     if request.method == 'POST':
-        formdata = request.POST.copy()
-        formdata['offer'] = order.offer_by.pk
-        form = CheckoutForm(data=formdata)
-        if form.is_valid():
-            new_checkout = form.save()
-            return redirect('preview', checkout_id=new_checkout.pk)
+        if order.checkout_id is not None:
+            checkout = get_object_or_404(Checkout, order=order_id)
+            form = CheckoutForm(initial=checkout)
+            return render(request, 'checkout/index.html', {
+                "form": form,
+            })
+        else:
+            formdata = request.POST.copy()
+            formdata['offer'] = order
+            form = CheckoutForm(data=formdata)
+            if form.is_valid():
+                new_checkout = form.save(commit=False)
+                new_checkout.pk = order_id
+                new_checkout.save()
+                offer = Offer.objects.get(id=order_id)
+                offer.checkout_id = order_id
+                offer.save()
+                # form.cleaned_data["offer"].checkout_id = new_checkout.pk
+                return redirect('preview', checkout_id=new_checkout.pk)
 
-    orderinstance = {'name': order.offer_by.pk, 'item': order.item_id}
+
+    # orderinstance = {'name': order.offer_by.pk, 'item': order.item_id}
+
     return render(request, 'checkout/index.html', {
-        'item': order_id,
-        'form': CheckoutForm(initial=orderinstance),
+        # 'item': order_id,
+        # 'form': CheckoutForm(initial=orderinstance),
+        'form': CheckoutForm(),
         'order': order,
     })
 

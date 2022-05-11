@@ -4,7 +4,7 @@
     <h2>Preview!</h2>
     {% for entry in checkout %}
         {% for key,value in entry.items %}
-            {% if key != "id" %}
+            {% if key != "id" or key != "offer_id" %}
             <ul class="list-group list-group-horizontal-sm">
                   <li class="list-group-item preview-first">{{ key }}</li>
                   <li class="list-group-item flex-fill">{{ value }}</li>
@@ -15,8 +15,16 @@
     </div>
     <footer aria-label="preview footer">
     <div class="container p-4">
+    {% for entry in checkout %}
+    <form action="{% url "register" order_id=entry.offer_id %}" method="post">
+    {% endfor %}
+    {% csrf_token %}
+    <input type="submit" name="button" class="btn btn-primary" value="Back to checkout">
+    </form>
+
         <button class="btn btn-success" onclick="">Confirm</button>
-        <button class="btn btn-secondary">Return to checkout</button>
+
+        </button>
     </div>
     </footer>
 {% endblock %}
