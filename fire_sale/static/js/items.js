@@ -22,6 +22,15 @@ getCookie = function(c_name)
     return "";
 }
 
+loading = function(showIndicator) {
+    if (showIndicator) {
+        $('#index-loading').show();
+        $('#index-sort-order').hide();
+    } else {
+        $('#index-loading').hide();
+        $('#index-sort-order').show();
+    }
+}
 
 formatTags = function(tags) {
     res = '';
@@ -105,6 +114,7 @@ clearFilterTags = function() {
 
 
 categoryFilter = function(category, categoryId) {
+    loading(true);
     let workingHeader = '<H1>Items refreshing ...</H1>';
     $('.categoryFilterItems').removeClass('active')
     $('#items-header').html($.parseHTML(workingHeader));
@@ -127,10 +137,13 @@ categoryFilter = function(category, categoryId) {
             });
             $('#items-container').html(newHtml.join(''));
             $('#items-header').html($.parseHTML(newHeader));
+            loading(false);
+
         },
         error: function(xhr, status, error) {
             // add toaster with error
             console.error(error);
+            loading(false);
         }
     })
 }
@@ -165,7 +178,8 @@ getItemDetails = function(id) {
     $('#itemPlaceAnOffer').prop('disabled', true);
     $('#itemDetailModalLabel').text('') ;
     $('#itemDetailModalCurrentResult').text('') ;
-    $('#itemDetailModalBody').text('fetching, just a moment ...') ;
+    $('#itemDetailModalBody').html('<div id="index-loading" class="spinner-border text-success" role="status">\n' +
+        '<span class="visually-hidden">Loading...</span></div>') ;
     $('.carousel-inner').html('') ;
     $('#itemDetailCategoryTag').removeClass();
     $('.itemDetailBidding').hide();
@@ -274,6 +288,10 @@ changeSortOrder = function() {
 }
 
 $(document).ready(function(){
+    loading(false);
+    if (!window.location.search.includes('search=')) {
+        categoryFilter('');
+    }
     function get_badge() {
         $.get('/message/number_of_unread', function (data, textStatus, jqXHR) {
             let number = data.number_of_unread_messages;

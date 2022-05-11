@@ -7,7 +7,10 @@
             </div>
             <div class="col-sm-12 col-sm-6 col-md-8 col-xl-9 col-xxl-10">
                 <div class="container">
-                    <span>
+                    <div id="index-loading" class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span id="index-sort-order">
                         Result sort order
                         <select id="sort_order" onchange="changeSortOrder()">
                             <option value="0">Popular first</option>
