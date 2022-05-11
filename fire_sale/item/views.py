@@ -314,8 +314,11 @@ def addimage(request, item_key):
     if item.user != request.user:
         return redirect('my-profile')
     newImageUrl = request.POST['addImage']
-    new_image = ItemUrl(data={'item':item, 'url': newImageUrl})
-    new_image.url = newImageUrl ;
+    newImageDesc = ''
+    if 'addImageDescription' in request.POST:
+        newImageDesc = request.POST['addImageDescription']
+    new_image = ItemUrl(data={'item': item, 'url': newImageUrl, 'description': newImageDesc})
+    new_image.url = newImageUrl
     if new_image.is_valid():
         new_image.save()
     return redirect('item-edit', item_key=item_key)
@@ -324,6 +327,8 @@ def addimage(request, item_key):
 @login_required
 def removeimage(request, item_key, image_key):
     image = get_object_or_404(ItemImage, pk=image_key)
+    if image.item.user != request.user:
+        return redirect('my-profile')
     image.delete();
     return redirect('item-edit', item_key=item_key)
 

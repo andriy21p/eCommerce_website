@@ -30,6 +30,8 @@
             {% csrf_token %}
             <label for="addImageId">New image url:</label>
             <input class="form-control" name="addImage" id="addImageId" maxlength="10000"/>
+            <label for="addImageDescId">Image description (optional, but useful)</label>
+            <input class="form-control" name="addImageDescription" id="addImageDescId" maxlength="10000"/>
             <button class="btn btn-info" id="addImageBtn">Add image</button>
         </form>
         </span>
