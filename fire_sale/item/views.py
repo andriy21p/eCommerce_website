@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from item.models import Item, ItemCategory, ItemImage, Offer, Tag
-from item.forms.item_form import ItemForm, ItemFormWithUrl, ItemBidForm
+from item.forms.item_form import ItemForm, ItemFormWithUrl, ItemBidForm, ItemUrl
 from message.forms.msg_form import MsgReplyForm
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
@@ -164,14 +164,14 @@ def edit(request, item_key):
     if item.user != request.user:
         return redirect('my-profile')
     if request.POST:
-        form = ItemFormWithUrl(instance=item, data=request.POST)
+        form = ItemForm(instance=item, data=request.POST)
         if form.is_valid():
             newItem = form.save(commit=False)
             newItem.edited = timezone.now()
             newItem.save()
             form.save_m2m()  # saves the tags
             return redirect('my-profile')
-    inst = ItemFormWithUrl(instance=item)
+    inst = ItemForm(instance=item)
     return render(request, 'item/item_edit.html', {
         'form': inst,
         'item': item,
@@ -306,3 +306,25 @@ def similar(request, item_key):
         .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
     ]
     return JsonResponse({'items': items})
+
+
+@login_required
+def addimage(request, item_key):
+    item = get_object_or_404(Item, pk=item_key)
+    if item.user != request.user:
+        return redirect('my-profile')
+    newImageUrl = request.POST['addImage']
+    new_image = ItemUrl(data={'item':item, 'url': newImageUrl})
+    new_image.url = newImageUrl ;
+    if new_image.is_valid():
+        new_image.save()
+    return redirect('item-edit', item_key=item_key)
+
+
+@login_required
+def removeimage(request, item_key, image_key):
+    image = get_object_or_404(ItemImage, pk=image_key)
+    image.delete();
+    return redirect('item-edit', item_key=item_key)
+
+

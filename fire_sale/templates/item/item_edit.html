@@ -6,7 +6,7 @@
     <div class="item_create_container">
     <div class="heading_create_item">
         <h1>Change me</h1><h2></h2>
-        </div>
+    </div>
         <br/><br/>
         <form class="create_item" method="post">
             {% csrf_token %}
@@ -17,6 +17,22 @@
         <a class="btn btn-warning" href="/user/">Cancel changes</a>
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal">Delete this item</button>
         </div>
+        <span id="edit_images">
+            {% for image in item.itemimage_set.all %}
+                <form action="/item/{{ item.id }}/{{ image.id }}/removeimage" class="create_item" method="post">
+                    {% csrf_token %}
+                    <img class="itemImage rounded shadow" src="{{ image.url}}" alt="{{ image.description }}" />
+                    <button class="btn btn-danger" id="deleteImageBtn">Remove this image</button>
+                    <br/><hr/><br/>
+                </form>
+            {% endfor %}
+        <form action="/item/{{ item.id }}/addimage" class="create_item" method="post">
+            {% csrf_token %}
+            <label for="addImageId">New image url:</label>
+            <input class="form-control" name="addImage" id="addImageId" maxlength="10000"/>
+            <button class="btn btn-info" id="addImageBtn">Add image</button>
+        </form>
+        </span>
     </div>
 
     <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">

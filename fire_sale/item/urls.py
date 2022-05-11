@@ -11,4 +11,6 @@ urlpatterns = [
     path('<int:item_key>/delete', views.delete, name='delete-item'),
     path('offer/<int:offer_id>/accept', views.accept_item_bid, name='offer-accept'),
     path('<int:item_key>/similar', views.similar, name='similar-items'),
+    path('<int:item_key>/addimage', views.addimage, name='item-addimage'),
+    path('<int:item_key>/<int:image_key>/removeimage', views.removeimage, name='item-removeimage'),
 ]

@@ -270,7 +270,7 @@ makeAnOffer = function() {
 changeSortOrder = function() {
     let new_order = $('#sort_order').val();
     if (cookies) {
-        document.cookie = 'sortorder=' + new_order;
+        document.cookie = 'sortorder=' + new_order+'';
     }
 
     // loop though all items on display and change the flex-box ordering element for the new sort order
@@ -294,14 +294,16 @@ changeSortOrder = function() {
 cookieConsent = function(accept) {
     $('.cookie-consent').fadeOut();
     if (accept) {
-        document.cookie = 'allowCookies=true';
+        document.cookie = 'allowCookies=true;path=/';
         cookies = true;
     }
 }
 
 $(document).ready(function(){
-    if (getCookie('allowCookies') == '') {
+    if (document.cookie.indexOf('allowCookies=true') < 1) {
         $('.cookie-consent').fadeIn();
+    } else {
+        cookies = true;
     }
 
     loading(false);
