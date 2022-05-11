@@ -1,3 +1,5 @@
+let cookies = false;
+
 safe = function(texti) {
     if (texti == undefined) {
         return '';
@@ -107,9 +109,10 @@ tagFilterBy = function(id) {
     });
 }
 
+
 clearFilterTags = function() {
-    $('.singleItemItem').show();
-    $('#tag-filter-block').hide();
+    $('.singleItemItem').fadeIn();
+    $('#tag-filter-block').slideUp();
 }
 
 
@@ -266,8 +269,9 @@ makeAnOffer = function() {
 
 changeSortOrder = function() {
     let new_order = $('#sort_order').val();
-    document.cookie = 'sortorder=' + new_order;
-    // location.reload();
+    if (cookies) {
+        document.cookie = 'sortorder=' + new_order;
+    }
 
     // loop though all items on display and change the flex-box ordering element for the new sort order
     $('.singleItemItem').each(function(i, flex_item) {
@@ -287,7 +291,19 @@ changeSortOrder = function() {
     })
 }
 
+cookieConsent = function(accept) {
+    $('.cookie-consent').fadeOut();
+    if (accept) {
+        document.cookie = 'allowCookies=true';
+        cookies = true;
+    }
+}
+
 $(document).ready(function(){
+    if (getCookie('allowCookies') == '') {
+        $('.cookie-consent').fadeIn();
+    }
+
     loading(false);
     if (!window.location.search.includes('search=') && window.location.href.includes('/item/')) {
         categoryFilter('');
