@@ -39,6 +39,14 @@ class ItemCategory(models.Model):
         return self.name
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     sale_type = models.ForeignKey(ItemSalesType, on_delete=models.CASCADE)
@@ -54,6 +62,7 @@ class Item(models.Model):
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     hitcount = models.IntegerField(default=0)
     has_accepted_offer = models.BooleanField(default=False)
+    tags = models.ManyToManyField(Tag, blank=True, default=None)
 
     class Meta:
         indexes = [
