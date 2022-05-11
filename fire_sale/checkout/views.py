@@ -21,8 +21,8 @@ def index(request, order_id):
 def get_checkout_by_id(request, checkout_id):
     #checkout = get_object_or_404(Checkout, pk=checkout_id)
     checkout = [{
-        #"id": co_entry.id,
-        #"offer_id": co_entry.offer_id,
+        "id": co_entry.id,
+        # "offer_id": co_entry.offer_id,
         "Street Address:": co_entry.street_address,
         "House Number:": co_entry.house_number,
         "City:": co_entry.city,
@@ -33,7 +33,7 @@ def get_checkout_by_id(request, checkout_id):
         "Expiration month:": co_entry.expiration_month,
         "Expiration year:": co_entry.expiration_year,
         "CVV:": co_entry.cvv,
-        #"is_confirmed": co_entry.is_confirmed
+        # "is_confirmed": co_entry.is_confirmed
     } for co_entry in Checkout.objects.filter(pk=checkout_id)]
     return render(request, 'checkout/preview.html', {"checkout": checkout})
 
