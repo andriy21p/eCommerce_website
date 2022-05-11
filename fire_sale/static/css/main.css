@@ -26,6 +26,9 @@
 #placeBid{
     width: 50%;
 }
+#sort_order{
+    margin-bottom: 2rem;
+}
 
 .singleItemName {
     text-overflow: ellipsis;
