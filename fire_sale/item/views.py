@@ -151,6 +151,7 @@ def create(request):
             new_item = form.save(commit=False)
             new_item.user = request.user
             new_item.save()
+            form.save_m2m()  # saves the tags
             if 'image_url' in request.POST:
                 new_image = ItemImage()
                 new_image.url = request.POST['image_url']
@@ -170,14 +171,16 @@ def edit(request, item_key):
     if item.user != request.user:
         return redirect('my-profile')
     if request.POST:
-        form = ItemForm(instance=item, data=request.POST)
+        form = ItemFormWithUrl(instance=item, data=request.POST)
         if form.is_valid():
             newItem = form.save(commit=False)
             newItem.edited = timezone.now()
             newItem.save()
+            form.save_m2m()  # saves the tags
             return redirect('my-profile')
+    inst = ItemFormWithUrl(instance=item)
     return render(request, 'item/item_edit.html', {
-        'form': ItemForm(instance=item),
+        'form': inst,
         'item': item,
     })
 
