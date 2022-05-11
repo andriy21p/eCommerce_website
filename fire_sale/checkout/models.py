@@ -40,9 +40,10 @@ class Checkout(models.Model):
     expiration_month = models.IntegerField(choices=MONTH_CHOICE)
     expiration_year = models.IntegerField(choices=YEAR_CHOICE)
     cvv = models.PositiveSmallIntegerField()
+    is_confirmed = models.BooleanField(default=False)
 
     def __str__(self):
-        return "ID:{} | Order ID:{} ".format(self.pk, self.name)
+        return "ID:{} | Order ID:{} ".format(self.pk, self.offer)
 
 
 # class Payment(models.Model):

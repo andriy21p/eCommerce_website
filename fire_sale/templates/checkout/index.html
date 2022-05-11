@@ -11,7 +11,7 @@
             </div>
           <form class="final_info" method="post">
             {% csrf_token %}
-
+            {{ form.errors }}
                       <div class="address ">
                           <h4>Shipping Address</h4>
                           <p>Street Address{{ form.street_address }}</p>
@@ -33,9 +33,9 @@
                       </div>
 
             <br/>
-
+            <input type="submit" class="btn_create rounded" value="Proceed">
         </form>
-        <input type="submit" class="btn_create rounded" value="Proceed">
+
         </div>
     </div>
 </div>
