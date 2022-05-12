@@ -180,7 +180,7 @@ def create(request):
                 new_image.url = request.POST['image_url']
                 new_image.item = new_item
                 new_image.save()
-            return redirect("my-profile")
+            return redirect("item-edit", item_key=new_item.id)
     return render(request, "item/item_create.html", {
         'form': ItemFormWithUrl()
     })
