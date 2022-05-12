@@ -1,27 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-    <h2>Review your order - you are about to complete the purchase</h2>
-    {% for entry in checkout %}
-        {% for key,value in entry.items %}
-            {% if key != "id" and key != "offer_id" %}
-            <ul class="list-group list-group-horizontal-sm">
-                  <li class="list-group-item preview-first">{{ key }}</li>
-                  <li class="list-group-item flex-fill">{{ value }}</li>
-            </ul>
-            {% endif %}
+        <h2>Review your order - you are about to complete the purchase</h2>
+        {% for entry in checkout %}
+            {% for key,value in entry.items %}
+                {% if key != "id" and key != "offer_id" %}
+                    <ul class="list-group list-group-horizontal-sm">
+                        <li class="list-group-item preview-first">{{ key }}</li>
+                        <li class="list-group-item flex-fill">{{ value }}</li>
+                    </ul>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
     </div>
     <footer aria-label="preview footer">
-    <div class="container p-4">
-    {% for entry in checkout %}
-        <a class="btn btn-primary" href="{% url "register-checkout" order_id=entry.offer_id%}">Back to checkout</a>
-    {% endfor %}
+        <div class="container p-4">
+            {% for entry in checkout %}
+                <a class="btn btn-primary" href="{% url "register-checkout" order_id=entry.offer_id %}">
+                    Edit the above information
+                </a>
+                <a class="btn btn-danger" href="{% url "my-profile" %}">Cancel order</a>
+                <a class="btn btn-success btn-lg" href="{% url "confirm-checkout" checkout_id=entry.checkout_id %}">Confirm</a>
+            {% endfor %}
 
-        <button class="btn btn-success">Confirm</button>
-
-        </button>
-    </div>
+        </div>
     </footer>
 {% endblock %}

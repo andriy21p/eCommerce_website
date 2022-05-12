@@ -74,5 +74,5 @@ class UserReview(models.Model):
         verbose_name_plural = "Reviews"
 
     def __str__(self):
-        return "ID:{} | Checkout ID: {}".format(self.pk, self.checkout_id)
+        return "ID:{} | Checkout ID: {}".format(self.pk, self.checkout.id)
 
