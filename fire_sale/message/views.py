@@ -132,7 +132,7 @@ def number_of_unread(request):
         .order_by('-msg_sent').first()
 
     if latest_message is not None:
-        show_toast = (latest_message.msg_sent + timedelta(seconds=2500)) > timezone.now()
+        show_toast = (latest_message.msg_sent + timedelta(seconds=30)) > timezone.now()
         return JsonResponse({"number_of_unread_messages": messages,
                              "latest_from": latest_message.sender.username,
                              "latest_subject": latest_message.msg_subject,

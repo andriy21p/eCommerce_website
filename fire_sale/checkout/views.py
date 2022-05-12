@@ -113,5 +113,5 @@ def user_review(request, checkout_id):
             new_review = form.save(commit=False)
             new_review.save()
     return render(request, "checkout/user_review.html", {
-        "form": form
+        "form": UserReviewForm(),
     })
