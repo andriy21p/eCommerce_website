@@ -2,14 +2,13 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms.checkout_form import CheckoutForm, UserReviewForm
 from django.shortcuts import render, redirect, get_object_or_404
-from checkout.models import Checkout
+from checkout.models import Checkout, get_year_choice
 from item.models import Offer
 
 
 # Create your views here.
 @login_required
 def index(request, order_id):
-
     current_user = request.user
     order = get_object_or_404(Offer, pk=order_id)
     return render(request, "checkout/index.html", {
@@ -18,8 +17,13 @@ def index(request, order_id):
     })
 
 
+def mask_card(card):
+    return str(card)[0:2] + '** **** **** ' + str(card)[-4:]
+
+
 def get_checkout_by_id(request, checkout_id):
-    #checkout = get_object_or_404(Checkout, pk=checkout_id)
+    months = dict(Checkout.MONTH_CHOICE)
+    years = dict(get_year_choice())
     checkout = [{
         "id": co_entry.id,
         "offer_id": co_entry.offer_id,
@@ -29,9 +33,9 @@ def get_checkout_by_id(request, checkout_id):
         "Country:": co_entry.country,
         "Postal Code:": co_entry.postal_code,
         "Credit card holder:": co_entry.credit_card_holder,
-        "Credit card number:": co_entry.credit_card_number,
-        "Expiration month:": co_entry.expiration_month,
-        "Expiration year:": co_entry.expiration_year,
+        "Credit card number:": mask_card(co_entry.credit_card_number),
+        "Expiration month:": months[co_entry.expiration_month],
+        "Expiration year:": years[co_entry.expiration_year],
         "CVV:": co_entry.cvv,
         # "is_confirmed": co_entry.is_confirmed
     } for co_entry in Checkout.objects.filter(pk=checkout_id)]
@@ -40,41 +44,24 @@ def get_checkout_by_id(request, checkout_id):
 
 def register_checkout(request, order_id):
     order = get_object_or_404(Offer, pk=order_id)
+    checkout = Checkout.objects.filter(offer_id=order_id).first()
     if order.offer_by != request.user:
         return redirect('my-profile')
 
     if request.method == 'POST':
-        if order.checkout_id is not None:
-            checkout = get_object_or_404(Checkout, offer=order_id)
-            form = CheckoutForm(instance=checkout)
-
+        form_data = request.POST.copy()
+        form_data['offer'] = order.id
+        form = CheckoutForm(instance=checkout, data=form_data)
+        if form.is_valid():
+            form.save()
+            checkout = Checkout.objects.filter(offer_id=order_id).first()
             offer = Offer.objects.get(id=order_id)
-            offer.checkout_id = None
+            offer.checkout_id = checkout.id
             offer.save()
-            return render(request, 'checkout/index.html', {
-                "form": form,
-                'order': order,
-            })
-        else:
-            formdata = request.POST.copy()
-            formdata['offer'] = order
-            form = CheckoutForm(data=formdata)
-            if form.is_valid():
-                new_checkout = form.save(commit=False)
-                new_checkout.pk = order_id
-                new_checkout.save()
-                offer = Offer.objects.get(id=order_id)
-                offer.checkout_id = order_id
-                offer.save()
-                return redirect('preview', checkout_id=new_checkout.pk)
-
-
-    # orderinstance = {'name': order.offer_by.pk, 'item': order.item_id}
-
+            return redirect('preview', checkout_id=checkout.id)
+    checkoutForm = CheckoutForm(instance=checkout)
     return render(request, 'checkout/index.html', {
-        # 'item': order_id,
-        # 'form': CheckoutForm(initial=orderinstance),
-        'form': CheckoutForm(),
+        'form': checkoutForm,
         'order': order,
     })
 
@@ -88,4 +75,3 @@ def user_review(request, checkout_id):
     return render(request, "checkout/user_review.html", {
         "form": form
     })
-

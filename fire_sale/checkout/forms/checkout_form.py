@@ -11,7 +11,7 @@ class CheckoutForm(ModelForm):
             'street_address': widgets.TextInput(attrs={'class': 'form-control'}),
             'house_number': widgets.TextInput(attrs={'class': 'form-control'}),
             'city': widgets.TextInput(attrs={'class': 'form-control'}),
-            'country': widgets.TextInput(attrs={'class': 'form-control'}),
+            'country': widgets.Select(attrs={'class': 'form-control'}),
             'postal_code': widgets.TextInput(attrs={'class': 'form-control'}),
             'credit_card_holder': widgets.TextInput(attrs={'class': 'form-control'}),
             'expiration_month': widgets.Select(attrs={'class': 'form-control'}),

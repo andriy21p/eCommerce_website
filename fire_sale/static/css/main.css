@@ -367,6 +367,11 @@ p.order_price{
     background-color: green;
 }
 
+.checkout_expectations{
+    font-size: 80%;
+    font-weight: bold;
+    padding: 9px;
+}
 
 /***Footer*****************************************************/
 .p{

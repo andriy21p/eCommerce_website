@@ -1,14 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import User
 from item.models import Offer
+from datetime import date
 
 
 # Create your models here.
 
 def get_year_choice():
-    year_list = [year for year in range(2015, 2029)]
+    year_list = [year for year in range(date.today().year, date.today().year+9)]
     choice = tuple(enumerate(year_list, 1))
     return choice
+
+
+class Country(models.Model):
+    countryId = models.CharField(max_length=10)
+    countryName = models.CharField(max_length=500)
+    countryNameIs = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.countryId + ': ' + self.countryName
 
 
 class Checkout(models.Model):
@@ -33,7 +43,7 @@ class Checkout(models.Model):
     street_address = models.CharField(max_length=100)
     house_number = models.CharField(max_length=10)
     city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, default=243, null=True, blank=True);
     postal_code = models.CharField(max_length=100, blank=True)
     credit_card_holder = models.CharField(max_length=100, blank=True)
     credit_card_number = models.PositiveBigIntegerField()
@@ -65,3 +75,4 @@ class UserReview(models.Model):
 
     def __str__(self):
         return "ID:{} | Checkout ID: {}".format(self.pk, self.checkout_id)
+

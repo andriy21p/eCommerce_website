@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-    <h2>Preview!</h2>
+    <h2>Review your order - you are about to complete the purchase</h2>
     {% for entry in checkout %}
         {% for key,value in entry.items %}
-            {% if key != "id" or key != "offer_id" %}
+            {% if key != "id" and key != "offer_id" %}
             <ul class="list-group list-group-horizontal-sm">
                   <li class="list-group-item preview-first">{{ key }}</li>
                   <li class="list-group-item flex-fill">{{ value }}</li>
@@ -16,13 +16,10 @@
     <footer aria-label="preview footer">
     <div class="container p-4">
     {% for entry in checkout %}
-    <form action="{% url "register" order_id=entry.offer_id %}" method="post">
+        <a class="btn btn-primary" href="{% url "register-checkout" order_id=entry.offer_id%}">Back to checkout</a>
     {% endfor %}
-    {% csrf_token %}
-    <input type="submit" name="button" class="btn btn-primary" value="Back to checkout">
-    </form>
 
-        <button class="btn btn-success" onclick="">Confirm</button>
+        <button class="btn btn-success">Confirm</button>
 
         </button>
     </div>

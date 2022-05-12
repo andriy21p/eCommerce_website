@@ -1,42 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container_checkout">
-    <div class="checkout">
- <h2> My Awesome Cart Express Checkout - Review Your Cart Items </h2>
-        <div class="item_checkout">
-        <img class="p-1 rounded shadow img_checkout" width="140" src="{{ order.item.itemimage_set.first.url}}" alt="{{ order.item.itemimage_set.first.description }}" />
-                   <p class="order_item"> {{ order.item }} </p>
-                    <p class="order_price">{{ order.amount|floatformat:'-2g' }} kr</p>
+    <div class="container_checkout">
+        <div class="checkout">
+            <h2>Fire Sales Awesome Express Checkout - Review Your Cart Items </h2>
+            <div class="item_checkout">
+                <img class="p-1 rounded shadow img_checkout" width="140" src="{{ order.item.itemimage_set.first.url }}"
+                     alt="{{ order.item.itemimage_set.first.description }}"/>
+                <p class="order_item"> {{ order.item.name }} </p>
+                <p class="order_price">{{ order.amount|floatformat:'-2g' }} kr</p>
             </div>
-          <form class="final_info" method="post">
-            {% csrf_token %}
-            {{ form.errors }}
-                      <div class="address ">
-                          <h4>Shipping Address</h4>
-                          <p>Street Address{{ form.street_address }}</p>
-                          <p> House Number{{ form.house_number }}</p>
-                          <p>City {{ form.city }}</p>
-                         <p> Country {{ form.country }}</p>
-                         <p>Postal code {{ form.postal_code }}</p>
-                      </div>
+            <form class="final_info" method="post">
+                {% csrf_token %}
+                {{ form.errors }}
+                <div class="address border-top border-success mt-5">
+                    <h4>Shipping Address</h4>
+                    <p>Street Address{{ form.street_address }}</p>
+                    <p> House Number{{ form.house_number }}</p>
+                    <p>City {{ form.city }}</p>
+                    <p> Country {{ form.country }}</p>
+                    <p>Postal code {{ form.postal_code }}</p>
+                </div>
 
 
-                       <div class="payment ">
-                           <h4>Payment method </h4>
-                           <p>Credit card holder{{ form.credit_card_holder }}</p>
-                          <p>Credit card number{{ form.credit_card_number }}</p>
-                          <p> Expiration Month{{ form.expiration_month }}</p>
-                          <p>Expiration Year {{ form.expiration_year }}</p>
-                         <p> CVV {{ form.cvv  }}</p>
+                <div class="payment border-top border-success mt-5">
+                    <h4>Payment method </h4>
+                    <p>Credit card holder{{ form.credit_card_holder }}</p>
+                    <p>Credit card number{{ form.credit_card_number }}</p>
+                    <p> Expiration Month{{ form.expiration_month }}</p>
+                    <p>Expiration Year {{ form.expiration_year }}</p>
+                    <p> CVV {{ form.cvv }}</p>
 
-                      </div>
+                </div>
 
-            <br/>
-            <input type="submit" class="btn_create rounded" value="Proceed">
-        </form>
+                <br/>
+                <input type="submit" class="btn_create rounded" value="Proceed">
+            </form>
 
         </div>
     </div>
-</div>
+    </div>
 {% endblock %}
