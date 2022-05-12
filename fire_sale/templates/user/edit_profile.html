@@ -9,6 +9,18 @@
 </ul>
 <br/>
 
+{% if myItemsToShip|length > 0 %}
+<h4 class="Item_My_Offers">Items I need to SHIP</h4>
+    <div class="container">
+        <div class="d-flex justify-content-around flex-wrap" id="items-container">
+            {% for offer in myItemsToShip %}
+                {% include 'user/current_offer_item.html' with offer=offer %}
+            {% endfor %}
+        </div>
+    </div>
+<hr class="profile"/>
+{% endif %}
+
 {% if offersForMyItems|length > 0 %}
 <h4 class="Item_Offers">Offers for my items</h4>
     <div class="container">

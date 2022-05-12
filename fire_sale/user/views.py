@@ -31,6 +31,7 @@ def index(request):
         .distinct('item')
         .prefetch_related('offer_by', 'item')
         .select_related('item')]
+
     myOffers = [{
         'myOfferDetails': x.get_highest_by_user(request.user),
         'numberOfBids': x.item.number_of_offers(),
@@ -40,6 +41,16 @@ def index(request):
     } for x in Offer.objects.filter(offer_by=request.user, item__has_accepted_offer=False)
         .distinct('item')
         .prefetch_related('offer_by', 'item')]
+
+    myItemsToShip = [{
+        'myOfferDetails': x.get_highest_by_user(request.user),
+        'numberOfBids': x.item.number_of_offers(),
+        'highest': x.item.current_price(),
+        'highestUser': x.item.current_winning_user,
+        'item': x.item,
+    } for x in Offer.objects.filter(item__user=request.user, item__has_accepted_offer=True, checkout__is_confirmed=True)
+        .distinct('item')
+        .prefetch_related('offer_by', 'item', 'checkout')]
 
     # going to the default items handler
     items = Item.objects.filter(user=request.user, has_accepted_offer=False)\
@@ -52,6 +63,7 @@ def index(request):
         'users': User.objects.filter(pk=request.user.id),
         'myItems': page_obj,
         'myOffers': myOffers,
+        'myItemsToShip': myItemsToShip,
         'offersForMyItems': offersForMyItems,
     })
 
