@@ -275,7 +275,7 @@ makeAnOffer = function() {
 changeSortOrder = function() {
     let new_order = $('#sort_order').val();
     if (cookies) {
-        document.cookie = 'sortorder=' + new_order+'';
+        document.cookie = 'sortorder=' + new_order + ';path=/';
     }
 
     // loop though all items on display and change the flex-box ordering element for the new sort order

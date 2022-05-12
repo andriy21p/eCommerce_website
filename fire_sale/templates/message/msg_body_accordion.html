@@ -8,10 +8,6 @@
         <button type="button" class="btn btn-sm btn-secondary msgReply" hx-get="{% url 'reply-message' msg_key=message.pk %}" hx-target="#dialog">
             Reply
         </button>
-    <script>
-        console.log('debug info');
-        console.log('{{ message.item.has_accepted_offer }}');
-    </script>
 
         {% if message.offer.accepted == False and message.offer.item == message.item and message.item.has_accepted_offer == False %}
             <button type="button" class="btn btn-sm btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>

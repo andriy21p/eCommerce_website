@@ -75,7 +75,9 @@ def index(request):
             'sort': x.sort_order(),
             'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
-                                       category__name__icontains=category).order_by(first_order, '-hitcount', 'name')
+                                       category__name__icontains=category)
+            .exclude(date_ends__lt=timezone.now())\
+            .order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')]
         return JsonResponse({'items': items,
@@ -85,7 +87,9 @@ def index(request):
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
                                     has_accepted_offer=False,
-                                    name__icontains=search).order_by(first_order, '-hitcount', 'name') \
+                                    name__icontains=search)\
+            .exclude(date_ends__lt=timezone.now())\
+            .order_by(first_order, '-hitcount', 'name') \
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
         paginator = Paginator(items, items_per_page)
@@ -300,7 +304,7 @@ def similar(request, item_key):
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,
                                    has_accepted_offer=False)
-                   .exclude(pk=item_key)
+                   .exclude(pk=item_key, date_ends__lt=timezone.now())
                    .order_by('-hitcount')[0:number_of_similar_items_max]
         .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
         .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
