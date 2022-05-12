@@ -45,8 +45,14 @@ formatTags = function(tags) {
     return 'Tags for this item: ' + res;
 }
 
-formatItem = function(d, withCategoryFilter, withDataDismiss) {
-    res = '<div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
+formatItem = function(d, withCategoryFilter, withDataDismiss, widerWidth= false) {
+    res = '<div class="singleItemItem ' ;
+    if (widerWidth) {
+        res += 'singleItemWidthWider';
+    } else {
+        res += 'singleItemWidth';
+    }
+    res+= ' text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">\n' +
           '<span class="d-none" id="sort_order_item">' + JSON.stringify(d.sort) + '</span>\n' +
           '<span class="d-none" id="tags_item">' + JSON.stringify(d.tags) + '</span>\n' +
           '<div class="border border-info rounded bg-light" data-toggle="tooltip" title="' + formatTags(d.tags) + '"' ;
@@ -162,7 +168,7 @@ getSimilarItems = function(id) {
                 let newHtml = response.items.map(d => {
                     // setum inn tóma mynd ef það er engin mynd til að koma í veg fyrir villur
                     if (d.images.length == 0) { let images = {url: '', description: ''} ; d.images.push(images);}
-                return formatItem(d, false, true);
+                return formatItem(d, false, true, true);
                 });
                 $('#similar-items-container').append(newHtml);
             }
@@ -195,22 +201,25 @@ getItemDetails = function(id) {
         success: function(response) {
             if (response.items.length > 0) {
                 getSimilarItems(id);
-                let item = response.items[0] ;
-                $('#itemDetailModalLabel').text(safe(item.name)) ;
-                $('#itemDetailModalBody').text(safe(item.description)) ;
-                $('#itemDetailCategoryTag').addClass(item.category_icon) ;
-                $('#itemDetailCategoryName').text(item.category) ;
-                $('#itemDetailModalCondition').text('Condition: '+item.condition) ;
-                $('#itemDetailModalCurrentPrice').text('Current price: '+item.current_price) ;
-                for (let i = 0 ; i < item.images.length ; i++) {
+                let item = response.items[0];
+                $('#itemDetailModalLabel').text(safe(item.name));
+                $('#itemDetailModalBody').text(safe(item.description));
+                $('#itemDetailCategoryTag').addClass(item.category_icon);
+                $('#itemDetailCategoryName').text(item.category);
+                $('#itemDetailModalCondition').text('Condition: ' + item.condition);
+                $('#itemDetailModalCurrentPrice').text('Current price: ' + item.current_price);
+                for (let i = 0; i < item.images.length; i++) {
                     let newHtml = '<div class="carousel-item" id="carousel-item">\n' +
-                                  '  <img class="d-block w-auto itemDetailImage" src="' + item.images[i].url + '" alt="' + item.images[i].description + '">\n' +
-                                  '</div>\n'
+                        '  <img class="d-block w-auto itemDetailImage" src="' + item.images[i].url + '" alt="' + item.images[i].description + '">\n' +
+                        '</div>\n'
                     $('.carousel-inner').append($.parseHTML(newHtml));
                 }
                 $('.carousel-item').first().addClass('active');
 
-                if (item.seller != item.current_user) {  // && item.current_highest_bidder != item.current_user
+                if (item.current_highest_bidder == item.current_user) {
+                    $('#itemDetailModalCurrentResult').text('You are the current highest bidder');
+                }
+                if (item.seller != item.current_user) {
                     // allow user to make an offer
                     $('.itemDetailBidding').show();
                     $('#itemPlaceAnOffer').prop('disabled', false);
@@ -227,13 +236,9 @@ getItemDetails = function(id) {
                 } else {
                     // current user is eather the item seller, or the highest bidder
                     if (item.seller == item.current_user) {
-                        $('#itemDetailModalCurrentResult').text('You are the item seller, no need to bid') ;
-                    }
-                    if (item.current_highest_bidder == item.current_user) {
-                        $('#itemDetailModalCurrentResult').text('You are the current highest bidder, no need to bid again');
+                        $('#itemDetailModalCurrentResult').text('You are the item seller, no need to bid');
                     }
                 }
-            } else {
                 // found nothing
             }
         },
@@ -317,7 +322,16 @@ $(document).ready(function(){
                 $('.messageNotifierNumber').text(number);
                 $('.messageNotifier').fadeIn();
                 if (data.show_toast) {
-                    alert('NEW MESSAGE HAS ARRIVED FROM '+data.latest_from);
+                    // enumirate all the toasts, and call the first
+                    let toastElList = [].slice.call(document.querySelectorAll('.toast'));
+                    let toastList = toastElList.map(function (toastEl) {
+                        return new bootstrap.Toast(toastEl, {'autohide': false});
+                    })
+                    $('#toast-title').text('New message from ' + data.latest_from);
+                    $('#toast-body').text('Subject: ' + data.latest_subject);
+                    let dags = new Date(data.latest_date)
+                    $('#toast-time').text(dags.toLocaleString('is-IS'));
+                    toastList[0].show();
                 }
             } else {
                 $('.messageNotifier').fadeOut();

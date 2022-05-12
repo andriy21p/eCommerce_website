@@ -67,7 +67,9 @@ def other_profile(request, user_id):
         except ValueError as verr:
             items_per_page = 12  # the default
 
-    items = Item.objects.filter(user=user_id, has_accepted_offer=False).order_by('-hitcount', 'created')
+    items = Item.objects.filter(user=user_id, has_accepted_offer=False).order_by('-hitcount', 'created')\
+        .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')\
+        .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
     paginator = Paginator(items, items_per_page)
     page_obj = paginator.get_page(page_number)
     return render(request, 'user/other_profile.html', {

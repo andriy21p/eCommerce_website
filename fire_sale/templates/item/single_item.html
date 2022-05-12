@@ -1,6 +1,6 @@
 <div class="singleItemItem singleItemWidth text-center bg-white border border-success rounded p-2 align-items-stretch flex-grow-2 m-1">
     <span class="d-none" id="sort_order_item">{{ item.sort_order }}</span>
-    <div class="border border-info rounded bg-light" onclick="categoryFilter('{{ item.category.name }}', {{ item.category.id }});">
+    <div class="border border-info rounded bg-light" {% if not profile %}onclick="categoryFilter('{{ item.category.name }}', {{ item.category.id }});"{% endif %}>
         <i class="{{ item.category.icon }}"></i>
         <small>{{ item.category.name }}</small>
     </div>
