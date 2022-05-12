@@ -119,3 +119,4 @@ def user_review(request, checkout_id):
     return render(request, "checkout/user_review.html", {
         "form": UserReviewForm(),
     })
+
