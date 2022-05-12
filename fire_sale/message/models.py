@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from item.models import Item, Offer
-
+from django.utils import timezone
 
 # Create your models here.
 class Message(models.Model):
@@ -25,6 +25,10 @@ class Message(models.Model):
                                          self.receiver,
                                          self.msg_subject,
                                          self.msg_sent)
+
+    def mark_read(self):
+        self.msg_received = timezone.now()
+        self.save()
 
 
 class MessageHistory(models.Model):

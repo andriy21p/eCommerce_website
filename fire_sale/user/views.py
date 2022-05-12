@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect, get_object_or_404
 from user.forms.profile_form import ProfileForm
 from user.models import User, Profile
 from item.models import Item, Offer
@@ -106,6 +105,11 @@ def profile(request):
 def image(request):
     input_profile = Profile.objects.filter(user=request.user).first()
     if request.POST:
+        user = get_object_or_404(User, pk=request.user.id)
+        user.email = request.POST['email']
+        user.first_name = request.POST['name']
+        user.profile.bio = request.POST['bio']
+        user.save()
         form = ProfileForm(instance=input_profile, data=request.POST)
         if form.is_valid():
             form.save()
