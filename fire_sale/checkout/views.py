@@ -45,10 +45,15 @@ def register_checkout(request, order_id):
 
     if request.method == 'POST':
         if order.checkout_id is not None:
-            checkout = get_object_or_404(Checkout, order=order_id)
-            form = CheckoutForm(initial=checkout)
+            checkout = get_object_or_404(Checkout, offer=order_id)
+            form = CheckoutForm(instance=checkout)
+
+            offer = Offer.objects.get(id=order_id)
+            offer.checkout_id = None
+            offer.save()
             return render(request, 'checkout/index.html', {
                 "form": form,
+                'order': order,
             })
         else:
             formdata = request.POST.copy()
@@ -61,7 +66,6 @@ def register_checkout(request, order_id):
                 offer = Offer.objects.get(id=order_id)
                 offer.checkout_id = order_id
                 offer.save()
-                # form.cleaned_data["offer"].checkout_id = new_checkout.pk
                 return redirect('preview', checkout_id=new_checkout.pk)
 
 
