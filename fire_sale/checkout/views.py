@@ -21,6 +21,7 @@ def mask_card(card):
     return str(card)[0:2] + '** **** **** ' + str(card)[-4:]
 
 
+@login_required
 def get_checkout_by_id(request, checkout_id):
     months = dict(Checkout.MONTH_CHOICE)
     years = dict(get_year_choice())
@@ -43,6 +44,7 @@ def get_checkout_by_id(request, checkout_id):
     return render(request, 'checkout/preview.html', {"checkout": checkout})
 
 
+@login_required
 def register_checkout(request, order_id):
     order = get_object_or_404(Offer, pk=order_id)
     checkout = Checkout.objects.filter(offer_id=order_id).first()
@@ -64,6 +66,7 @@ def register_checkout(request, order_id):
     })
 
 
+@login_required
 def checkout_complete(request, checkout_id):
     checkout = get_object_or_404(Checkout, pk=checkout_id)
     if checkout.offer.offer_by != request.user:
@@ -109,6 +112,7 @@ def checkout_complete(request, checkout_id):
     return redirect('review', checkout_id=checkout_id)
 
 
+@login_required
 def user_review(request, checkout_id):
     if request.method == "POST":
         form = UserReviewForm(data=request.POST)
@@ -118,3 +122,4 @@ def user_review(request, checkout_id):
     return render(request, "checkout/user_review.html", {
         "form": UserReviewForm(),
     })
+

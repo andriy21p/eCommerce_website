@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -17,6 +18,11 @@ class Profile(models.Model):
     def number_of_unread_message(self):
         number = self.user.msg_receiver.filter(receiver=self.user_id, msg_received__isnull=True).count()
         return number
+
+    def avg_rating(self):
+        """ Uses AVG rating based on User Review per seller."""
+        avg_rating_return = self.user.userreview_set.aggregate(Avg('rating'))
+        return avg_rating_return
 
 
 @receiver(post_save, sender=User)
