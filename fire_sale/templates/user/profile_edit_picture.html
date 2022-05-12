@@ -18,8 +18,16 @@
               <small id="imageHelp" class="form-text text-muted">This image will be viewable by users of FIRE SALE</small>
             </div>
 
+
+              <label for="editUsername">Display name</label>
+              <input id="editUsername" type="text" name="name" value="{{ user.first_name }}" class="form-control"/>
+              <label for="editEmail">eMail</label>
+              <input id="editEmail" type="text" name="email" value="{{ user.email }}" class="form-control"/>
+              <label for="editBio">Bio</label>
+              <textarea id="editBio" type="text" name="bio" class="form-control">{{ user.profile.bio }}</textarea>
+
             <br/>
-            <input type="submit" class="btn_create" value="Update profile image">
+            <input type="submit" class="btn_create" value="Update profile">
           </form>
       </div>
       <div class="modal-footer">

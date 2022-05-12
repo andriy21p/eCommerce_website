@@ -210,7 +210,7 @@ getItemDetails = function(id) {
                 }
                 $('.carousel-item').first().addClass('active');
 
-                if (item.seller != item.current_user && item.current_highest_bidder != item.current_user) {
+                if (item.seller != item.current_user) {  // && item.current_highest_bidder != item.current_user
                     // allow user to make an offer
                     $('.itemDetailBidding').show();
                     $('#itemPlaceAnOffer').prop('disabled', false);

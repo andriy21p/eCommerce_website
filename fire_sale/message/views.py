@@ -23,6 +23,8 @@ def index(request):
     msg_per_page = 15
     paginator = Paginator(messages, msg_per_page)
     page_obj = paginator.get_page(page_number)
+    # mark all unread messages as read
+    [{'mark_read': x.mark_read()} for x in Message.objects.filter(receiver=current_user.id, msg_received__isnull=True)]
     return render(request, "message/index.html", {
         "messages": page_obj,
         "msg_count": msg_count
