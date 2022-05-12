@@ -11,19 +11,34 @@ from django.core.paginator import Paginator
 
 # check if user is owner of item
 def user_owns_item(user, item):
+    """
+        returns true if user is seller of item
+    :param user:
+    :param item:
+    :return: true/false
+    """
     if item.user == user:
         return True
     return False
 
 
 def current_user_if_authenticated(request):
+    """
+        returns user id if authenticated, otherwise -1
+    :param request:
+    :return:
+    """
     if request.user.is_authenticated:
         return request.user.id
     return -1
 
 
-# Create your views here.
 def index(request):
+    """
+        processes the main item index page, searches and ajax reqests for lists of items
+    :param request:
+    :return:
+    """
     page_number = request.GET.get('page')
     items_per_page = 100
     if 'items' in request.GET:
@@ -76,7 +91,7 @@ def index(request):
             'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
                                        category__name__icontains=category)
-            .exclude(date_ends__lt=timezone.now())\
+            .exclude(date_ends__lt=timezone.now()) \
             .order_by(first_order, '-hitcount', 'name')
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')]
@@ -87,8 +102,8 @@ def index(request):
         search = request.GET['search']
         items = Item.objects.filter(show_in_catalog=True,
                                     has_accepted_offer=False,
-                                    name__icontains=search)\
-            .exclude(date_ends__lt=timezone.now())\
+                                    name__icontains=search) \
+            .exclude(date_ends__lt=timezone.now()) \
             .order_by(first_order, '-hitcount', 'name') \
             .select_related('user', 'user__profile', 'sale_type', 'condition', 'category') \
             .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
@@ -107,6 +122,12 @@ def index(request):
 
 
 def get_item_by_id(request, item_key):
+    """
+        returns JSON result of all details on a single item
+    :param request:
+    :param item_key:
+    :return:
+    """
     Item.objects.filter(id=item_key) \
         .exclude(user=current_user_if_authenticated(request)) \
         .update(hitcount=F('hitcount') + 1)
@@ -140,6 +161,11 @@ def get_item_by_id(request, item_key):
 
 @login_required
 def create(request):
+    """
+        Create an Item for sale
+    :param request:
+    :return:
+    """
     if request.method == "POST":
         formdata = request.POST.copy()
         formdata['sale_type'] = 1
@@ -162,6 +188,12 @@ def create(request):
 
 @login_required
 def edit(request, item_key):
+    """
+        Edit an item that is on sale
+    :param request:
+    :param item_key:
+    :return:
+    """
     item = get_object_or_404(Item, pk=item_key)
     if not request.user.is_authenticated:
         return redirect('item-index')
@@ -184,6 +216,12 @@ def edit(request, item_key):
 
 @login_required
 def delete(request, item_key):
+    """
+        Delete an item that is currently for sale
+    :param request:
+    :param item_key:
+    :return:
+    """
     item = get_object_or_404(Item, pk=item_key)
     if not request.user.is_authenticated:
         return redirect('item-index')
@@ -196,6 +234,12 @@ def delete(request, item_key):
 
 @login_required
 def bid(request, item_key):
+    """
+        allows an authenticated user to bid on an item
+    :param request:
+    :param item_key:
+    :return:
+    """
     if not request.user.is_authenticated:
         return redirect('item-index')
     if request.POST and ('amount' in request.POST):
@@ -224,6 +268,12 @@ def bid(request, item_key):
 
 @login_required
 def offers(request, item_key):
+    """
+        returns JSON list of all ofers for specific item
+    :param request:
+    :param item_key:
+    :return:
+    """
     item = get_object_or_404(Item, pk=item_key)
     return render(request, 'item/item_offers.html', {
         'item': item,
@@ -232,6 +282,12 @@ def offers(request, item_key):
 
 
 def accept_item_bid(request, offer_id):
+    """
+        Accepts a specific bid for an item. Marks Item as sold and sends notification to winner and all loosers
+    :param request:
+    :param offer_id:
+    :return:
+    """
     if not request.user.is_authenticated:
         return redirect('item-index')
     offer = get_object_or_404(Offer, pk=offer_id)
@@ -304,7 +360,8 @@ def similar(request, item_key):
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,
                                    has_accepted_offer=False)
-                   .exclude(pk=item_key, date_ends__lt=timezone.now())
+                   .exclude(pk=item_key)
+                   .exclude(date_ends__lt=timezone.now())
                    .order_by('-hitcount')[0:number_of_similar_items_max]
         .select_related('user', 'user__profile', 'sale_type', 'condition', 'category')
         .prefetch_related('itemimage_set', 'offer_set', 'offer_set__offer_by', 'user__offer_set', 'tags')
@@ -314,6 +371,12 @@ def similar(request, item_key):
 
 @login_required
 def addimage(request, item_key):
+    """
+        Add image to an Item
+    :param request:
+    :param item_key:
+    :return:
+    """
     item = get_object_or_404(Item, pk=item_key)
     if item.user != request.user:
         return redirect('my-profile')
@@ -330,10 +393,15 @@ def addimage(request, item_key):
 
 @login_required
 def removeimage(request, item_key, image_key):
+    """
+        Removes an image from an item
+    :param request:
+    :param item_key:
+    :param image_key:
+    :return:
+    """
     image = get_object_or_404(ItemImage, pk=image_key)
     if image.item.user != request.user:
         return redirect('my-profile')
     image.delete();
     return redirect('item-edit', item_key=item_key)
-
-

@@ -1,39 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-md-9">
-        Offers for:
-        {{ item.name }}
-        {% if item.user == user %}
-            <br/>
-            Item has been viewed {{ item.hitcount }} time{{ item.hitcount|pluralize:'s' }}
-            <br/>
-            Item has {{ item.number_of_offers }} bid{{ item.hitcount|pluralize:'s' }}
-        {% endif %}
-        <hr/>
-        {% for offer in offers %}
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="offer{{ forloop.counter}}">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-                  # {{ forloop.counter }}  - Bidder: {{ offer.offer_by }} | {{ offer.created }}
-              </button>
-            </h2>
-            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.counter == 1 %}show{% endif %}" aria-labelledby="offer{{ forloop.counter }}" data-bs-parent="#accordionOffer">
-                <div class="accordion-body">
-                    {{ offer.amount }}
-                    <br/>
-                    {% if item.user == user and forloop.counter == 1 %}
-                        <button type="button" class="btn btn-primary offerAccept" onclick="acceptAnOffer('{{ offer.pk }}');">Accept offer</button>
-                    {% endif %}
-                    <a href="/user/{{ offer.offer_by_id }}" class="btn btn-info float-right">See bidders profile</a>
+    <div class="row">
+        <div class="col-md-9">
+            Offers for:
+            {{ item.name }}
+            {% if item.user == user %}
+                <br/>
+                Item has been viewed {{ item.hitcount }} time{{ item.hitcount|pluralize:'s' }}
+                <br/>
+                Item has {{ item.number_of_offers }} bid{{ item.hitcount|pluralize:'s' }}
+            {% endif %}
+            <hr/>
+            {% for offer in offers %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="offer{{ forloop.counter }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false"
+                                aria-controls="collapse{{ forloop.counter }}">
+                            # {{ forloop.counter }} - Bidder: {{ offer.offer_by }} | {{ offer.created }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}"
+                         class="accordion-collapse collapse {% if forloop.counter == 1 %}show{% endif %}"
+                         aria-labelledby="offer{{ forloop.counter }}" data-bs-parent="#accordionOffer">
+                        <div class="accordion-body">
+                            Offered amount: {{ offer.amount|floatformat:"-2g" }}
+                            <br/>
+                            {% if item.has_accepted_offer == True and forloop.counter == 1 %}
+                                <button disabled class="btn btn-primary">This offer was accepted</button>
+                            {% endif %}
+                            {% if item.user == user and forloop.counter == 1 and item.has_accepted_offer == False %}
+                                <button type="button" class="btn btn-primary offerAccept"
+                                        onclick="acceptAnOffer('{{ offer.pk }}');">Accept offer
+                                </button>
+                            {% endif %}
+                            <a href="/user/{{ offer.offer_by_id }}" class="btn btn-info float-right">See bidders
+                                profile</a>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-md-3">
+            <img class="p-1 w-100 rounded shadow" src="{{ item.itemimage_set.first.url }}"
+                 alt="{{ item.itemimage_set.first.description }}"/>
+        </div>
     </div>
-    <div class="col-md-3">
-        <img class="p-1 w-100 rounded shadow" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
-    </div>
-</div>
+    <br/>
 
 {% endblock %}

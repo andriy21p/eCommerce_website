@@ -14,7 +14,7 @@
     <div class="container">
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in myItemsToShip %}
-                {% include 'user/current_offer_item.html' with offer=offer %}
+                {% include 'user/current_offer_myitem.html' with offer=offer %}
             {% endfor %}
         </div>
     </div>
