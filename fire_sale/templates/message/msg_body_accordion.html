@@ -12,7 +12,7 @@
         {% if message.offer.accepted == False and message.offer.item == message.item and message.item.has_accepted_offer == False %}
             <button type="button" class="btn btn-sm btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
         {% endif %}
-        {% if message.item.has_accepted_offer == True and message.item == message.offer.item and message.offer.valid == True and message.offer.offer_by_id == user.pk and message.offer.checkout.is_confirmed == False %}
+        {% if message.item.has_accepted_offer == True and message.item == message.offer.item and message.offer.valid == True and message.offer.offer_by_id == user.pk  %}  {# and message.offer.checkout.is_confirmed == False #}
           <a type="button" class="btn btn-sm btn-primary proceed" href="/checkout/{{ message.offer.id }}">Proceed to checkout</a>
             <br/><br/>
             <span class="checkout_expectations border border-primary rounded">You will be excepted to pay {{ message.offer.amount|floatformat:"-2g" }} in these next steps. You will have a chance to review or cancel your order before you will be charged.</span>

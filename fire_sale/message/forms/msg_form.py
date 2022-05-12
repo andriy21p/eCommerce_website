@@ -25,6 +25,24 @@ class MsgReplyForm(ModelForm):
             return msg
 
 
+class MsgCreate(ModelForm):
+    class Meta:
+        model = Message
+        fields = ['msg_subject', 'msg_body']
+        widgets = {
+            'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
+            'msg_body': widgets.Textarea(attrs={'class': 'form-control'})
+        }
+
+        def clean_msg_body(self):
+            """ Cleans and validates the data before it's sent."""
+            msg = self.cleaned_data["msg_body"]
+
+            if len(msg) == 0:
+                raise ValidationError(_("Message is empty"))
+            return msg
+
+
 class MsgItemOfferAccept(ModelForm):
 
     class Meta:

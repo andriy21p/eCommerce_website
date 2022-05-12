@@ -1,15 +1,15 @@
 {% extends "base.html"%}
 {% block content %}
     <div class="container">
-        <h1>Form to create a message</h1>
-        <h2>Test</h2>
+        <h4>Create a new message</h4>
         <br/><br/>
         <form class="form form-horizontal" method="post">
             {% csrf_token %}
             {{ form }}
             <br/>
             <input type="submit" class="btn btn-success" value="Lets create a message!">
-            <a class="btn btn-danger" href="/message/">Discard</a>
+            <button class="btn btn-danger" onclick="history.back()">Discard</button>
         </form>
     </div>
+    <br/>
 {% endblock %}

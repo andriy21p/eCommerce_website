@@ -5,6 +5,7 @@
     <br><br>
     <p class="p_edit_profile">Bio:</p>
     <li class="bio rounded" >{{ user.profile.bio }}</li>
+    <li><br/><a class="btn btn-info" href="{% url 'create-new-message' to_user_id=user.id %}">Send message to this user</a></li>
 </ul>
 <br/>
 

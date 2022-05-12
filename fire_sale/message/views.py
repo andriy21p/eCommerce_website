@@ -2,11 +2,12 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from message.models import Message
-from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyModal
+from message.forms.msg_form import MsgReplyForm, MsgItemOfferAccept, MsgReplyModal, MsgCreate
 from item.views import accept_item_bid
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from datetime import timedelta
+from user.models import User
 
 
 # Create your views here.
@@ -31,7 +32,7 @@ def index(request):
     })
 
 
-def create_new_msg(request):
+def create_new_msg(request, to_user_id):
     if request.method == "POST":
         form = MsgReplyForm(data=request.POST)
         if form.is_valid():
@@ -39,8 +40,11 @@ def create_new_msg(request):
             new_message.user = request.user
             new_message.save()
             return redirect("message")
+    to_user = User.objects.filter(pk=to_user_id).first()
+    msg = {'sender': request.user, 'receiver': to_user, }
+    message = MsgCreate(msg)
     return render(request, "message/msg_create.html", {
-        "form": MsgReplyForm()
+        "form": message
     })
 
 

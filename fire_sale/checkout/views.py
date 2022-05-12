@@ -69,6 +69,9 @@ def checkout_complete(request, checkout_id):
     if checkout.offer.offer_by != request.user:
         return redirect('my-profile')
 
+    if checkout.is_confirmed:
+        return redirect('review', checkout_id=checkout_id)
+
     # save that checkout is completed
     checkout.is_confirmed = True
     checkout.save()

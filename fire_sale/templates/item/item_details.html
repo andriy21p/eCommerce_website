@@ -27,6 +27,7 @@
           <p id="itemDetailModalCurrentPrice"></p>
           <p id="itemDetailModalCurrentResult" class="itemDetailModalCurrentResult"></p>
           <br/><hr/>
+          {% if user.is_authenticated %}
           <div class="itemDetailBidding form">
               {% csrf_token %}
               <div class="form-group">
@@ -37,6 +38,7 @@
               </div>
               <button id="itemPlaceAnOffer" class="btn btn-primary" onclick="makeAnOffer();">Make an offer</button>
           </div>
+          {% endif %}
 
           <hr/>
           <h5 id="similar-items-header">Similar items:</h5>
