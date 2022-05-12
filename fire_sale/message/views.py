@@ -32,16 +32,19 @@ def index(request):
     })
 
 
+@login_required
 def create_new_msg(request, to_user_id):
-    if request.method == "POST":
-        form = MsgReplyForm(data=request.POST)
-        if form.is_valid():
-            new_message = form.save(commit=False)
-            new_message.user = request.user
-            new_message.save()
-            return redirect("message")
     to_user = User.objects.filter(pk=to_user_id).first()
     msg = {'sender': request.user, 'receiver': to_user, }
+    if request.method == "POST":
+        form = MsgCreate(data=request.POST)
+        if form.is_valid():
+            new_message = form.save(commit=False)
+            new_message.sender = request.user
+            new_message.receiver = to_user
+            new_message.save()
+            return redirect("message")
+
     message = MsgCreate(msg)
     return render(request, "message/msg_create.html", {
         "form": message

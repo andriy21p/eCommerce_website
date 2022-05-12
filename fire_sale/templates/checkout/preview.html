@@ -4,7 +4,7 @@
         <h2>Review your order - you are about to complete the purchase</h2>
         {% for entry in checkout %}
             {% for key,value in entry.items %}
-                {% if key != "id" and key != "offer_id" %}
+                {% if key != "id" and key != "offer_id" and key != "checkout_id" %}
                     <ul class="list-group list-group-horizontal-sm">
                         <li class="list-group-item preview-first">{{ key }}</li>
                         <li class="list-group-item flex-fill">{{ value }}</li>
