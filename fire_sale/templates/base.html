@@ -26,11 +26,30 @@
     {% include "footer.html" %}
 
 
+    <!-- cookie consent popup, is hidden by default -->
     <div class="cookie-consent">
         <span>This site uses cookies to enhance user experience. see <a href="/static/privacy.html" class="text-decoration-none">Privacy policy</a> </span>
         <div class="mt-2 d-flex align-items-center justify-content-center g-2">
             <button class="cookie-allow-button m-1" onclick="cookieConsent(true)">Allow cookies</button>
             <button class="cookie-allow-button m-1" onclick="cookieConsent(false)">Cancel</button>
+        </div>
+    </div>
+
+    <!-- messages toast - only shown when server needs to push a message to the user -->
+    <div class="position-fixed top-0 end-0 p-4" style="z-index: 11">
+        <div id="liveToast" class="toast hide bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="{% static "images/fire_sale.png" %}" width="50" class="rounded me-2" alt="Logo">
+                <strong class="me-auto" id="toast-title">Fire Sale</strong>
+                <small id="toast-time"></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <span id="toast-body"></span>
+                <div class="mt-2 pt-2 border-top" style="text-align:right">
+                    <a class="btn btn-success btn-sm" aria-label="Close" href="{% url 'message' %}">Go to messages</a>
+                </div>
+            </div>
         </div>
     </div>
 

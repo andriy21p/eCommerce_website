@@ -6,6 +6,10 @@
     max-height: 350px;
     max-width: 600px;
 }
+.itemDetailModalCurrentResult {
+    font-weight: bold;
+    color: firebrick;
+}
 .profileImage {
     max-height: 300px;
     max-width: 300px;
@@ -13,6 +17,10 @@
 
 .singleItemItem {
     /* transition: all 200ms ease; */
+}
+.singleItemWidthWider {
+    min-height: 16em;
+    max-width: 24%
 }
 .singleItemWidth {
     min-height: 16em;

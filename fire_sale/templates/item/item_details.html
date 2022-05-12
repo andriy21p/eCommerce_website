@@ -25,7 +25,7 @@
           <p id="itemDetailModalBody">loading ...</p>
           <p id="itemDetailModalCondition">Condition: </p>
           <p id="itemDetailModalCurrentPrice"></p>
-          <p id="itemDetailModalCurrentResult"></p>
+          <p id="itemDetailModalCurrentResult" class="itemDetailModalCurrentResult"></p>
           <br/><hr/>
           <div class="itemDetailBidding form">
               {% csrf_token %}
@@ -38,6 +38,7 @@
               <button id="itemPlaceAnOffer" class="btn btn-primary" onclick="makeAnOffer();">Make an offer</button>
           </div>
 
+          <hr/>
           <h5 id="similar-items-header">Similar items:</h5>
           <div class="container">
               <div class="d-flex justify-content-around flex-wrap" id="similar-items-container">

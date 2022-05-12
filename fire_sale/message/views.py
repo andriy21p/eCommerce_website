@@ -116,20 +116,27 @@ def number_of_unread(request):
           Returns a JSON for the front-end with the current message count and
           information about the newest message (for toast)
 
-          This must be super-fast :)  It's called about once every 10 seconds from every client
+          This must be super-fast :)  It's called about once every 30 seconds from every client
     """
+    errorResponse = JsonResponse({"number_of_unread_messages": 0,
+                                  "latest_from": '',
+                                  "latest_subject": '',
+                                  "latest_date": '',
+                                  "show_toast": False})
+
     if not request.user.is_authenticated:
-        return JsonResponse({"number_of_unread_messages": 0,
-                             "latest_from": '',
-                             "latest_subject": '',
-                             "latest_date": '',
-                             "show_toast": False})
+        return errorResponse
+
     messages = Message.objects.filter(receiver=request.user, msg_received__isnull=True).count()
     latest_message = Message.objects.filter(receiver=request.user, msg_received__isnull=True)\
         .order_by('-msg_sent').first()
-    show_toast = (latest_message.msg_sent + timedelta(seconds=25)) > timezone.now()
-    return JsonResponse({"number_of_unread_messages": messages,
-                         "latest_from": latest_message.sender.username,
-                         "latest_subject": latest_message.msg_subject,
-                         "latest_date": latest_message.msg_sent,
-                         "show_toast": show_toast})
+
+    if latest_message is not None:
+        show_toast = (latest_message.msg_sent + timedelta(seconds=2500)) > timezone.now()
+        return JsonResponse({"number_of_unread_messages": messages,
+                             "latest_from": latest_message.sender.username,
+                             "latest_subject": latest_message.msg_subject,
+                             "latest_date": latest_message.msg_sent,
+                             "show_toast": show_toast})
+
+    return errorResponse
