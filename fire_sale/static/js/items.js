@@ -45,6 +45,12 @@ formatTags = function(tags) {
     return 'Tags for this item: ' + res;
 }
 
+stars_class = function(val) {
+    let new_val = Math.round(val * 2);
+    console.log(val + '->' + new_val);
+    return 'stars-'+new_val+'0' ;
+}
+
 formatItem = function(d, withCategoryFilter, withDataDismiss, widerWidth= false) {
     res = '<div class="singleItemItem ' ;
     if (widerWidth) {
@@ -60,13 +66,18 @@ formatItem = function(d, withCategoryFilter, withDataDismiss, widerWidth= false)
         res +='     onclick="categoryFilter(\'' + d.category + '\', ' + d.category_id + ');"';
     }
     res+= '>' +
-          '       <i class="' + d.category_icon + '"></i>'+
-          '       <small>' + d.category + '</small></div><br/>\n' +
+          '       <i class="' + d.category_icon + '"></i>' +
+          '       <small>' + d.category + '</small></div>\n' +
           '    <span onclick="getItemDetails(' + d.id + ');"' ;
     if (withDataDismiss) {
         res +=' data-bs-dismiss="modal"';
     }
-    res+= '>    <div class="img-hover-zoom">'+
+    if (d.seller_rating.rating__avg == null) {
+        res += '>   <small><span class="stars-container ' + stars_class(4.25) + '">★★★★★</span></small>\n';
+    } else {
+        res += '>   <small><span class="stars-container ' + stars_class(d.seller_rating.rating__avg) + '">★★★★★</span></small>\n';
+    }
+    res+= '    <div class="img-hover-zoom">'+
           '      <img class="itemImage rounded shadow" src="'+d.images[0].url+'" alt="'+safe(d.images[0].description)+'" />' +
           '     </div>\n' +
           '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
@@ -184,10 +195,8 @@ getItemDetails = function(id) {
     let myModal = new bootstrap.Modal(document.getElementById('itemDetailModal'), {});
     myModal.show()
 
+    $('.itemDetailClear').text('') ;
     $('#itemPlaceAnOffer').prop('disabled', true);
-    $('#itemDetailModalLabel').text('') ;
-    $('#itemDetailModalCurrentResult').text('') ;
-    $('#itemDetailModalCurrentPrice').text('');
     $('#itemDetailModalCondition').text('Hold on, fetching the data ...');
     $('#itemDetailModalBody').html('<div id="index-loading" class="spinner-border text-success" role="status">\n' +
         '<span class="visually-hidden">Loading...</span></div>') ;
@@ -210,6 +219,17 @@ getItemDetails = function(id) {
                 $('#itemDetailCategoryName').text(item.category);
                 $('#itemDetailModalCondition').text('Condition: ' + item.condition);
                 $('#itemDetailModalCurrentPrice').text('Current price: ' + item.current_price);
+                $('#itemDetailSellerInfo').text('This is being sold by: ' + item.seller_name);
+
+                $('#itemDetailSellerInfo').attr('href', '/user/' + item.seller);
+                $("#itemDetailSellerRating").removeAttr('class');
+                if (item.seller_rating.rating__avg == null) {
+                    $("#itemDetailSellerRating").addClass('stars-container');
+                    $("#itemDetailSellerRating").addClass(stars_class(4.25));
+                } else {
+                    $("#itemDetailSellerRating").addClass('stars-container');
+                    $("#itemDetailSellerRating").addClass(stars_class(item.seller_rating.rating__avg));
+                }
                 for (let i = 0; i < item.images.length; i++) {
                     let newHtml = '<div class="carousel-item" id="carousel-item">\n' +
                         '  <img class="d-block w-auto itemDetailImage" src="' + item.images[i].url + '" alt="' + item.images[i].description + '">\n' +

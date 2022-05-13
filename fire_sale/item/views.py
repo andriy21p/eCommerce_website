@@ -89,6 +89,8 @@ def index(request):
             'current_highest_bidder': x.current_winning_user_id(),
             'sort': x.sort_order(),
             'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
+            'seller_name': x.user.first_name,
+            'seller_rating': x.user.profile.avg_rating(),
         } for x in Item.objects.filter(show_in_catalog=True, has_accepted_offer=False,
                                        category__name__icontains=category)
             .exclude(date_ends__lt=timezone.now()) \
@@ -155,6 +157,8 @@ def get_item_by_id(request, item_key):
         'current_highest_bidder': x.current_winning_user_id(),
         'sort': x.sort_order(),
         'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
+        'seller_name': x.user.first_name,
+        'seller_rating': x.user.profile.avg_rating(),
     } for x in Item.objects.filter(pk=item_key)]
     return JsonResponse({'items': items})
 
@@ -358,6 +362,8 @@ def similar(request, item_key):
         'current_highest_bidder': x.current_winning_user_id(),
         'sort': x.sort_order(),
         'tags': [{'id': y.id, 'name': y.name, } for y in x.tags.all()],
+        'seller_name': x.user.first_name,
+        'seller_rating': x.user.profile.avg_rating(),
     } for x in Item.objects.filter(category=selected.category,
                                    show_in_catalog=True,
                                    has_accepted_offer=False)
