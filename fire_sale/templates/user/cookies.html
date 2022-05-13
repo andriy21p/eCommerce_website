@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{ footer.content }}
+    <div class="container-sm">
+    {{ footer.content|safe }}
+    </div>
 {% endblock %}
