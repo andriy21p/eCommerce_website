@@ -1,7 +1,7 @@
 {% extends "base.html"%}
 {% block content %}
     <div class="container">
-        <h4>Create a new message</h4>
+        <h4>Create a new message for {{ reciver.first_name }}</h4>
         <br/><br/>
         <form class="form form-horizontal" method="post">
             {% csrf_token %}
