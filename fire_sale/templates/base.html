@@ -28,7 +28,7 @@
 
     <!-- cookie consent popup, is hidden by default -->
     <div class="cookie-consent">
-        <span>This site uses cookies to enhance user experience. see <a href="/templates/user/privacy.html" class="text-decoration-none">Privacy policy</a> </span>
+        <span>This site uses cookies to enhance user experience. see <a href="{% url 'privacy' %}" class="text-decoration-none">Privacy policy</a> </span>
         <div class="mt-2 d-flex align-items-center justify-content-center g-2">
             <button class="cookie-allow-button m-1" onclick="cookieConsent(true)">Allow cookies</button>
             <button class="cookie-allow-button m-1" onclick="cookieConsent(false)">Cancel</button>
