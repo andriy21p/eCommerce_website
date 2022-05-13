@@ -1,21 +1,30 @@
 <div class="accordion-body">
     {{ message.msg_body }}
+    <br/>
     {{ message.item.name }}
     <br/>
     <div class="offerButtons form">
         {% csrf_token %}
 
-        <button type="button" class="btn btn-sm btn-secondary msgReply" hx-get="{% url 'reply-message' msg_key=message.pk %}" hx-target="#dialog">
+        <button type="button" class="btn btn-sm btn-secondary msgReply"
+                hx-get="{% url 'reply-message' msg_key=message.pk %}" hx-target="#dialog">
             Reply
         </button>
 
         {% if message.offer.accepted == False and message.offer.item == message.item and message.item.has_accepted_offer == False %}
-            <button type="button" class="btn btn-sm btn-primary offerAccept" onclick="acceptAnOffer('{{ message.pk }}');">Accept offer</button>
+            <button type="button" class="btn btn-sm btn-primary offerAccept"
+                    onclick="acceptAnOffer('{{ message.pk }}');">Accept offer
+            </button>
         {% endif %}
-        {% if message.item.has_accepted_offer == True and message.item == message.offer.item and message.offer.valid == True and message.offer.offer_by_id == user.pk  %}  {# and message.offer.checkout.is_confirmed == False #}
-          <a type="button" class="btn btn-sm btn-primary proceed" href="/checkout/{{ message.offer.id }}">Proceed to checkout</a>
-            <br/><br/>
-            <span class="checkout_expectations border border-primary rounded">You will be excepted to pay {{ message.offer.amount|floatformat:"-2g" }} in these next steps. You will have a chance to review or cancel your order before you will be charged.</span>
+        {% if message.item.has_accepted_offer == True and message.item == message.offer.item and message.offer.valid == True and message.offer.offer_by_id == user.pk %}
+            {# ef message.offer.checkout == '' þá á eftir að búa til checkout og þá á takkinn að birtast          #}
+            {# ef message.offer.checkout.is_confirmed == True, þá er checkout búið, og takkinn á ekki að birtast  #}
+            {% if message.offer.checkout == '' or message.offer.checkout.is_confirmed == False %}
+                <a type="button" class="btn btn-sm btn-primary proceed" href="/checkout/{{ message.offer.id }}">Proceed
+                    to checkout</a>
+                <br/><br/>
+                <span class="checkout_expectations border border-primary rounded">You will be excepted to pay {{ message.offer.amount|floatformat:"-2g" }} in these next steps. You will have a chance to review or cancel your order before you will be charged.</span>
+            {% endif %}
         {% endif %}
     </div>
 </div>

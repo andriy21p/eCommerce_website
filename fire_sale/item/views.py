@@ -292,18 +292,7 @@ def accept_item_bid(request, offer_id):
         return redirect('item-index')
     offer = get_object_or_404(Offer, pk=offer_id)
     if request.user == offer.item.user:
-        # 1. accept offer and congratulate the winner
-        offer.accepted = True
-        form_msg = MsgReplyForm(data={'sender': request.user,
-                                      'receiver': offer.offer_by,
-                                      'item': offer.item,
-                                      'offer': offer,
-                                      'msg_subject': 'You just had the highest bid for ' + offer.item.name + ' !',
-                                      'msg_body': 'Congratulations ! Now it''s time to pay up!'})
-        if form_msg.is_valid():
-            form_msg.save()
-
-        # 2. reject all other offers
+        # 1. reject all other offers - send these first for notification reasons :)
         rejected_offers = Offer.objects.filter(item=offer.item).exclude(pk=offer_id).order_by('-created')
         for offer in rejected_offers:
             # mark offer as rejected
@@ -318,7 +307,19 @@ def accept_item_bid(request, offer_id):
                                           'msg_body': 'Try searching again for ' + offer.item.name})
             if form_msg.is_valid():
                 form_msg.save()
-            offer.save()
+
+        # 2. accept offer and congratulate the winner
+        offer.accepted = True
+        form_msg = MsgReplyForm(data={'sender': request.user,
+                                      'receiver': offer.offer_by,
+                                      'item': offer.item,
+                                      'offer': offer,
+                                      'msg_subject': 'You just had the highest bid for ' + offer.item.name + ' !',
+                                      'msg_body': 'Congratulations ! Now it''s time to pay up!'})
+        if form_msg.is_valid():
+            form_msg.save()
+
+        offer.save()
 
         # 3. merkjum item sem selt svo það birtist ekki lengur í catalog
         item = offer.item
@@ -403,5 +404,5 @@ def removeimage(request, item_key, image_key):
     image = get_object_or_404(ItemImage, pk=image_key)
     if image.item.user != request.user:
         return redirect('my-profile')
-    image.delete();
+    image.delete()
     return redirect('item-edit', item_key=item_key)

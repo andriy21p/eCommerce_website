@@ -187,6 +187,8 @@ getItemDetails = function(id) {
     $('#itemPlaceAnOffer').prop('disabled', true);
     $('#itemDetailModalLabel').text('') ;
     $('#itemDetailModalCurrentResult').text('') ;
+    $('#itemDetailModalCurrentPrice').text('');
+    $('#itemDetailModalCondition').text('Hold on, fetching the data ...');
     $('#itemDetailModalBody').html('<div id="index-loading" class="spinner-border text-success" role="status">\n' +
         '<span class="visually-hidden">Loading...</span></div>') ;
     $('.carousel-inner').html('') ;
@@ -262,10 +264,16 @@ makeAnOffer = function() {
         data: formData,
         success: function (response) {
             // refresh the current view
+            let myModalEl = document.getElementById('itemDetailModal')
+            let myModal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
+            myModal.hide();
             getItemDetails(id);
         },
         error: function (xhr, status, error) {
             // add toaster with error
+            let myModalEl = document.getElementById('itemDetailModal')
+            let myModal = bootstrap.Modal.getInstance(myModalEl) // Returns a Bootstrap modal instance
+            myModal.hide();
             console.error(error);
             getItemDetails(id);
         }
