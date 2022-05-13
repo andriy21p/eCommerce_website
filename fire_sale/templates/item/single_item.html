@@ -4,8 +4,8 @@
         <i class="{{ item.category.icon }}"></i>
         <small>{{ item.category.name }}</small>
     </div>
-    <br/>
     <span onclick="getItemDetails({{ item.id }});">
+        <small><span class="stars-container stars-{{ item.user.profile.avg_rating_percent }}">★★★★★</span></small>
         <div class="img-hover-zoom">
             <img class="itemImage rounded shadow" src="{{ item.itemimage_set.first.url}}" alt="{{ item.itemimage_set.first.description }}" />
         </div>
