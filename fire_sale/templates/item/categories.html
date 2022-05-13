@@ -1,7 +1,8 @@
-<div class="categories d-flex flex-column flex-shrink-0 p-3">
-    <span class="d-flex text-center mb-3 ms-auto me-auto fs-4">
-      Categories
-    </span>
+<div class="categories d-flex flex-column flex-shrink-0 p-3  ">
+    <a href="/static" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+{#      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>#}
+      <span class="fs-4">Categories</span>
+    </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         {% for category in categories %}
