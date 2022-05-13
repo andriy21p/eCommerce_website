@@ -10,4 +10,8 @@ urlpatterns = [
     path('logout', LogoutView.as_view(template_name='user/logout.html'), name='logout'),
     path('profile', views.profile, name='profile'),
     path('image', views.image, name='profile-image'),
+    path('conduct', views.conduct, name='conduct'),
+    path('cookies', views.cookies, name='cookies'),
+    path('security', views.security, name='security'),
+    path('privacy', views.privacy, name='privacy')
 ]

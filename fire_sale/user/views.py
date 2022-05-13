@@ -131,3 +131,19 @@ def image(request):
     return render(request, 'user/image.html', {
         'form': input_profile
     })
+
+
+def conduct(request):
+    return render(request, 'user/codeofconduct.html')
+
+
+def cookies(request):
+    return render(request, 'user/cookies.html')
+
+
+def security(request):
+    return render(request, 'user/security.html')
+
+
+def privacy(request):
+    return render(request, 'user/privacy.html')
