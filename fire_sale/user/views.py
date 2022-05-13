@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from user.forms.profile_form import ProfileForm
-from user.models import User, Profile
+from user.models import User, Profile, Footer
 from item.models import Item, Offer
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -134,16 +134,42 @@ def image(request):
 
 
 def conduct(request):
-    return render(request, 'user/codeofconduct.html')
+    footer_links = Footer.objects.filter(footer_page=1).order_by("-created").first()
+    return render(request, 'user/codeofconduct.html', {
+        'footer': footer_links,
+        })
 
 
 def cookies(request):
-    return render(request, 'user/cookies.html')
+    footer_links = Footer.objects.filter(footer_page=4).order_by("-created").first()
+    return render(request, 'user/cookies.html', {
+        'footer': footer_links,
+        })
 
 
 def security(request):
-    return render(request, 'user/security.html')
+    footer_links = Footer.objects.filter(footer_page=3).order_by("-created").first()
+    return render(request, 'user/security.html', {
+        'footer': footer_links,
+        })
 
 
 def privacy(request):
-    return render(request, 'user/privacy.html')
+    footer_links = Footer.objects.filter(footer_page=2).order_by("-created").first()
+    return render(request, 'user/privacy.html', {
+        'footer': footer_links,
+        })
+
+
+def help(request):
+    footer_links = Footer.objects.filter(footer_page=5).order_by("-created").first()
+    return render(request, 'user/help.html', {
+        'footer': footer_links,
+        })
+
+
+def advice(request):
+    footer_links = Footer.objects.filter(footer_page=6).order_by("-created").first()
+    return render(request, 'user/advice.html', {
+        'footer': footer_links,
+        })

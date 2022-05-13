@@ -13,5 +13,8 @@ urlpatterns = [
     path('conduct', views.conduct, name='conduct'),
     path('cookies', views.cookies, name='cookies'),
     path('security', views.security, name='security'),
-    path('privacy', views.privacy, name='privacy')
+    path('privacy', views.privacy, name='privacy'),
+    path('help', views.help, name='help'),
+    path('advice', views.advice, name='advice')
+
 ]
