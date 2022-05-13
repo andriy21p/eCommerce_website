@@ -349,12 +349,6 @@ hr.profile {
 }
 
 .item_checkout{
-      border: black 0.1px solid;
-    margin-bottom: -10px;
-    padding: 5px 5px 5px 0;
-    position: relative;
-    width: 70%;
-    height: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
