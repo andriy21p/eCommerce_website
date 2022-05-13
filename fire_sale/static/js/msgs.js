@@ -24,9 +24,7 @@ function init_messages() {
 
 function acceptAnOffer(msgId) {
     let is_true = false;
-    if (document.getElementsByClassName(".offerAccept") === true){
-        let is_true = true;
-    }
+    let btn = $('.offerAccept').addClass('disabled') ;
     //let msgId = $("#msgId").val();
     let accept = true;
     // console.log("msgId is: ", msgId, "Class: ", is_true)
@@ -39,8 +37,7 @@ function acceptAnOffer(msgId) {
         headers: { "X-CSRFToken": getCookie("csrftoken") },
         data: formData,
         success: function (response) {
-            // Needs to refresh messages
-
+            $(btn).text('Offer accepted, buyer sent to checkout');
         },
         error: function (xhr, status, error) {
             // add toaster with error

@@ -79,7 +79,7 @@ formatItem = function(d, withCategoryFilter, withDataDismiss, widerWidth= false)
     res+= '    <div class="img-hover-zoom">'+
           '      <img class="itemImage rounded shadow" src="'+d.images[0].url+'" alt="'+safe(d.images[0].description)+'" />' +
           '     </div>\n' +
-          '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.price_minimum.toLocaleString("is-IS")+'</p>\n' +
+          '     <p class="singleItemName">'+safe(d.name)+'</p><p class="singleItemPrice">'+d.current_price.toLocaleString("is-IS")+'</p>\n' +
           '    </span>' +
           '</div>';
 
@@ -221,13 +221,13 @@ getItemDetails = function(id) {
                 $('#itemDetailSellerInfo').text('This is being sold by: ' + item.seller_name);
 
                 $('#itemDetailSellerInfo').attr('href', '/user/' + item.seller);
-                $("#itemDetailSellerRating").removeAttr('class');
+                $("#itemDetailSellerRatingStars").removeAttr('class');
                 if (item.seller_rating.rating__avg == null) {
-                    $("#itemDetailSellerRating").addClass('stars-container');
-                    $("#itemDetailSellerRating").addClass(stars_class(4.25));
+                    $("#itemDetailSellerRatingStars").addClass('stars-container');
+                    $("#itemDetailSellerRatingStars").addClass(stars_class(4.25));
                 } else {
-                    $("#itemDetailSellerRating").addClass('stars-container');
-                    $("#itemDetailSellerRating").addClass(stars_class(item.seller_rating.rating__avg));
+                    $("#itemDetailSellerRatingStars").addClass('stars-container');
+                    $("#itemDetailSellerRatingStars").addClass(stars_class(item.seller_rating.rating__avg));
                 }
                 for (let i = 0; i < item.images.length; i++) {
                     let newHtml = '<div class="carousel-item" id="carousel-item">\n' +
