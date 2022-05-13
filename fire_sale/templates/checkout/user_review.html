@@ -1,18 +1,45 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% block content %}
-<h1>User Review</h1>
+
 <div class="container">
+<h1>User Review</h1>
     <h4>
         Congratulations {{ buyer }}!
     </h4>
     <p>
-        You have just bought and completed the purchase of {{ item.name }} from {{ seller }}. <br />
-        Please tell {{ seller }} how pleased you are with your purchase and add a rating as I know he will very much <br /> appreciate it!
+        You have just bought and completed the purchase of <b>{{ item.name }}</b> from <b>{{ seller }}</b>.
+        Please tell {{ seller }} how pleased you are with your purchase and add a rating as
+        I know {{ seller }} will very much appreciate it!
     </p>
-    <form class="create_item" method="post">
+    <form action="/checkout/{{ checkout_id }}/review" method="post">
         {% csrf_token %}
-        {{ form }}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if field is form.review_text %}
+                {% render_field form.review_text placeholder=form.review_text.help_text %}
+            {%  endif %}
+            {% if field is form.rating %}
+                {% render_field form.rating  %}
+            {%  endif %}
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">
+             Submit
+        </button>
+          <button type="submit" class="btn btn-default">
+             Skip
+        </button>
+    </div>
+
     </form>
-    <input type="submit" class="btn btn-success" value="Confirm">
 </div>
 {% endblock %}
