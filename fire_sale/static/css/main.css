@@ -439,11 +439,17 @@ p.order_price{
     .singleItemWidth {
         width:100%;
     }
+    .singleItemWidthWider {
+        max-width: 100%
+    }
 }
 
 @media only screen and (min-width: 576px) {
     .singleItemWidth {
         width:32%;
+    }
+    .singleItemWidthWider {
+        max-width: 49%
     }
 }
 
