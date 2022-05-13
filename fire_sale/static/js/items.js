@@ -370,7 +370,7 @@ $(document).ready(function(){
     };
     $('#tag-filter-block').hide();
     get_badge();
-    setInterval(get_badge,20000);
+    setInterval(get_badge,8000);
     sorder = getCookie('sortorder') ;
     // console.log(sorder);
     if (sorder != undefined) {

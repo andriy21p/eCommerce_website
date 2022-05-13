@@ -17,7 +17,10 @@
         <div class="container p-4">
             {% for entry in checkout %}
                 <a class="btn btn-primary" href="{% url "register-checkout" order_id=entry.offer_id %}">
-                    Edit the above information
+                    Edit the shipping information
+                </a>
+                <a class="btn btn-primary" href="{% url "register-checkout-payment" order_id=entry.offer_id %}">
+                    Edit the payment information
                 </a>
                 <a class="btn btn-danger" href="{% url "my-profile" %}">Cancel order</a>
                 <a class="btn btn-success btn-lg" href="{% url "confirm-checkout" checkout_id=entry.checkout_id %}">Confirm</a>

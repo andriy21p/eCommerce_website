@@ -16,31 +16,39 @@
             <form class="final_info" method="post">
                 {% csrf_token %}
                 {{ form.errors }}
-                <div class="address border-top border-success mt-5">
+                <div id="checkoutShipping" class="address border-top border-success mt-5">
                     <h4>Shipping Address</h4>
                     <p>Street Address{{ form.street_address }}</p>
                     <p> House Number{{ form.house_number }}</p>
                     <p>City {{ form.city }}</p>
                     <p> Country {{ form.country }}</p>
                     <p>Postal code {{ form.postal_code }}</p>
+                    <button type="button" class="btn btn-success" onclick="$('#checkoutPayment').show();$('#checkoutShipping').hide();$('#checkoutProceed').show();">To payment information</button>
                 </div>
 
 
-                <div class="payment border-top border-success mt-5">
+                <div id="checkoutPayment" class="payment border-top border-success mt-5" style="display:none">
                     <h4>Payment method </h4>
                     <p>Credit card holder{{ form.credit_card_holder }}</p>
                     <p>Credit card number{{ form.credit_card_number }}</p>
                     <p> Expiration Month{{ form.expiration_month }}</p>
                     <p>Expiration Year {{ form.expiration_year }}</p>
                     <p> CVV {{ form.cvv }}</p>
-
+                    <button type="button" class="btn btn-success" onclick="$('#checkoutPayment').hide();$('#checkoutShipping').show();$('#checkoutProceed').hide();">Back to shipping information</button>
                 </div>
 
                 <br/>
-                <input type="submit" class="btn_create rounded" value="Proceed">
+                <input type="submit" class="btn btn-lg btn-warning rounded" value="Proceed" id="checkoutProceed" style="display:none">
             </form>
-
         </div>
     </div>
     </div>
+    <br/><br/>
+    {% if payment == 1 %}
+    <script>
+        $('#checkoutPayment').show();
+        $('#checkoutShipping').hide();
+        $('#checkoutProceed').show();
+    </script>
+    {% endif %}
 {% endblock %}

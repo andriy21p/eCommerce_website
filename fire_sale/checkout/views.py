@@ -63,6 +63,30 @@ def register_checkout(request, order_id):
     return render(request, 'checkout/index.html', {
         'form': checkoutForm,
         'order': order,
+        'payment': 0,
+    })
+
+
+@login_required
+def register_checkout_payment(request, order_id):
+    order = get_object_or_404(Offer, pk=order_id)
+    checkout = Checkout.objects.filter(offer_id=order_id).first()
+    if order.offer_by != request.user:
+        return redirect('my-profile')
+
+    if request.method == 'POST':
+        form_data = request.POST.copy()
+        form_data['offer'] = order.id
+        form = CheckoutForm(instance=checkout, data=form_data)
+        if form.is_valid():
+            form.save()
+            checkout = Checkout.objects.filter(offer_id=order_id).first()
+            return redirect('preview', checkout_id=checkout.id)
+    checkoutForm = CheckoutForm(instance=checkout)
+    return render(request, 'checkout/index.html', {
+        'form': checkoutForm,
+        'order': order,
+        'payment': 1,
     })
 
 
