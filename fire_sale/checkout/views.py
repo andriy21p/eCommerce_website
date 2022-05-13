@@ -29,6 +29,7 @@ def get_checkout_by_id(request, checkout_id):
         "id": co_entry.id,
         "checkout_id": checkout_id,
         "offer_id": co_entry.offer_id,
+        "Full Shipping Name:": co_entry.shipping_name,
         "Street Address:": co_entry.street_address,
         "House Number:": co_entry.house_number,
         "City:": co_entry.city,
