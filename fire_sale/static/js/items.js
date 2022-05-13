@@ -99,7 +99,7 @@ updateTagCloud = function(tags) {
             if (inCloud<0) {
                 tagCloud.push(tags[i].name);  // save that this tag has been added
 
-                newHtml = '<div class="text-center bg-opacity-75 bg-info bg-gradient border border-secondary rounded p-2 align-items-stretch flex-grow-2 m-1" onclick="tagFilterBy(' + tags[i].id + ')">' +
+                newHtml = '<div class="text-center bg-opacity-75 bg-info bg-gradient border border-secondary rounded p-1 align-items-stretch flex-grow-2 ms-2 me-2" onclick="tagFilterBy(' + tags[i].id + ')">' +
                     '<span class="d-none" id="tagId">' + tags[i].id + '</span>' +
                     '<span>' + tags[i].name + '</span>' +
                     '</div>';
