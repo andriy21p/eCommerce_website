@@ -49,7 +49,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Footer(models.Model):
     FOOTER_CHOICE = [(1, "Conduct"), (2, "Privacy"), (3, "Security"), (4, "Cookies"), (5, "Help"), (6, "Advice")]
 
-    content = models.TextField(max_length=10000)
+    content = models.TextField(max_length=50000)
     footer_page = models.SmallIntegerField(choices=FOOTER_CHOICE)
     created = models.DateTimeField(auto_now=True)
 
