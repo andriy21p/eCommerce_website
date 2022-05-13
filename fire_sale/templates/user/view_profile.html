@@ -4,19 +4,27 @@
 </h2>
 <br>
 <ul class="profile">
-    <li class="image" ><img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded"></li>
+    <li class="image"><img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded"></li>
     <br><br>
     <p class="p_edit_profile">Bio:</p>
-    <li class="bio rounded" >{{ user.profile.bio }}</li>
-    <li><br/><a class="btn btn-info" href="{% url 'create-new-message' to_user_id=user.id %}">Send message to this user</a></li>
+    <li class="bio rounded">{{ user.profile.bio }}</li>
+    <li>
+        <br/>{{ user.id }}
+        {% if user.is_authenticated %}
+            <a class="btn btn-info" href="{% url 'create-new-message' to_user_id=user.id %}">Send message to this user</a>
+        {% else %}
+            <a class="btn btn-info" href="{% url 'login' %}">To send a message to this user, please log in</a>
+        {% endif %}
+    </li>
 </ul>
 <br/>
 
 {% if offeredItems|length > 0 %}
-<h4 class="Item_For_Sale">My items for sale</h4>
+    <h4 class="Item_For_Sale">My items for sale</h4>
     <div class="container">
         <span id="items-header"><H4>{{ offeredItems.paginator.count }} item{{ offeredItems.paginator.count|pluralize:"s" }} currently for sale
-            {% if offeredItems|length != offeredItems.paginator.count %}, showing {{ offeredItems|length }}{% endif %}</H4>
+            {% if offeredItems|length != offeredItems.paginator.count %}, showing
+                {{ offeredItems|length }}{% endif %}</H4>
         </span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for item in offeredItems %}
@@ -42,9 +50,9 @@
             {% endif %}
         </span>
     </div>
-<hr class="profile"/>
+    <hr class="profile"/>
 {% endif %}
 
 
-    {% include 'item/item_details.html' %}
+{% include 'item/item_details.html' %}
 

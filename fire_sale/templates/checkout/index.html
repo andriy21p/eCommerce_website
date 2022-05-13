@@ -5,8 +5,8 @@
         <div class="checkout">
             <div class="child">
             <h2>Fire Sales Awesome Express Checkout - Review Your Cart Items </h2>
-                <div class="item_checkout">
-                    <img class="p-1 rounded shadow img_checkout" width="140" src="{{ order.item.itemimage_set.first.url }}"
+                <div class="item_checkout p-3 border rounded">
+                    <img class="p-1 rounded shadow img_checkout w-25"  src="{{ order.item.itemimage_set.first.url }}"
                          alt="{{ order.item.itemimage_set.first.description }}"/>
                     <p class="order_price"> <br>{{ order.amount|floatformat:'-2g' }} kr</p>
                     <h3 > {{ order.item.name }} </h3>

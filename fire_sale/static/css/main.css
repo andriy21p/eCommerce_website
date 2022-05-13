@@ -164,6 +164,7 @@
 }
 .btn-color{
     background: #f3f36d;
+    color: black;
 }
 .pre_form_login{
  width: 90px;
@@ -343,27 +344,11 @@ hr.profile {
     justify-content: center;
     flex-direction: column;
     position: relative;
-    /*width: 500px;*/
-    /*height: 500px;*/
+
 
 }
-/*.child{*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    right: 0;*/
-/*    bottom: 0;*/
-/*    left: 0;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
+
 .item_checkout{
-      border: black 0.1px solid;
-    margin-bottom: -10px;
-    padding: 5px 5px 5px 0;
-    position: relative;
-    width: 70%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
