@@ -331,17 +331,39 @@ hr.profile {
     display: flex;
     justify-content: center;
     flex-direction: column;
-
-}
-div.item_checkout{
-    border: black 1px solid;
-    margin-bottom: 15px;
-    padding: 5px 5px 5px 20px;
     position: relative;
-    width: 80%;
-    height: 18%;
+    /*width: 500px;*/
+    /*height: 500px;*/
 
 }
+/*.child{*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+.item_checkout{
+      border: black 0.1px solid;
+    margin-bottom: -10px;
+    padding: 5px 5px 5px 0;
+    position: relative;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+
+
+p.order_price{
+    font-size: 20px;
+}
+
 #id_house_number{
     width: 20%
 }
@@ -362,15 +384,6 @@ div.item_checkout{
 }
 .img_checkout{
     /*align-self: center;*/
-}
-p.order_item{
-    font-size: 20px;
-    margin: -10rem 0 10rem 12rem;
-    padding-bottom: 20px;
-}
-p.order_price{
-    font-size: 20px;
-    margin: -10rem 0 10rem 12rem;
 }
 
 .cookie-consent{
