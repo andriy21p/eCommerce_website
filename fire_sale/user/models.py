@@ -46,4 +46,9 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+class Footer(models.Model):
+    FOOTER_CHOICE = [(1, "Conduct"), (2, "Privacy"), (3, "Security"), (4, "Cookies")]
 
+    content = models.TextField(max_length=10000)
+    footer_page = models.CharField(max_length=100, choices=FOOTER_CHOICE)
+    created = models.DateTimeField(auto_now=True)
