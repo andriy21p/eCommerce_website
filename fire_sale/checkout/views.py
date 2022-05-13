@@ -114,12 +114,22 @@ def checkout_complete(request, checkout_id):
 
 @login_required
 def user_review(request, checkout_id):
+    checkout = get_object_or_404(Checkout, pk=checkout_id)
     if request.method == "POST":
         form = UserReviewForm(data=request.POST)
         if form.is_valid():
             new_review = form.save(commit=False)
             new_review.save()
+            return redirect('/')
+
+    seller = checkout.offer.item.user.get_full_name()
+    buyer = checkout.offer.offer_by.get_full_name()
+    item = checkout.offer.item
+    form = UserReviewForm()
     return render(request, "checkout/user_review.html", {
-        "form": UserReviewForm(),
+        "form": form,
+        "seller": seller,
+        "buyer": buyer,
+        "item": item
     })
 
