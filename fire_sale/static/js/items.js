@@ -47,7 +47,6 @@ formatTags = function(tags) {
 
 stars_class = function(val) {
     let new_val = Math.round(val * 2);
-    console.log(val + '->' + new_val);
     return 'stars-'+new_val+'0' ;
 }
 

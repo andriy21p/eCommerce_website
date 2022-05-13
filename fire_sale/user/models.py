@@ -24,6 +24,16 @@ class Profile(models.Model):
         avg_rating_return = self.user.userreview_set.aggregate(Avg('rating'))
         return avg_rating_return
 
+    @property
+    def avg_rating_percent(self):
+        """ Uses AVG rating based on User Review per seller."""
+        avg_rating_return = self.user.userreview_set.aggregate(Avg('rating'))
+        if avg_rating_return['rating__avg'] is None:
+            perc = 90
+        else:
+            perc = round(avg_rating_return['rating__avg'] * 2) * 10
+        return perc
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
