@@ -1,55 +1,67 @@
 <!-- Item details modal -->
 <div class="modal fade" id="itemDetailModal" tabindex="-1" aria-labelledby="itemDetailModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="itemDetailModalLabel"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="">
-          <div class="border border-info rounded bg-light" style="text-align:center"><i class="" id="itemDetailCategoryTag"></i> <small id="itemDetailCategoryName"></small></div><br/>
-          <!-- image carousel -->
-          <div id="carouselItemIndicators" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner bg-dark bg-opacity-25">
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-              </button>
-          </div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title itemDetailClear" id="itemDetailModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="">
+                <div class="border border-info rounded bg-light" style="text-align:center">
+                    <i class="" id="itemDetailCategoryTag"></i>
+                    <small id="itemDetailCategoryName"></small>
+                </div>
+                <br/>
+                <a id="itemDetailSellerInfo" class="itemDetailClear text-decoration-none" href="/">Something went wrong ... click here please</a>
+                <span id="itemDetailSellerRating" class="stars-container stars-50">★★★★★</span>
+                <br/>
+                <!-- image carousel -->
+                <div id="carouselItemIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner bg-dark bg-opacity-25">
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
 
-          <p id="itemDetailModalBody">loading ...</p>
-          <p id="itemDetailModalCondition">Condition: </p>
-          <p id="itemDetailModalCurrentPrice"></p>
-          <p id="itemDetailModalCurrentResult" class="itemDetailModalCurrentResult"></p>
-          <br/><hr/>
-          {% if user.is_authenticated %}
-          <div class="itemDetailBidding form">
-              {% csrf_token %}
-              <div class="form-group">
-                <label for="placeBid">I want this - Make an offer</label>
-                <input type="number" class="form-control" id="placeBid" aria-describedby="placeBidHelp" >
-                <small id="placeBidHelp" class="form-text text-muted">Make sure you are at least 1 higher than the current price</small>
-                <input type="hidden" class="form-control" id="itemId" >
-              </div>
-              <button id="itemPlaceAnOffer" class="btn btn-primary" onclick="makeAnOffer();">Make an offer</button>
-          </div>
-          {% endif %}
+                <p id="itemDetailModalBody" class="itemDetailClear">loading ...</p>
+                <p id="itemDetailModalCondition">Condition: </p>
+                <p id="itemDetailModalCurrentPrice" class="itemDetailClear"></p>
+                <p id="itemDetailModalCurrentResult" class="itemDetailModalCurrentResult itemDetailClear"></p>
+                <br/>
+                <hr/>
+                {% if user.is_authenticated %}
+                    <div class="itemDetailBidding form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="placeBid">I want this - Make an offer</label>
+                            <input type="number" class="form-control" id="placeBid" aria-describedby="placeBidHelp">
+                            <small id="placeBidHelp" class="form-text text-muted">Make sure you are at least 1 higher
+                                than the current price</small>
+                            <input type="hidden" class="form-control" id="itemId">
+                        </div>
+                        <button id="itemPlaceAnOffer" class="btn btn-primary" onclick="makeAnOffer();">Make an offer
+                        </button>
+                    </div>
+                {% endif %}
 
-          <hr/>
-          <h5 id="similar-items-header">Similar items:</h5>
-          <div class="container">
-              <div class="d-flex justify-content-around flex-wrap" id="similar-items-container">
-              </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
+                <hr/>
+                <h5 id="similar-items-header">Similar items:</h5>
+                <div class="container">
+                    <div class="d-flex justify-content-around flex-wrap" id="similar-items-container">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
