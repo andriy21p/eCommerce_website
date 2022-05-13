@@ -222,7 +222,6 @@ getItemDetails = function(id) {
 
                 $('#itemDetailSellerInfo').attr('href', '/user/' + item.seller);
                 $("#itemDetailSellerRatingStars").removeAttr('class');
-                console.log($("#itemDetailSellerRatingStars").classList);
                 if (item.seller_rating.rating__avg == null) {
                     $("#itemDetailSellerRatingStars").addClass('stars-container');
                     $("#itemDetailSellerRatingStars").addClass(stars_class(4.25));
