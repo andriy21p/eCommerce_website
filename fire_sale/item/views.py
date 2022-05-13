@@ -262,7 +262,9 @@ def bid(request, item_key):
                                           'item': new_item,
                                           'offer': new_offer,
                                           'msg_subject': str(new_offer),
-                                          'msg_body': 'Do something!'})
+                                          'msg_body': 'It\'s time for a difficult decision. ' + new_sender.first_name +
+                                                      ' wants ' + new_item.name + ' for ' + str(new_offer.amount) +
+                                                      '. You can reply, accept or ignore the offer.'})
             if form_msg.is_valid():
                 form_msg.save()
             return redirect('my-profile')
