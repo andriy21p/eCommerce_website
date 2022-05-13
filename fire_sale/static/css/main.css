@@ -162,6 +162,9 @@
     margin-top: 20px;
     font-size: 20px;
 }
+.btn-color{
+    background: #f3f36d;
+}
 .pre_form_login{
  width: 90px;
 }
@@ -202,9 +205,17 @@ label{
   display: none;
 }
 .registration li:nth-child(4) {
-  display: none;
+  list-style: none;
 }
 
+.login li:nth-child(1) {
+  list-style: none;
+}
+.errorlist{
+    padding: 0 !important;
+    color: red;
+    font-size: 20px;
+}
 
 /**Edit profile page  ********************************/
 
