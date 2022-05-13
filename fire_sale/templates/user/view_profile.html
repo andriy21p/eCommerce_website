@@ -1,4 +1,7 @@
-<h2>{{ user.get_full_name }}</h2>
+<h2>
+    {{ user.get_full_name }}
+    <small><span class="stars-container stars-{{ user.profile.avg_rating_percent }}">★★★★★</span></small>
+</h2>
 <br>
 <ul class="profile">
     <li class="image" ><img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded"></li>

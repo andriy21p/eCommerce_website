@@ -1,16 +1,22 @@
-<h2>{{ user.get_full_name }}</h2>
+<h2>
+    {{ user.get_full_name }}
+    <small><span class="stars-container stars-{{ user.profile.avg_rating_percent }}">★★★★★</span></small>
+</h2>
+
 <br>
 <ul class="profile">
-    <li class="image" ><img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded"></li>
+    <li class="image"><img src="{{ user.profile.image }}" alt="Profile Image" class="profileImage rounded"></li>
     <br/><br/>
     <p class="p_edit_profile">Bio:</p>
-    <li class="bio rounded" >{{ user.profile.bio }}</li><br/>
-    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#editPictureModal">Change profile</button>
+    <li class="bio rounded">{{ user.profile.bio }}</li>
+    <br/>
+    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#editPictureModal">Change profile
+    </button>
 </ul>
 <br/>
 
 {% if myItemsToShip|length > 0 %}
-<h4 class="Item_My_Offers">Items I need to SHIP</h4>
+    <h4 class="Item_My_Offers">Items I need to SHIP</h4>
     <div class="container">
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in myItemsToShip %}
@@ -18,11 +24,11 @@
             {% endfor %}
         </div>
     </div>
-<hr class="profile"/>
+    <hr class="profile"/>
 {% endif %}
 
 {% if offersForMyItems|length > 0 %}
-<h4 class="Item_Offers">Offers for my items</h4>
+    <h4 class="Item_Offers">Offers for my items</h4>
     <div class="container">
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in offersForMyItems %}
@@ -30,11 +36,11 @@
             {% endfor %}
         </div>
     </div>
-<hr class="profile"/>
+    <hr class="profile"/>
 {% endif %}
 
 {% if myOffers|length > 0 %}
-<h4 class="Item_My_Offers">My current offers</h4>
+    <h4 class="Item_My_Offers">My current offers</h4>
     <div class="container">
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
             {% for offer in myOffers %}
@@ -42,11 +48,11 @@
             {% endfor %}
         </div>
     </div>
-<hr class="profile"/>
+    <hr class="profile"/>
 {% endif %}
 
 {% if myItems|length > 0 %}
-<h4 class="Item_For_Sale">My items for sale</h4>
+    <h4 class="Item_For_Sale">My items for sale</h4>
     <div class="container">
         <span id="items-header"><H4>{{ myItems.paginator.count }} item{{ myItems.paginator.count|pluralize:"s" }} currently for sale, showing {{ myItems|length }}</H4></span>
         <div class="d-flex justify-content-around flex-wrap" id="items-container">
@@ -73,9 +79,9 @@
             {% endif %}
         </span>
     </div>
-<hr class="profile"/>
+    <hr class="profile"/>
 {% endif %}
 
 
-    {% include 'user/profile_edit_picture.html' %}
+{% include 'user/profile_edit_picture.html' %}
 
