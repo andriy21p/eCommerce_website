@@ -8,6 +8,7 @@ class CheckoutForm(ModelForm):
         exclude = []
         widgets = {
             'offer': widgets.HiddenInput(attrs={'class': 'd-none'}),
+            'shipping_name': widgets.TextInput(attrs={'class': 'form-control'}),
             'street_address': widgets.TextInput(attrs={'class': 'form-control'}),
             'house_number': widgets.TextInput(attrs={'class': 'form-control'}),
             'city': widgets.TextInput(attrs={'class': 'form-control'}),

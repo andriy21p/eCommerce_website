@@ -40,6 +40,7 @@ class Checkout(models.Model):
     YEAR_CHOICE = get_year_choice()
 
     offer = models.OneToOneField(Offer, on_delete=models.CASCADE)
+    shipping_name = models.CharField(max_length=100)
     street_address = models.CharField(max_length=100)
     house_number = models.CharField(max_length=10)
     city = models.CharField(max_length=100)
