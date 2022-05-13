@@ -29,6 +29,10 @@ class MsgCreate(ModelForm):
     class Meta:
         model = Message
         fields = ['msg_subject', 'msg_body']
+        labels = {
+            'msg_subject': 'Subject:',
+            'msg_body': 'Message:'
+        }
         widgets = {
             'msg_subject': widgets.TextInput(attrs={'class': 'form-control'}),
             'msg_body': widgets.Textarea(attrs={'class': 'form-control'})

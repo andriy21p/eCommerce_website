@@ -47,7 +47,8 @@ def create_new_msg(request, to_user_id):
 
     message = MsgCreate(msg)
     return render(request, "message/msg_create.html", {
-        "form": message
+        "form": message,
+        "reciver": to_user,
     })
 
 
