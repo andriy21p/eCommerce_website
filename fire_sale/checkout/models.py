@@ -56,20 +56,19 @@ class Checkout(models.Model):
         return "ID:{} | Order ID:{} ".format(self.pk, self.offer)
 
 
-# class Payment(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-# User Review
 class UserReview(models.Model):
     checkout = models.OneToOneField(Checkout, on_delete=models.CASCADE)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    review_text = models.TextField(max_length=10000, help_text='Please write your review here...')
+    review_text = models.TextField(max_length=10000,
+                                   help_text='Please write your review here...',
+                                   blank=True)
     rating = models.PositiveSmallIntegerField(choices=(
         (1, "★☆☆☆☆"),
         (2, "★★☆☆☆"),
         (3, "★★★☆☆"),
         (4, "★★★★☆"),
         (5, "★★★★★"),
-    ))
+    ), blank=True)
 
     class Meta:
         verbose_name_plural = "Reviews"

@@ -118,18 +118,18 @@ def user_review(request, checkout_id):
     if request.method == "POST":
         form = UserReviewForm(data=request.POST)
         if form.is_valid():
-            new_review = form.save(commit=False)
-            new_review.save()
+            form.save()
             return redirect('/')
 
-    seller = checkout.offer.item.user.get_full_name()
+    seller = checkout.offer.item.user
     buyer = checkout.offer.offer_by.get_full_name()
     item = checkout.offer.item
-    form = UserReviewForm()
+    form = UserReviewForm(initial={'checkout': checkout, 'seller': seller})
     return render(request, "checkout/user_review.html", {
         "form": form,
-        "seller": seller,
+        "seller": seller.get_full_name(),
         "buyer": buyer,
-        "item": item
+        "item": item,
+        "checkout_id": checkout_id
     })
 
