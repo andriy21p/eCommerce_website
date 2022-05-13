@@ -1,9 +1,18 @@
-<h1>User Review</h1>
+{% extends 'base.html' %}
 {% block content %}
+<h1>User Review</h1>
 <div class="container">
+    <h4>
+        Congratulations {{ buyer }}!
+    </h4>
+    <p>
+        You have just bought and completed the purchase of {{ item.name }} from {{ seller }}. <br />
+        Please tell {{ seller }} how pleased you are with your purchase and add a rating as I know he will very much <br /> appreciate it!
+    </p>
     <form class="create_item" method="post">
-    {{ form }}
+        {% csrf_token %}
+        {{ form }}
     </form>
-    <input type="submit" class="btn_create rounded" value="Confirm">
+    <input type="submit" class="btn btn-success" value="Confirm">
 </div>
 {% endblock %}

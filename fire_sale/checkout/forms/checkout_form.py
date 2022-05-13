@@ -26,4 +26,15 @@ class UserReviewForm(ModelForm):
 
     class Meta:
         model = UserReview
-        fields = ['checkout', 'review_text', 'rating']
+        fields = ['checkout', 'seller', 'review_text', 'rating']
+
+
+        widgets = {
+            'checkout': widgets.HiddenInput(attrs={'class': 'd-none' }),
+            'seller': widgets.HiddenInput(attrs={'class': 'd-none'}),
+            'review_text': widgets.Textarea(attrs={'class': 'form-control', 'required': False}),
+            'rating': widgets.Select(attrs={'class': 'form-control', 'required': False})
+        }
+        help_texts = {
+            'review_text': 'Please write your review here...'
+        }
