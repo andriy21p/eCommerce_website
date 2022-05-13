@@ -28,7 +28,7 @@ class UserReviewForm(ModelForm):
         model = UserReview
         fields = ['checkout', 'seller', 'review_text', 'rating']
         labels = {
-            'review_text':'Your review:',
+            'review_text': 'Your review:',
             'rating': 'Your rating:'
         }
         widgets = {

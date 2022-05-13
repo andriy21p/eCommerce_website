@@ -8,7 +8,6 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    {{ user.profile.avg_rating }}
 
     <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -29,6 +28,10 @@
         <button class="btn btn-outline-success mx-1" type="submit">Search</button>
           <p> </p>
       </form>
+    <div class="d-block">
+        <p class="text-uppercase m-0 text-center">Rating</p>
+        <span id="itemDetailSellerRating" class="stars-container stars-50">★★★★★</span>
+    </div>
       <div class="dropdown text-end">
         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle ms-5" id="dropdownUser1"
            data-bs-toggle="dropdown" aria-expanded="false">
