@@ -4,7 +4,7 @@ Fire Sale
 eCommerce website that allows users to sell and buy items on the web quickly and safely
 
 
-# Höfundar
+# Autors
 
 - Andriy Fedorets - andriy21@ru.is
 - Kristinn Jósep Guðnason - kristinnjg20@ru.is
